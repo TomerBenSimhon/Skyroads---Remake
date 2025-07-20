@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3290391590626782193, guid: 48646f0abd6d0834781d4a0e9aca4ff5, type: 3}
+      propertyPath: pickupLayer.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
     - target: {fileID: 7054364154398961396, guid: 48646f0abd6d0834781d4a0e9aca4ff5, type: 3}
       propertyPath: <DefaultSettings>k__BackingField
       value: 
@@ -16,17 +20,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_Tomer_Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 8366250962938230958, guid: 48646f0abd6d0834781d4a0e9aca4ff5, type: 3}
+      propertyPath: fuelConsumption
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 9186654950110160553, guid: 48646f0abd6d0834781d4a0e9aca4ff5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.502079
+      value: 87.11
       objectReference: {fileID: 0}
     - target: {fileID: 9186654950110160553, guid: 48646f0abd6d0834781d4a0e9aca4ff5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.14
+      value: 18.14
       objectReference: {fileID: 0}
     - target: {fileID: 9186654950110160553, guid: 48646f0abd6d0834781d4a0e9aca4ff5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.41
+      value: -6.0899963
       objectReference: {fileID: 0}
     - target: {fileID: 9186654950110160553, guid: 48646f0abd6d0834781d4a0e9aca4ff5, type: 3}
       propertyPath: m_LocalRotation.w

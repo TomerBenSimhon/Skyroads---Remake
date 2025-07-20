@@ -51,4 +51,15 @@ public class PlayerControllerSettings : ScriptableObject
     [Range(0f,20f)]public float rotationSpeed;
     [Range(0f,89f)]public float turningAngle;
     [Range(0f, 1f)] public float airRotationBlend;
+    
+    public void CopyTo(PlayerControllerSettings target)
+    {
+        var fields = typeof(PlayerControllerSettings).GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+    
+        foreach (var field in fields)
+        {
+            field.SetValue(target, field.GetValue(this));
+        }
+    }
+
 }

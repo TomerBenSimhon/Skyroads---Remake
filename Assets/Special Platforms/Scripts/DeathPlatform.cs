@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class DeathPlatform : MonoBehaviour, IPlatformEffect
 {
-    public void Apply(PlayerController player, Rigidbody unused, ref PlatformType platformType, PlatformDetection unused1, ref Coroutine unused2)
+    public void Apply(PlayerController player, Rigidbody unused, PlatformDetection runner, ref Coroutine unused2)
     {
-        platformType = PlatformType.Death;
+        runner.SetPlatform(PlatformType.Death);
         if (!player.TryGetComponent(out PlayerDeath death)) return;
         death.Die();
     }
 
-    public void Remove(PlayerController player, ref PlatformType platformType, PlatformDetection runner, ref Coroutine coroutine)
+    public void Remove(PlayerController player, PlatformDetection runner, ref Coroutine coroutine)
     {
         // nothing here
     }

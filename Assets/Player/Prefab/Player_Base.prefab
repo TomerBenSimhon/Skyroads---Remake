@@ -410,7 +410,9 @@ GameObject:
   - component: {fileID: 1631397786901591756}
   - component: {fileID: 6106359650935980719}
   - component: {fileID: 7054364154398961396}
+  - component: {fileID: -8538563256640884461}
   - component: {fileID: 2419040955738746381}
+  - component: {fileID: -3290391590626782193}
   - component: {fileID: -722219271333652665}
   - component: {fileID: 6965280053306602297}
   - component: {fileID: 8366250962938230958}
@@ -492,6 +494,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <DefaultSettings>k__BackingField: {fileID: 11400000, guid: a1481891ba9e3c847ababb908fd18d33, type: 2}
+--- !u!114 &-8538563256640884461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8204731936019537321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8cefc9e19c9e04c9f65768bd81599d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2419040955738746381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,6 +524,21 @@ MonoBehaviour:
   bulletSpeed: 50
   bulletDamage: 40
   bulletLifeTime: 1
+--- !u!114 &-3290391590626782193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8204731936019537321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80890f9479b9482418286914ba319c41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickupLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &-722219271333652665
 MonoBehaviour:
   m_ObjectHideFlags: 0

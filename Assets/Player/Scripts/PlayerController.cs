@@ -265,7 +265,6 @@ public class PlayerController : MonoBehaviour
             {
                 // Apply spring force
                 float springForce = (displacement * RuntimeSettings.groundSpringStrength) - (_rb.linearVelocity.y * RuntimeSettings.groundSpringDamping);
-                Debug.Log(displacement);
             
                 Vector3 targetVelocity = _rb.linearVelocity;
                 targetVelocity.y += springForce;

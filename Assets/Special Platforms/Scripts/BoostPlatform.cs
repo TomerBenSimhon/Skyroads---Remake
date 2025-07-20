@@ -22,11 +22,12 @@ public class BoostPlatform : MonoBehaviour, IPlatformEffect
     public float boostAcceleration = 20f;
     [Range(0.1f,2f)]public float boostDuration = 0.5f;
     
+    
     // a coroutine has to start and stop from the same instance 
     // thats why we are passing in the PlatformDetection instance so we can start and stop the boostCoroutine from there
-    public void Apply(PlayerController player, Rigidbody rb, ref PlatformType platformType, PlatformDetection runner, ref Coroutine boostCoroutine)
+    public void Apply(PlayerController player, Rigidbody rb, PlatformDetection runner, ref Coroutine boostCoroutine)
     {
-        platformType = PlatformType.Boost;
+        runner.SetPlatform(PlatformType.Boost);
         
         if (boostCoroutine != null)
         {
@@ -45,13 +46,12 @@ public class BoostPlatform : MonoBehaviour, IPlatformEffect
         player.RuntimeSettings.jumpHeight = jumpModifier * player.DefaultSettings.jumpHeight;
     }
 
-    public void Remove(PlayerController player, ref PlatformType platformType, PlatformDetection runner, ref Coroutine boostCoroutine)
+    public void Remove(PlayerController player, PlatformDetection runner, ref Coroutine boostCoroutine)
     {
-        platformType = platformType == PlatformType.Boost ? PlatformType.None : platformType;
-        boostCoroutine = runner.StartCoroutine(StopBoost(player, boostDuration));
+        boostCoroutine = runner.StartCoroutine(StopBoost(player, boostDuration, runner));
     }
 
-    IEnumerator StopBoost(PlayerController player, float duration)
+    IEnumerator StopBoost(PlayerController player, float duration, PlatformDetection runner)
     {
         yield return new WaitForSeconds(duration);
         
@@ -59,5 +59,8 @@ public class BoostPlatform : MonoBehaviour, IPlatformEffect
         player.RuntimeSettings.forwardSpeed = player.DefaultSettings.forwardSpeed;
         player.RuntimeSettings.groundSpringStrength = player.DefaultSettings.groundSpringStrength;
         player.RuntimeSettings.jumpHeight = player.DefaultSettings.jumpHeight;
+        
+        if(runner.CurrentPlatformType == PlatformType.Boost)
+            runner.SetPlatform(PlatformType.None);
     }
 }
