@@ -1,14 +1,15 @@
 
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum PlatformType
 {
     None, Boost, Slippery, Refuel, Death
 }
 public class PlatformDetection : MonoBehaviour
-{
-    [SerializeField] private PlatformType currentPlatformType = PlatformType.None;
+{ 
+    [field:SerializeField] public PlatformType CurrentPlatformType { get; private set; } = PlatformType.None;
     
     [SerializeField] private LayerMask platformLayer;
 
@@ -40,7 +41,7 @@ public class PlatformDetection : MonoBehaviour
         TryRemoveEffect(_currentPlatform);    // If on a different platform, remove old effect                             
         
         _currentPlatform = hit.collider.gameObject;     //assigns _currentPlatform to the new platform and applies the effect 
-        newEffect.Apply(_controller, _rb, ref currentPlatformType, this, ref _currentPlatformCoroutine);
+        newEffect.Apply(_controller, _rb, this, ref _currentPlatformCoroutine);
         _isOnSpecialPlatform = true;
         
         print("Platform detected and applied effect.");
@@ -64,7 +65,7 @@ public class PlatformDetection : MonoBehaviour
         Vector3 halfExtents = _controller.RuntimeSettings.halfExtents;
         float distance = _controller.RuntimeSettings.groundHeight + extraDistance;
 
-        bool detected = Physics.BoxCast(origin, halfExtents, Vector3.down, out hit, Quaternion.identity, distance, platformLayer);
+        bool detected = Physics.BoxCast(origin, halfExtents, Vector3.down, out hit, Quaternion.identity, distance, platformLayer, QueryTriggerInteraction.Collide);
 
         return detected && (_currentPlatform == null || _currentPlatform != hit.collider.gameObject);
     }
@@ -74,16 +75,25 @@ public class PlatformDetection : MonoBehaviour
         Vector3 origin = transform.position + _controller.RuntimeSettings.centerOffset;
         Vector3 halfExtents = _controller.RuntimeSettings.halfExtents;
         float distance = _controller.RuntimeSettings.groundHeight + extraDistance;
-
-        return Physics.BoxCast(origin, halfExtents, Vector3.down, out RaycastHit hit, Quaternion.identity, distance, platformLayer) &&
-               hit.collider.gameObject == _currentPlatform;
+        
+        bool boxCastHit = Physics.BoxCast(origin, halfExtents, Vector3.down, out RaycastHit hit, Quaternion.identity, distance, platformLayer, QueryTriggerInteraction.Collide);
+        if (boxCastHit)
+            return hit.collider.gameObject == _currentPlatform;
+        
+        bool overlapHit = Physics.OverlapBox(origin, halfExtents, Quaternion.identity, platformLayer, QueryTriggerInteraction.Collide).Length > 0;
+        return overlapHit;
     }
     
     private void TryRemoveEffect(GameObject platform)
     {
         if (platform != null && platform.TryGetComponent(out IPlatformEffect effect))
         {
-            effect.Remove(_controller, ref currentPlatformType, this, ref _currentPlatformCoroutine);
+            effect.Remove(_controller, this, ref _currentPlatformCoroutine);
         }
+    }
+
+    public void SetPlatform(PlatformType newPlatformType)
+    {
+        CurrentPlatformType = newPlatformType;
     }
 }

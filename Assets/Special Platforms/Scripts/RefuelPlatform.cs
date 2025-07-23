@@ -13,17 +13,19 @@ public class RefuelPlatform : MonoBehaviour, IPlatformEffect
         
         _playerFuel.Refuel(fillAmount);
     }
-    public void Apply(PlayerController player, Rigidbody rb, ref PlatformType platformType, PlatformDetection runner, ref Coroutine coroutine)
+    public void Apply(PlayerController player, Rigidbody rb, PlatformDetection runner, ref Coroutine coroutine)
     {
         if(!player.TryGetComponent(out _playerFuel)) return;
         
-        platformType = PlatformType.Refuel;
+        runner.SetPlatform(PlatformType.Refuel);
         _isRefueling = true;
     }
 
-    public void Remove(PlayerController player, ref PlatformType platformType, PlatformDetection runner, ref Coroutine coroutine)
+    public void Remove(PlayerController player, PlatformDetection runner, ref Coroutine coroutine)
     {
-        platformType = platformType == PlatformType.Refuel ? PlatformType.None : platformType;
+        if(runner.CurrentPlatformType == PlatformType.Refuel)
+            runner.SetPlatform(PlatformType.None);
+        
         _isRefueling = false;
         _playerFuel = null;
     }

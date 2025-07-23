@@ -35,18 +35,31 @@ public class PlayerControllerSettings : ScriptableObject
     [Range(0f,10f)]public float apexThreshold;
     [Range(0f,20f)]public float gravityChangeSpeed;
     [Range(0f,1f)] public float jumpCutMultiplier;
+    [Range(0f,100f)] public float jumpCutAcceleration;
 
     [Header("Ground Check Settings")] 
     public Vector3 centerOffset;
     public Vector3 halfExtents;
     
     [Header("Ground Alignment Settings")]
-    [Range(0.5f, 10f)] public float groundHeight;
+    [Range(0f, 10f)] public float groundHeight;
     [Range(0f,30f)]public float groundSpringStrength;
     [Range(0f,1f)] public float groundSpringDamping;
+    [Range(0f,2f)] public float groundSpringExtraHeight;
     
     [Header("Rotation Settings")]
     [Range(0f,20f)]public float rotationSpeed;
     [Range(0f,89f)]public float turningAngle;
     [Range(0f, 1f)] public float airRotationBlend;
+    
+    public void CopyTo(PlayerControllerSettings target)
+    {
+        var fields = typeof(PlayerControllerSettings).GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+    
+        foreach (var field in fields)
+        {
+            field.SetValue(target, field.GetValue(this));
+        }
+    }
+
 }

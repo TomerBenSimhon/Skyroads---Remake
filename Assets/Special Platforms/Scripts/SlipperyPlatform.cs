@@ -11,9 +11,9 @@ public class SlipperyPlatform : MonoBehaviour, IPlatformEffect
     public float speed = 10f;
     [Range(0f, 20f)] [Tooltip("overrides forward acceleration by this number")]
     public float forwardAcceleration = 10f;
-    public void Apply(PlayerController player, Rigidbody unused, ref PlatformType platformType, PlatformDetection runner, ref Coroutine coroutine)
+    public void Apply(PlayerController player, Rigidbody unused, PlatformDetection runner, ref Coroutine coroutine)
     {
-        platformType = PlatformType.Slippery;
+        runner.SetPlatform(PlatformType.Slippery);
         
         player.RuntimeSettings.horizontalAcceleration = acceleration;
         player.RuntimeSettings.horizontalChangeAcceleration = acceleration;
@@ -23,9 +23,10 @@ public class SlipperyPlatform : MonoBehaviour, IPlatformEffect
         player.RuntimeSettings.forwardDeceleration = forwardAcceleration;
     }
 
-    public void Remove(PlayerController player, ref PlatformType platformType, PlatformDetection runner, ref Coroutine coroutine)
+    public void Remove(PlayerController player, PlatformDetection runner, ref Coroutine coroutine)
     {
-        platformType = platformType == PlatformType.Slippery ? PlatformType.None : platformType;
+        if(runner.CurrentPlatformType == PlatformType.Slippery)
+            runner.SetPlatform(PlatformType.None);
         
         player.RuntimeSettings.horizontalAcceleration = player.DefaultSettings.horizontalAcceleration;
         player.RuntimeSettings.horizontalChangeAcceleration = player.DefaultSettings.horizontalChangeAcceleration;

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 393793941075948980}
   - component: {fileID: 3613262101511328849}
   - component: {fileID: 8498573724634714393}
+  - component: {fileID: 60512862749325025}
   - component: {fileID: 7491224429177616414}
   m_Layer: 6
   m_Name: Slippery Platform
@@ -110,6 +111,27 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &60512862749325025
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8789146952612483656}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 1919
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 5, z: 0}
 --- !u!114 &7491224429177616414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,5 +146,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 15
   deceleration: 5
-  speed: 12
+  speed: 15
   forwardAcceleration: 5

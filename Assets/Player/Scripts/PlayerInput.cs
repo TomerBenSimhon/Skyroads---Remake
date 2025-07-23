@@ -3,13 +3,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [DefaultExecutionOrder(-1)]
-public class PlayerInput : MonoBehaviour, PlayerControls.IMovementActions
+public class PlayerInput : MonoBehaviour, PlayerControls.IActionsActions
 {
     public PlayerControls PlayerControls { get; private set; }
     public float HorizontalMovementInput { get; private set; }
     public bool JumpPressed { get; private set; }
     public bool JumpReleased { get; private set; }
     public bool JumpHeld { get; private set; }
+    
+    public bool ShootHeld { get; private set; }
     
     private void OnEnable()
     {
@@ -19,11 +21,6 @@ public class PlayerInput : MonoBehaviour, PlayerControls.IMovementActions
     private void OnDisable()
     {
         DisableInput();
-    }
-
-    private void Update()
-    {
-        print(JumpHeld);
     }
 
     private void LateUpdate()
@@ -38,14 +35,14 @@ public class PlayerInput : MonoBehaviour, PlayerControls.IMovementActions
         PlayerControls = new PlayerControls();
         PlayerControls.Enable();
 
-        PlayerControls.Movement.Enable();
-        PlayerControls.Movement.SetCallbacks(this);
+        PlayerControls.Actions.Enable();
+        PlayerControls.Actions.SetCallbacks(this);
     }
     
     void DisableInput()
     {
-        PlayerControls.Movement.Disable();
-        PlayerControls.Movement.RemoveCallbacks(this);
+        PlayerControls.Actions.Disable();
+        PlayerControls.Actions.RemoveCallbacks(this);
         
         PlayerControls.Dispose();
         PlayerControls = null;
@@ -67,5 +64,10 @@ public class PlayerInput : MonoBehaviour, PlayerControls.IMovementActions
         
         if(context.canceled)
             JumpReleased = true;
+    }
+
+    public void OnShoot(InputAction.CallbackContext context)
+    {
+        ShootHeld = context.ReadValueAsButton();
     }
 }
