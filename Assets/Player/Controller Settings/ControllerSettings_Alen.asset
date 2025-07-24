@@ -24,21 +24,23 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  gravity: 3.73
-  terminalVelocity: 20
+  gravity: 3.95
+  terminalVelocity: 26.3
   terminalGravityTH: 0.75
-  jumpHeight: 4.16
+  jumpHeight: 3.59
   jumpBufferTime: 0.1
   fallGravity: 6.52
   apexGravity: 1.5
   apexThreshold: 4.66
   gravityChangeSpeed: 5
   jumpCutMultiplier: 0.65
+  jumpCutAcceleration: 0
   centerOffset: {x: 0, y: 0, z: 0}
   halfExtents: {x: 0.4, y: 0.11, z: 0.8}
   groundHeight: 0.73
   groundSpringStrength: 6.5
   groundSpringDamping: 0.335
+  groundSpringExtraHeight: 0
   rotationSpeed: 5.7
   turningAngle: 46.4
   airRotationBlend: 0.2
