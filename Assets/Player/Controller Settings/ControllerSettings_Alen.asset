@@ -18,13 +18,13 @@ MonoBehaviour:
   horizontalDeceleration: 30
   horizontalAccelerationChangeSpeed: 100
   terminalHorizontalSpeedTH: 0.6
-  forwardSpeed: 15.1
+  forwardSpeed: 16.5
   forwardAcceleration: 12
   forwardDeceleration: 20
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  gravity: 3.95
+  gravity: 3.47
   terminalVelocity: 26.3
   terminalGravityTH: 0.75
   jumpHeight: 3.59
