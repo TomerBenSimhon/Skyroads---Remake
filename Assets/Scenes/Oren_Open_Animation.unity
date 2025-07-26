@@ -28126,6 +28126,7 @@ GameObject:
   - component: {fileID: 1080971817}
   - component: {fileID: 1080971818}
   - component: {fileID: 1080971819}
+  - component: {fileID: 1080971820}
   m_Layer: 0
   m_Name: CrashSequence
   m_TagString: Untagged
@@ -28217,6 +28218,8 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: -6703139769041147782, guid: 5deb29305e95c4849a9ec6ea677b627d, type: 2}
     value: {fileID: 0}
+  - key: {fileID: -1220679545404066998, guid: 5deb29305e95c4849a9ec6ea677b627d, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References:
     - 097e42785512c0f4da912f360b16c0e6: {fileID: 827105987}
@@ -28241,6 +28244,24 @@ MonoBehaviour:
   - {fileID: 940194266}
   - {fileID: 284137715}
   crashDirector: {fileID: 1080971818}
+--- !u!114 &1080971820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1080971816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 966c5df4f1aab864894fc561f17678cb, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &1083487645
 GameObject:
   m_ObjectHideFlags: 0
