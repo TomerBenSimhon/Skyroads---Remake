@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7df8e24af6d8d55448dd0d63ec860024, type: 3}
   m_Name: ControllerSettings_Alen
   m_EditorClassIdentifier: 
-  horizontalSpeed: 10.6
+  horizontalSpeed: 10.9
   horizontalAcceleration: 30
   horizontalChangeAcceleration: 65
   horizontalDeceleration: 30
@@ -20,21 +20,21 @@ MonoBehaviour:
   terminalHorizontalSpeedTH: 0.6
   forwardSpeed: 16.5
   forwardAcceleration: 12
-  forwardDeceleration: 20
+  forwardDeceleration: 13
   groundLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 72
   gravity: 3.47
-  terminalVelocity: 26.3
+  terminalVelocity: 30
   terminalGravityTH: 0.75
-  jumpHeight: 3.59
+  jumpHeight: 4.49
   jumpBufferTime: 0.1
   fallGravity: 6.52
-  apexGravity: 1.5
-  apexThreshold: 4.66
+  apexGravity: 2
+  apexThreshold: 2
   gravityChangeSpeed: 5
-  jumpCutMultiplier: 0.65
-  jumpCutAcceleration: 0
+  jumpCutMultiplier: 0.35
+  jumpCutAcceleration: 64.7
   centerOffset: {x: 0, y: 0, z: 0}
   halfExtents: {x: 0.4, y: 0.11, z: 0.8}
   groundHeight: 0.73
