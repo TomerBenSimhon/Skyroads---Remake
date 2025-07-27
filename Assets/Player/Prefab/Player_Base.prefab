@@ -258,8 +258,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1.55
+  m_Radius: 0.4
+  m_Height: 1.2
   m_Direction: 2
   m_Center: {x: 0, y: -0.08, z: 0}
 --- !u!1 &7129835843025555471
@@ -496,7 +496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47873b1b7c895cb4b8c80f264e7f8350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <DefaultSettings>k__BackingField: {fileID: 11400000, guid: a1481891ba9e3c847ababb908fd18d33, type: 2}
+  <DefaultSettings>k__BackingField: {fileID: 11400000, guid: 8aa21098c635534429aec1b9041f83e0, type: 2}
 --- !u!114 &-8538563256640884461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -542,7 +542,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
 --- !u!114 &-722219271333652665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -587,7 +587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fuelText: {fileID: 0}
-  fuelConsumption: 0.5
+  fuelConsumption: 0.3
   startingFuel: 100
 --- !u!114 &-3415269241991583869
 MonoBehaviour:
