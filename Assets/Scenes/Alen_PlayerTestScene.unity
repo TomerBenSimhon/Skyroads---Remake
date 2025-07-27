@@ -14918,6 +14918,10 @@ PrefabInstance:
       propertyPath: controllerSettings
       value: 
       objectReference: {fileID: 11400000, guid: ecce1bbcbcae41144bc13dbf4742f67a, type: 2}
+    - target: {fileID: 4655842558077702305, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: barrierLayer.m_Bits
+      value: 2304
+      objectReference: {fileID: 0}
     - target: {fileID: 4743248903210061164, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: <DefaultSettings>k__BackingField
       value: 
