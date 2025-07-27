@@ -24,6 +24,14 @@ PrefabInstance:
       propertyPath: fuelConsumption
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 8877284664594820151, guid: 48646f0abd6d0834781d4a0e9aca4ff5, type: 3}
+      propertyPath: m_Height
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8877284664594820151, guid: 48646f0abd6d0834781d4a0e9aca4ff5, type: 3}
+      propertyPath: m_Radius
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 9186654950110160553, guid: 48646f0abd6d0834781d4a0e9aca4ff5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 87.11

@@ -20,7 +20,7 @@ MonoBehaviour:
   terminalHorizontalSpeedTH: 0.6
   forwardSpeed: 15
   forwardAcceleration: 12
-  forwardDeceleration: 20
+  forwardDeceleration: 13
   groundLayer:
     serializedVersion: 2
     m_Bits: 72
