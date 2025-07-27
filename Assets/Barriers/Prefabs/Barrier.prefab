@@ -44,9 +44,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7262291315410618038}
-  - component: {fileID: 1543570380307415756}
   m_Layer: 8
-  m_Name: Breakable Barrier
+  m_Name: Barrier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,19 +68,6 @@ Transform:
   - {fileID: 1512127300029998792}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1543570380307415756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1798478017925732928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ce920c4826b5b9439871db70000e13d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 100
 --- !u!1 &3138093520025583840
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +238,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1ab998057524de449826a6e88db2f0fa, type: 2}
+  - {fileID: 2100000, guid: 43d50e2c0d330cf4cb198e015892491b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
