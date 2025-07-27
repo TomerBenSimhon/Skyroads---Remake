@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Slippery_Platform
+  m_Shader: {fileID: 4800000, guid: 61eb7b5b102039a469151a697ecace87, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: _MainTex
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AOMap:
+        m_Texture: {fileID: 2800000, guid: 000a9ad7f254c634cb890f66baffd5b6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AOMap2:
+        m_Texture: {fileID: 2800000, guid: 1c0969e87bc3a2f43b65cf0be07d0076, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DynamicReflectionTex:
+        m_Texture: {fileID: 8400000, guid: cfd081098c6fff3408b030ca6207da0b, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: acf838d458094e11b23ceafc2d9a02b0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: acf838d458094e11b23ceafc2d9a02b0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap1:
+        m_Texture: {fileID: 2800000, guid: 10d73637c8d53ec4eb8a2effc3970df3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap2:
+        m_Texture: {fileID: 2800000, guid: f18428e3e1953194aa7bdf993f0d2761, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OverlayTex:
+        m_Texture: {fileID: 2800000, guid: bdd1cbdd2c923164980eae84b3bcf7a2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectionTex:
+        m_Texture: {fileID: 8900000, guid: 221c9f1896905ca4d80d981b14b8e2a7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AOMap2_Strength: 0.54
+    - _AOMap2_Tiling: 3
+    - _GlowFlashDuration: 3
+    - _GlowFlashSize: 0.12
+    - _GlowInterval: 9
+    - _GradientMaxY: 0.5
+    - _GradientMinY: 0
+    - _NoiseStrength: 0
+    - _NormalMap2_Strength: 0
+    - _NormalMap2_Tiling: 1
+    - _ReflectionSmoothness: 1
+    - _ReflectionStrength: 0.47
+    - _RimPower: 3
+    - _ShadowStrength: -35.1
+    - _SpecPower: 20
+    - _SpecularPower: 32
+    - _ViewAngleGradientStrength: 1
+    m_Colors:
+    - _BaseColor: {r: 0.5, g: 0.8, b: 1, a: 1}
+    - _GlowColor: {r: 1, g: 1, b: 1, a: 1}
+    - _GlowFlashColor: {r: 0, g: 0.1776941, b: 0.256, a: 1}
+    - _GradientBottom: {r: 0, g: 0.18603283, b: 0.2754717, a: 1}
+    - _GradientBottomColor: {r: 0.5, g: 0.7, b: 0.9, a: 1}
+    - _GradientTop: {r: 0.3238992, g: 1, b: 1, a: 1}
+    - _GradientTopColor: {r: 1, g: 1, b: 1, a: 1}
+    - _HighlightColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MainColor: {r: 0.6, g: 0.6079675, b: 1, a: 1}
+    - _MainTexTint: {r: 1, g: 1, b: 1, a: 1}
+    - _OverlayTexTint: {r: 0, g: 0.50980395, b: 0.4700611, a: 1}
+    - _ReflectionTint: {r: 1, g: 1, b: 1, a: 1}
+    - _RimColor: {r: 0, g: 0.042593956, b: 1, a: 1}
+    - _ShadowColor: {r: 0.29999998, g: 0.39999998, b: 0.6, a: 1}
+    - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ViewAngleGradientColor: {r: 0.47358483, g: 0.9529662, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
