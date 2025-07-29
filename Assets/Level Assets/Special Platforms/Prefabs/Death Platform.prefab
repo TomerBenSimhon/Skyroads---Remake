@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9049910535429071084}
   - component: {fileID: 6619856673452671979}
   - component: {fileID: 7899297445156518835}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Death Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,4 +122,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d052c50a03eb1d4da4c035f20437cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  restartDelay: 1
