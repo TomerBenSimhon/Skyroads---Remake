@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
         HandleJumpInput();
         CheckGroundStatus();
         HandleVariableJump();
+        
     }
 
     private void FixedUpdate()

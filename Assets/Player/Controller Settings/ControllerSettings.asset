@@ -24,17 +24,17 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 72
-  gravity: 3.47
+  gravity: 4
   terminalVelocity: 30
   terminalGravityTH: 0.75
-  jumpHeight: 4.49
+  jumpHeight: 4.75
   jumpBufferTime: 0.1
-  fallGravity: 6.52
+  fallGravity: 6
   apexGravity: 2
   apexThreshold: 2
-  gravityChangeSpeed: 5
-  jumpCutMultiplier: 0.35
-  jumpCutAcceleration: 64.7
+  gravityChangeSpeed: 10
+  jumpCutMultiplier: 0.3
+  jumpCutAcceleration: 70
   centerOffset: {x: 0, y: 0, z: -0.1}
   halfExtents: {x: 0.6, y: 0.2, z: 0.9}
   groundHeight: 1

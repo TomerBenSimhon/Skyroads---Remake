@@ -517,16 +517,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8204731936019537321}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bf67b82c12ad5a4fa903a6a0fb862f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 3912385704173586788, guid: 214c0fb6437c66647874a3e22f0bd6df, type: 3}
   bulletSpawnOffset: {x: 0, y: 0, z: 1.43}
-  fireRate: 0.2
-  bulletSpeed: 70
-  bulletDamage: 40
+  fireRate: 2
+  bulletSpeed: 90
+  bulletDamage: 100
   bulletLifeTime: 0.5
 --- !u!114 &-3290391590626782193
 MonoBehaviour:
