@@ -25,6 +25,11 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    public void LoadNextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
     private IEnumerator RestartAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
