@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HighlightSweepOverlay_DirectionalAlphaMasked
+  m_Name: neuron_texture_seamless_8k
   m_Shader: {fileID: 4800000, guid: d882700cd26611f49879f3ba8479ba73, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -24,20 +24,20 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d417483009ecdc546b8825e3ef6d23d9, type: 3}
-        m_Scale: {x: 5, y: 5}
+        m_Texture: {fileID: 2800000, guid: f899649d1d98c1f4c831608aa89309aa, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.041
-    - _GlowFrequency: 0.66
+    - _Alpha: 1
+    - _GlowFrequency: 1
     - _GlowSpeed: 1
-    - _GlowWidth: 1
-    - _SeamRange: 0.001
-    - _SeamSpeed: 5
+    - _GlowWidth: 0.2
+    - _SeamRange: 0.1
+    - _SeamSpeed: 0.5
     m_Colors:
-    - _GlowColor: {r: 6.398299, g: 1.6079493, b: 1.7456989, a: 1}
-    - _GlowDir: {r: 0.1, g: 0.1, b: 0, a: 0}
-    - _MainTexSpeed: {r: 0, g: 0.01, b: 0, a: 0}
+    - _GlowColor: {r: 10, g: 5, b: 1, a: 1}
+    - _GlowDir: {r: 1, g: 1, b: 0, a: 0}
+    - _MainTexSpeed: {r: 0.1, g: 0.1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
