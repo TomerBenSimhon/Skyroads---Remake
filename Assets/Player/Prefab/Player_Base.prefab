@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 8877284664594820151}
   m_Layer: 7
   m_Name: HitBox
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -288,7 +288,7 @@ Transform:
   m_GameObject: {fileID: 7129835843025555471}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.118, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -313,7 +313,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.99, y: 0.3, z: 0.2}
+  m_Size: {x: 1.2, y: 0.3, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7387373131145844381
 GameObject:
@@ -422,7 +422,7 @@ GameObject:
   - component: {fileID: -3415269241991583869}
   m_Layer: 7
   m_Name: Player_Base
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -496,7 +496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47873b1b7c895cb4b8c80f264e7f8350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <DefaultSettings>k__BackingField: {fileID: 11400000, guid: 8aa21098c635534429aec1b9041f83e0, type: 2}
+  <DefaultSettings>k__BackingField: {fileID: 11400000, guid: 12b0cfa89b603b7409cd8d6a432967ec, type: 2}
 --- !u!114 &-8538563256640884461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -509,7 +509,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a8cefc9e19c9e04c9f65768bd81599d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerSettings: {fileID: 0}
+  controllerSettings: {fileID: 11400000, guid: ecce1bbcbcae41144bc13dbf4742f67a, type: 2}
 --- !u!114 &2419040955738746381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -517,17 +517,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8204731936019537321}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bf67b82c12ad5a4fa903a6a0fb862f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 3912385704173586788, guid: 214c0fb6437c66647874a3e22f0bd6df, type: 3}
   bulletSpawnOffset: {x: 0, y: 0, z: 1.43}
-  fireRate: 0.2
-  bulletSpeed: 50
-  bulletDamage: 40
-  bulletLifeTime: 1
+  fireRate: 2
+  bulletSpeed: 90
+  bulletDamage: 100
+  bulletLifeTime: 0.5
 --- !u!114 &-3290391590626782193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,7 +573,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   barrierLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 2304
 --- !u!114 &8366250962938230958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -587,7 +587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fuelText: {fileID: 0}
-  fuelConsumption: 0.3
+  fuelConsumption: 0.2
   startingFuel: 100
 --- !u!114 &-3415269241991583869
 MonoBehaviour:

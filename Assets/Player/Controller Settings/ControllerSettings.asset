@@ -12,32 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7df8e24af6d8d55448dd0d63ec860024, type: 3}
   m_Name: ControllerSettings
   m_EditorClassIdentifier: 
-  horizontalSpeed: 10
+  horizontalSpeed: 12
   horizontalAcceleration: 30
-  horizontalAccelerationChangeSpeed: 100
-  breakingModifer: 1.1
+  horizontalChangeAcceleration: 65
+  horizontalDeceleration: 30
+  horizontalAccelerationChangeSpeed: 75
   terminalHorizontalSpeedTH: 0.6
-  autoBrake: 1
-  forwardSpeed: 11.6
+  forwardSpeed: 16.5
   forwardAcceleration: 12
+  forwardDeceleration: 13
   groundLayer:
     serializedVersion: 2
-    m_Bits: 8
-  gravity: 3
-  terminalVelocity: 20
+    m_Bits: 72
+  gravity: 4
+  terminalVelocity: 30
   terminalGravityTH: 0.75
-  jumpHeight: 5
+  jumpHeight: 4.75
   jumpBufferTime: 0.1
   fallGravity: 6
-  apexGravity: 1.5
+  apexGravity: 2
   apexThreshold: 2
-  gravityChangeSpeed: 5
-  jumpCutMultiplier: 0.65
-  centerOffset: {x: 0, y: 0, z: 0}
-  halfExtents: {x: 0.4, y: 0.2, z: 0.8}
+  gravityChangeSpeed: 10
+  jumpCutMultiplier: 0.3
+  jumpCutAcceleration: 70
+  centerOffset: {x: 0, y: 0, z: -0.1}
+  halfExtents: {x: 0.6, y: 0.2, z: 0.9}
   groundHeight: 1
-  groundSpringStrength: 5
+  groundSpringStrength: 8
   groundSpringDamping: 0.4
-  rotationSpeed: 6
-  turningAngle: 30
-  airRotationBlend: 0.2
+  groundSpringExtraHeight: 0.25
+  rotationSpeed: 5.7
+  turningAngle: 40
+  airRotationBlend: 0.35
