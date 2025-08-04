@@ -29,11 +29,12 @@ public class EnvironmentPrefabWindow : EditorWindow
         LoadPrefabsPerFolder(); // ✅ Load per-folder prefabs once
     }
 
-    private void ListSubfolderPaths(string loadPath = "Assets/Level Assets")
+    // ReSharper disable Unity.PerformanceAnalysis
+    private void ListSubfolderPaths(string loadPath = "Level Assets")
     {
         _subFolders.Clear();
         
-        string fullPath = Path.Combine(Application.dataPath, loadPath.Substring("Assets/".Length));
+        string fullPath = Path.Combine(Application.dataPath, loadPath);
         
         if (Directory.Exists(fullPath))
         {
@@ -94,6 +95,9 @@ public class EnvironmentPrefabWindow : EditorWindow
             }
             return;
         }
+        
+        if(GUILayout.Button("Reset Prefab Brush"))
+            PrefabBrush.ResetBrushPrefab();
 
         _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
 
@@ -105,11 +109,12 @@ public class EnvironmentPrefabWindow : EditorWindow
 
             if (_foldoutsState[subFolderPath])
             {
-                EditorGUI.indentLevel++;
                 if (_prefabsPerFolder.TryGetValue(subFolderPath, out List<GameObject> prefabs)) // ✅ New: use cached prefabs
                 {
                     foreach (GameObject prefab in prefabs)
                     {
+                        EditorGUILayout.BeginHorizontal();
+                        GUILayout.Space(20);
                         EditorGUILayout.BeginHorizontal("box");
                         GUILayout.Label(AssetPreview.GetAssetPreview(prefab) ?? AssetPreview.GetMiniThumbnail(prefab), GUILayout.Width(64), GUILayout.Height(64));
                         EditorGUILayout.BeginVertical();
@@ -127,14 +132,13 @@ public class EnvironmentPrefabWindow : EditorWindow
 
                         EditorGUILayout.EndVertical();
                         EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.EndHorizontal();
                     }
                 }
                 else
                 {
                     EditorGUILayout.HelpBox("No prefabs found in folder.", MessageType.Info);
                 }
-
-                EditorGUI.indentLevel--;
             }
 
             EditorGUILayout.Space(); // ✅ Optional: add space between foldouts
@@ -151,8 +155,10 @@ public class EnvironmentPrefabWindow : EditorWindow
     private void PlacePrefabInScene(GameObject prefab, Vector3 pos)
     {
         GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+        PrefabBrush.SetBrushPrefab(prefab);
         Undo.RegisterCreatedObjectUndo(instance, "Place Prefab");
         instance.transform.position = pos;
+        PrefabBrush.SnapInstanceToGrid(instance);
         Selection.activeGameObject = instance;
     }
 }
