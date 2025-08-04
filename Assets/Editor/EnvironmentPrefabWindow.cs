@@ -95,9 +95,11 @@ public class EnvironmentPrefabWindow : EditorWindow
             }
             return;
         }
-        
+
+        EditorGUILayout.BeginHorizontal();
         if(GUILayout.Button("Reset Prefab Brush"))
             PrefabBrush.ResetBrushPrefab();
+        EditorGUILayout.EndHorizontal();
 
         _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
 
@@ -122,7 +124,8 @@ public class EnvironmentPrefabWindow : EditorWindow
 
                         if (GUILayout.Button("Place in Scene"))
                         {
-                            PlacePrefabInScene(prefab, SceneView.lastActiveSceneView.pivot);
+                           // PlacePrefabInScene(prefab, SceneView.lastActiveSceneView.pivot);
+                           PrefabBrush.SetBrushPrefab(prefab);
                         }
 
                         if (GUILayout.Button("Place in Scene (0, 0, 0)"))
