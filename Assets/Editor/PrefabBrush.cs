@@ -1,23 +1,24 @@
-using System.Collections.Generic;
+
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEditor;
 
-
 [InitializeOnLoad]
 public static class PrefabBrush
 {
-    
-    static GameObject previewInstance; // 🆕 ghost object in the scene
-    
+    #region Fields
+
+    static GameObject previewInstance;
     private static GameObject _currentBrushPrefab;
     public static GameObject CurrentBrushPrefab => _currentBrushPrefab;
-    
+
     static Vector3 gridSize = new(2f, 0.5f, 2f);
-    
     static readonly string ghostMaterialPath = "Assets/Editor/Ghost_mat.mat";
 
-    
+    #endregion
+
+    #region Initialization
+
     static PrefabBrush()
     {
         SceneView.duringSceneGui += OnSceneGUI;
@@ -29,29 +30,40 @@ public static class PrefabBrush
         SceneView.RepaintAll();
     }
 
+    #endregion
+
+    #region Painting Logic
+
     static void PaintBrush()
     {
         Event e = Event.current;
         GhostPreviewLogic();
-        
-        if(!_currentBrushPrefab) return;
-        if(!IsPaintClick(e)) return;
-       
+
+        if (!_currentBrushPrefab) return;
+        if (!IsPaintClick(e)) return;
+
         Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
-        if (!Physics.Raycast(ray, out RaycastHit hit,Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Collide )) return;
-        
+        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Collide))
+            return;
+
         Vector3 spawnPosition = SnapToFreePlace(hit.point, hit.normal, gridSize);
         GameObject obj = (GameObject)PrefabUtility.InstantiatePrefab(_currentBrushPrefab);
         obj.transform.position = spawnPosition;
         Undo.RegisterCreatedObjectUndo(obj, "Paint Platform");
+
         e.Use(); // consume event
-        
     }
+
+    static bool IsPaintClick(Event e) => e.type == EventType.MouseDown && e.button == 0 && !e.alt;
+
+    #endregion
+
+    #region Ghost Preview Logic
 
     static void GhostPreviewLogic()
     {
         Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Collide)) // 🛠️ updated mask
+        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Collide))
         {
             DestroyGhost();
             return;
@@ -65,17 +77,17 @@ public static class PrefabBrush
 
         Vector3 ghostPosition = SnapToFreePlace(hit.point, hit.normal, gridSize);
 
-        if (previewInstance == null || previewInstance.name != _currentBrushPrefab.name + "_Ghost") // 🛠️ updated logic
+        if (previewInstance == null || previewInstance.name != _currentBrushPrefab.name + "_Ghost")
         {
-            CreateGhostInstance(); // 🆕 cleaner
+            CreateGhostInstance();
         }
 
         previewInstance.transform.position = ghostPosition;
     }
 
-    static void CreateGhostInstance() // 🆕 reusable ghost creator
+    static void CreateGhostInstance()
     {
-        DestroyGhost(); // destroy old one if any
+        DestroyGhost();
 
         previewInstance = (GameObject)PrefabUtility.InstantiatePrefab(_currentBrushPrefab);
         previewInstance.name = _currentBrushPrefab.name + "_Ghost";
@@ -87,7 +99,7 @@ public static class PrefabBrush
         SetGhostMaterial(previewInstance);
     }
 
-    static void DestroyGhost() // 🆕 helper
+    static void DestroyGhost()
     {
         if (previewInstance != null)
         {
@@ -95,8 +107,7 @@ public static class PrefabBrush
             previewInstance = null;
         }
     }
-    
-    
+
     static void SetGhostMaterial(GameObject ghost)
     {
         Material ghostMat = AssetDatabase.LoadAssetAtPath<Material>(ghostMaterialPath);
@@ -123,8 +134,10 @@ public static class PrefabBrush
         }
     }
 
-    static bool IsPaintClick(Event e) => e.type == EventType.MouseDown && e.button == 0 && !e.alt;
-    
+    #endregion
+
+    #region Snapping Logic
+
     static Vector3 SnapToGrid(Vector3 pos, Vector3 gridSize)
     {
         return new Vector3(
@@ -140,13 +153,14 @@ public static class PrefabBrush
 
         if (!Physics.CheckBox(newPos, gridSize * 0.4f, quaternion.identity, Physics.AllLayers, QueryTriggerInteraction.Collide))
             return newPos;
-        
+
         Vector3 newNormal = KeepLargestComponent(normal).normalized;
         Vector3 addedDistance = Vector3.Scale(gridSize, newNormal);
         newPos += addedDistance;
+
         return newPos;
     }
-    
+
     static Vector3 KeepLargestComponent(Vector3 v)
     {
         float max = Mathf.Max(Mathf.Abs(v.x), Mathf.Abs(v.y), Mathf.Abs(v.z));
@@ -158,6 +172,9 @@ public static class PrefabBrush
         );
     }
 
+    #endregion
+
+    #region Public API
 
     public static void SetBrushPrefab(GameObject prefab)
     {
@@ -175,4 +192,6 @@ public static class PrefabBrush
         _currentBrushPrefab = null;
         DestroyGhost();
     }
+
+    #endregion
 }
