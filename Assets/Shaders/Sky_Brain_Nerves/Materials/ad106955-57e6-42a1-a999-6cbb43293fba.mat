@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HighlightSweepOverlay
-  m_Shader: {fileID: 4800000, guid: 9c9de48ead6f33245b71668d82e8a3c9, type: 3}
+  m_Name: ad106955-57e6-42a1-a999-6cbb43293fba
+  m_Shader: {fileID: 4800000, guid: d882700cd26611f49879f3ba8479ba73, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -22,25 +22,22 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: f75e7792a7ee60846812f4127ac5ede3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.084
-    - _AlphaX: 0.084
-    - _AlphaY: 0
-    - _GlowFrequency: 0.31
-    - _GlowSize: 0.073
-    - _GlowSizeX: 0
-    - _GlowSizeY: 0.2
+    - _Alpha: 1
+    - _GlowFrequency: 1
     - _GlowSpeed: 1
-    - _GlowSpeedX: 0.16
-    - _GlowSpeedY: 1
-    - _GlowWidth: 1
-    - _GlowWidthX: 0.09
-    - _GlowWidthY: 0.01
+    - _GlowWidth: 0.2
+    - _SeamRange: 0.1
+    - _SeamSpeed: 0.5
     m_Colors:
-    - _GlowColor: {r: 0.7490197, g: 0.7490197, b: 0.7490197, a: 1}
+    - _GlowColor: {r: 10, g: 5, b: 1, a: 1}
     - _GlowDir: {r: 1, g: 1, b: 0, a: 0}
-    - _GlowDirection: {r: 1.95, g: 2.18, b: 1.42, a: 2.97}
+    - _MainTexSpeed: {r: 0.1, g: 0.1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

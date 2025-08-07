@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HighlightSweepOverlay_SKY
+  m_Shader: {fileID: 4800000, guid: 9c9de48ead6f33245b71668d82e8a3c9, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 0.322
+    - _AlphaX: 0.084
+    - _AlphaY: 0
+    - _GlowFrequency: 1.17
+    - _GlowSize: 0.073
+    - _GlowSizeX: 0
+    - _GlowSizeY: 0.2
+    - _GlowSpeed: 1
+    - _GlowSpeedX: 0.16
+    - _GlowSpeedY: 1
+    - _GlowWidth: 1
+    - _GlowWidthX: 0.09
+    - _GlowWidthY: 0.01
+    m_Colors:
+    - _GlowColor: {r: 0, g: 0.27953547, b: 0.9490196, a: 1}
+    - _GlowDir: {r: 1, g: 1, b: 0, a: 0}
+    - _GlowDirection: {r: 1.95, g: 2.18, b: 1.42, a: 2.97}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
