@@ -525,7 +525,7 @@ GameObject:
   m_Component:
   - component: {fileID: 47905919}
   m_Layer: 0
-  m_Name: Special Platforms
+  m_Name: Special Platformsss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2757,7 +2757,7 @@ GameObject:
   m_Component:
   - component: {fileID: 190120956}
   m_Layer: 0
-  m_Name: Special Platforms
+  m_Name: Special Platformsss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18593,7 +18593,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1292645416}
   m_Layer: 0
-  m_Name: Barriers
+  m_Name: Barriersss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27607,7 +27607,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1895787850}
   m_Layer: 0
-  m_Name: Barriers
+  m_Name: Barriersss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

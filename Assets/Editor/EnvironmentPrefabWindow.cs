@@ -11,8 +11,8 @@ public class EnvironmentPrefabWindow : EditorWindow
     private static string _lastSearchQuery = "";
 
     private readonly List<string> _subFolders = new();
-    private readonly Dictionary<string, bool> _foldoutsState = new();
-    private readonly Dictionary<string, List<GameObject>> _prefabsPerFolder = new();
+    private  Dictionary<string, bool> _foldoutsState = new();
+    private static readonly Dictionary<string, List<GameObject>> _prefabsPerFolder = new();
     private readonly Dictionary<Object, Texture2D> _previewCache = new();
 
     [MenuItem("Tools/Environment Prefabs Window")]
@@ -106,6 +106,7 @@ public class EnvironmentPrefabWindow : EditorWindow
         if (GUILayout.Button("x", GUI.skin.FindStyle("ToolbarSearchCancelButton"))) _searchQuery = "";
         EditorGUILayout.EndHorizontal();
 
+        if(!PrefabBrush.CurrentBrushPrefab) return;
         if (GUILayout.Button("Reset Prefab Brush"))
             PrefabBrush.ResetBrushPrefab();
     }
@@ -211,5 +212,24 @@ public class EnvironmentPrefabWindow : EditorWindow
 
     }
 
+    #endregion
+    
+    #region Public API
+
+    public static string PrefabToSubFolder(GameObject prefab)
+    {
+        foreach (var pair in _prefabsPerFolder)
+        {
+            if (pair.Value.Contains(prefab))
+            {
+                // Get only the last part of the path (the folder name)
+                return Path.GetFileName(pair.Key);
+            }
+        }
+
+        return "Random objects";
+    }
+
+    
     #endregion
 }

@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEditor;
@@ -11,6 +12,8 @@ public static class PrefabBrush
     static GameObject previewInstance;
     private static GameObject _currentBrushPrefab;
     public static GameObject CurrentBrushPrefab => _currentBrushPrefab;
+    
+    public static Dictionary<string, GameObject> PrefabsParents = new();
 
     static Vector3 gridSize = new(2f, 0.5f, 2f);
     static readonly string ghostMaterialPath = "Assets/Editor/Ghost_mat.mat";
@@ -49,6 +52,24 @@ public static class PrefabBrush
         Vector3 spawnPosition = SnapToFreePlace(hit.point, hit.normal, gridSize);
         GameObject obj = (GameObject)PrefabUtility.InstantiatePrefab(_currentBrushPrefab);
         obj.transform.position = spawnPosition;
+
+        string prefabSubFolder = EnvironmentPrefabWindow.PrefabToSubFolder(CurrentBrushPrefab);
+        if (!PrefabsParents.TryGetValue(prefabSubFolder, out GameObject parent) || parent == null)
+        {
+            // Try to find existing object in the scene
+            parent = GameObject.Find(prefabSubFolder);
+            if (parent == null)
+            {
+                // If not found, create a new empty GameObject
+                parent = new GameObject(prefabSubFolder);
+                parent.transform.position = Vector3.zero; // Optional: place at origin
+                Undo.RegisterCreatedObjectUndo(parent, "Create " + parent.name);
+            }
+
+            PrefabsParents[prefabSubFolder] = parent;
+        }
+        obj.transform.SetParent(parent.transform);
+        
         Undo.RegisterCreatedObjectUndo(obj, "Paint Platform");
 
         e.Use(); // consume event
