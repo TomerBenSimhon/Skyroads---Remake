@@ -17,6 +17,12 @@ public static class PrefabBrush
 
     static Vector3 gridSize = new(2f, 0.5f, 2f);
     static readonly string ghostMaterialPath = "Assets/Editor/Ghost_mat.mat";
+    
+    // 🆕 Continuous paint state
+    private static bool _isPainting;                       // dragging with LMB
+    private static float _paintY;                          // locked Y plane during drag
+    private static Vector3 _lastCell = new(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
+    private static readonly HashSet<Vector3> _placedThisDrag = new(); // avoid duplicates within one drag
 
     #endregion
 
@@ -29,7 +35,8 @@ public static class PrefabBrush
 
     static void OnSceneGUI(SceneView sceneView)
     {
-        PaintBrush();
+        GhostPreviewLogic();
+        HandleContinuousPaintInput();
         SceneView.RepaintAll();
     }
 
@@ -37,12 +44,11 @@ public static class PrefabBrush
 
     #region Painting Logic
 
-    static void PaintBrush()
+    static void HandleContinuousPaintInput()
     {
-        Event e = Event.current;
-        GhostPreviewLogic();
-
         if (!_currentBrushPrefab) return;
+        
+        Event e = Event.current;
         if (!IsPaintClick(e)) return;
 
         Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
