@@ -10,10 +10,17 @@ public class EnvironmentPrefabWindow : EditorWindow
     private static string _searchQuery = "";
     private static string _lastSearchQuery = "";
 
+    private static string _parentQuery = "";
+
     private readonly List<string> _subFolders = new();
     private  Dictionary<string, bool> _foldoutsState = new();
     private static readonly Dictionary<string, List<GameObject>> _prefabsPerFolder = new();
     private readonly Dictionary<Object, Texture2D> _previewCache = new();
+    
+    // 🆕 UI state for toolbar selection (mirrors PrefabBrush.Mode)
+    private int _modeIndex = 0;
+    private static readonly string[] _modeLabels = { "Paint", "Line", "Rectangle" };
+
 
     [MenuItem("Tools/Environment Prefabs Window")]
     public static void ShowWindow()
@@ -21,7 +28,11 @@ public class EnvironmentPrefabWindow : EditorWindow
         GetWindow<EnvironmentPrefabWindow>("Environment Prefabs");
     }
 
-    private void OnEnable() => ReloadAll();
+    private void OnEnable()
+    {
+        _modeIndex = (int)PrefabBrush.Mode;
+        ReloadAll();
+    } 
 
     #region Reload / Load Logic
 
@@ -106,10 +117,28 @@ public class EnvironmentPrefabWindow : EditorWindow
         if (GUILayout.Button("x", GUI.skin.FindStyle("ToolbarSearchCancelButton"))) _searchQuery = "";
         EditorGUILayout.EndHorizontal();
 
+        DrawModeToolbar();
+        
         if(!PrefabBrush.CurrentBrushPrefab) return;
         if (GUILayout.Button("Reset Prefab Brush"))
             PrefabBrush.ResetBrushPrefab();
     }
+    
+    // 🆕 Tool mode toolbar
+    private void DrawModeToolbar()
+    {
+        EditorGUILayout.Space(3);
+        EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
+        int newIndex = GUILayout.Toolbar(_modeIndex, _modeLabels, EditorStyles.toolbarButton, GUILayout.MinHeight(22));
+        EditorGUILayout.EndHorizontal();
+
+        if (newIndex != _modeIndex)
+        {
+            _modeIndex = newIndex;
+            PrefabBrush.SetMode((PrefabBrush.BrushMode)_modeIndex);
+        }
+    }
+
 
     private void HandleSearchCleared()
     {
@@ -166,12 +195,17 @@ public class EnvironmentPrefabWindow : EditorWindow
         EditorGUILayout.BeginHorizontal("box");
 
         Texture2D preview = GetCachedPreview(prefab);
-        GUILayout.Label(preview, GUILayout.Width(64), GUILayout.Height(64));
+        GUILayout.Label(preview, GUILayout.Width(96), GUILayout.Height(96));
 
         EditorGUILayout.BeginVertical();
         GUILayout.Label(prefab.name, EditorStyles.boldLabel);
 
         DrawPrefabSelectButton(prefab);
+
+        if (PrefabBrush.IsCurrentBrush(prefab))
+        {
+            DrawParentCreateTextField();
+        }
 
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndHorizontal();
@@ -189,6 +223,12 @@ public class EnvironmentPrefabWindow : EditorWindow
             PrefabBrush.SetBrushPrefab(prefab);
 
         GUI.backgroundColor = originalColor;
+    }
+
+    private void DrawParentCreateTextField()
+    {
+        GUILayout.Label("Type empty parent name");
+        _parentQuery = GUILayout.TextField(_parentQuery);
     }
 
     #endregion
@@ -229,6 +269,13 @@ public class EnvironmentPrefabWindow : EditorWindow
 
         return "Random objects";
     }
+
+    public static string GetParentEmptyName()
+    {
+        return _parentQuery;
+    }
+    
+    
 
     
     #endregion

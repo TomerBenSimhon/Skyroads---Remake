@@ -1,12 +1,17 @@
+using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
+using Object = UnityEngine.Object;
 
 [InitializeOnLoad]
 public static class PrefabBrush
 {
     #region Fields
+
+    private static LayerMask _paintingLayer = LayerMask.GetMask("Painting Surface");
 
     static GameObject previewInstance;
     private static GameObject _currentBrushPrefab;
@@ -24,6 +29,15 @@ public static class PrefabBrush
     // 🆕 cache the first-hit normal for this drag
     static Vector3 _lockedNormal = Vector3.up;
     static readonly HashSet<Vector3> _placedThisDrag = new(); // avoid duplicates within one drag
+    
+    // 🆕 Rectangle tool state
+    private static bool _isRectDragging;
+    private static Vector3 _rectStartCell;
+    private static readonly List<GameObject> _rectGhosts = new(); // pooled ghosts for area preview
+    
+    public enum BrushMode {Paint, Line, Rectangle}
+    private static BrushMode _mode = BrushMode.Paint;
+    public static BrushMode Mode => _mode;
 
     #endregion
 
@@ -32,15 +46,30 @@ public static class PrefabBrush
     static PrefabBrush()
     {
         SceneView.duringSceneGui += OnSceneGUI;
+        DestroyGhost();
     }
 
     static void OnSceneGUI(SceneView sceneView)
     {
-        HandleContinuousPaintInput(); // 🆕 replaces click-only flow
-        GhostPreviewLogic();
+        switch (_mode)
+        {
+            case BrushMode.Paint:
+                HandleContinuousPaintInput();
+                GhostPreviewLogic();
+                break;
+            case BrushMode.Line:
+                HandleContinuousPaintInput(); //to do
+                break;
+            case BrushMode.Rectangle:
+                HandleRectToolInput();
+                GhostPreviewLogic();
+                break;
+        }
+        
         if(!_currentBrushPrefab) return;
         SceneView.RepaintAll();
     }
+    
 
     #endregion
 
@@ -57,7 +86,7 @@ public static class PrefabBrush
         if (e.type == EventType.MouseDown && e.button == 0 && !e.alt)
         {
             Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Collide))
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _paintingLayer, QueryTriggerInteraction.Collide))
             {
                 _isPainting = true;
                 _placedThisDrag.Clear();
@@ -91,6 +120,84 @@ public static class PrefabBrush
         }
     }
 
+    static void HandleLineToolInput()
+    {
+         /* coming next */
+    }
+
+    private static void HandleRectToolInput()
+    {
+        if (CurrentBrushPrefab == null) return;
+
+        Event e = Event.current;
+
+        // MouseDown: record start, lock Y, begin drag
+        if (e.type == EventType.MouseDown && e.button == 0 && !e.alt)
+        {
+            var ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, _paintingLayer, QueryTriggerInteraction.Collide))
+            {
+                _isRectDragging = true;
+
+                // lock plane Y using your existing free-place snap
+                var start = SnapToFreePlace(hit.point, hit.normal, gridSize);
+                _paintY = start.y;
+                _rectStartCell = new Vector3(
+                    Mathf.Round(start.x / gridSize.x) * gridSize.x,
+                    _paintY,
+                    Mathf.Round(start.z / gridSize.z) * gridSize.z
+                );
+
+                e.Use();
+            }
+        }
+
+        // MouseDrag: update ghosts to fill rectangle from start to current snapped cell
+        if (_isRectDragging && e.type == EventType.MouseDrag && e.button == 0)
+        {
+            var ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, _paintingLayer, QueryTriggerInteraction.Collide))
+            {
+                var current = SnapToGrid(hit.point, gridSize);
+                current.y = _paintY;
+
+                var cells = GetRectCells(_rectStartCell, current, gridSize);
+                UpdateRectGhosts(cells);
+
+                e.Use();
+            }
+        }
+
+        // MouseUp: place at all cells, then clear ghosts
+        if (_isRectDragging && e.type == EventType.MouseUp && e.button == 0)
+        {
+            var ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, _paintingLayer, QueryTriggerInteraction.Collide))
+            {
+                var endCell = SnapToGrid(hit.point, gridSize);
+                endCell.y = _paintY;
+
+                var cells = GetRectCells(_rectStartCell, endCell, gridSize);
+
+                // place all (skip occupied if needed)
+                foreach (var cell in cells)
+                {
+                    // same occupancy style you use in paint:
+                    if (Physics.CheckBox(cell, gridSize * 0.4f, Quaternion.identity, _paintingLayer, QueryTriggerInteraction.Collide))
+                        continue;
+
+                    PlaceCurrentBrushPrefab(cell);
+                }
+            }
+
+            ClearRectGhosts();
+            _isRectDragging = false;
+            e.Use();
+        }
+    }
+    
+
+
     // 🆕 Intersect mouse with plane at _paintY, snap, and place if entering new cell
     static void TryPlaceAtMouseOnLockedPlane(bool placeImmediately = false, bool isFirstPlace = false)
     {
@@ -107,6 +214,10 @@ public static class PrefabBrush
         if (!placeImmediately && ApproximatelyCell(snapped, _lastCell)) return;
         if (_placedThisDrag.Contains(snapped)) return;
 
+        if (Physics.CheckBox(snapped, gridSize * 0.4f, quaternion.identity, _paintingLayer,
+                QueryTriggerInteraction.Collide))
+            return;
+
         PlaceCurrentBrushPrefab(snapped);
         _lastCell = snapped;
         _placedThisDrag.Add(snapped);
@@ -119,8 +230,7 @@ public static class PrefabBrush
         obj.transform.position = position;
 
         // Parent under subfolder group in hierarchy
-        string prefabSubFolder = EnvironmentPrefabWindow.PrefabToSubFolder(CurrentBrushPrefab); // assumes static method
-        GameObject parent = GetOrCreateParent(prefabSubFolder);
+        GameObject parent = GetOrCreateParent(EnvironmentPrefabWindow.GetParentEmptyName());
         obj.transform.SetParent(parent.transform);
 
         Undo.RegisterCreatedObjectUndo(obj, "Paint Platform");
@@ -154,6 +264,96 @@ public static class PrefabBrush
                Mathf.Abs(a.y - b.y) < eps &&
                Mathf.Abs(a.z - b.z) < eps;
     }
+    
+    // Build the grid of cells between two snapped corners (inclusive)
+    private static List<Vector3> GetRectCells(Vector3 a, Vector3 b, Vector3 step)
+    {
+        var cells = new List<Vector3>(64);
+
+        float minX = Mathf.Min(a.x, b.x);
+        float maxX = Mathf.Max(a.x, b.x);
+        float minZ = Mathf.Min(a.z, b.z);
+        float maxZ = Mathf.Max(a.z, b.z);
+        float y = a.y; // both are on the locked Y
+
+        // iterate by grid step to cover all snapped cells
+        for (float x = minX; x <= maxX + 0.001f; x += step.x)
+        {
+            for (float z = minZ; z <= maxZ + 0.001f; z += step.z)
+            {
+                cells.Add(new Vector3(
+                    Mathf.Round(x / step.x) * step.x,
+                    y,
+                    Mathf.Round(z / step.z) * step.z
+                ));
+            }
+        }
+
+        return cells;
+    }
+
+    // Make sure we have enough pooled ghosts, then place/update them
+    private static void UpdateRectGhosts(List<Vector3> cells)
+    {
+        EnsureRectGhostPool(cells.Count);
+
+        // enable and position needed ghosts
+        for (int i = 0; i < cells.Count; i++)
+        {
+            var g = _rectGhosts[i];
+            if (g == null)
+            {
+                _rectGhosts[i] = CreateGhostForPool();
+                g = _rectGhosts[i];
+            }
+
+            g.hideFlags = HideFlags.DontSave;
+            g.SetActive(true);
+            g.transform.position = cells[i];
+        }
+
+        // disable any extra ghosts in the pool
+        for (int i = cells.Count; i < _rectGhosts.Count; i++)
+        {
+            if (_rectGhosts[i] != null)
+                _rectGhosts[i].SetActive(false);
+        }
+    }
+
+    private static void EnsureRectGhostPool(int needed)
+    {
+        while (_rectGhosts.Count < needed)
+        {
+            _rectGhosts.Add(CreateGhostForPool());
+        }
+    }
+
+    private static GameObject CreateGhostForPool()
+    {
+        if (CurrentBrushPrefab == null) return null;
+
+        var g = (GameObject)PrefabUtility.InstantiatePrefab(CurrentBrushPrefab);
+        g.name = CurrentBrushPrefab.name + "_Ghost"; // consistent
+        g.hideFlags = HideFlags.DontSave;
+
+        foreach (var col in g.GetComponentsInChildren<Collider>())
+            col.enabled = false;
+
+        SetGhostMaterial(g);
+        g.SetActive(false);
+        return g;
+    }
+
+    private static void ClearRectGhosts()
+    {
+        for (int i = 0; i < _rectGhosts.Count; i++)
+        {
+            if (_rectGhosts[i] != null)
+                Object.DestroyImmediate(_rectGhosts[i]);
+        }
+        _rectGhosts.Clear();
+    }
+
 
     #endregion
 
@@ -162,7 +362,7 @@ public static class PrefabBrush
     static void GhostPreviewLogic()
     {
         Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Collide))
+        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _paintingLayer, QueryTriggerInteraction.Collide))
         {
             DestroyGhost();
             return;
@@ -204,8 +404,18 @@ public static class PrefabBrush
         {
             Object.DestroyImmediate(previewInstance);
             previewInstance = null;
+            return;
+        }
+
+        foreach (var ghost in Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None))
+        {
+            if (ghost.name.EndsWith("_Ghost"))
+            {
+                Object.DestroyImmediate(ghost);
+            }
         }
     }
+
 
     static void SetGhostMaterial(GameObject ghost)
     {
@@ -248,7 +458,7 @@ public static class PrefabBrush
     {
         Vector3 newPos = SnapToGrid(pos, grid);
 
-        if (!Physics.CheckBox(newPos, grid * 0.4f, quaternion.identity, Physics.AllLayers, QueryTriggerInteraction.Collide))
+        if (!Physics.CheckBox(newPos, grid * 0.4f, quaternion.identity, _paintingLayer, QueryTriggerInteraction.Collide))
             return newPos;
 
         Vector3 newNormal = KeepLargestComponent(normal).normalized;
@@ -277,6 +487,7 @@ public static class PrefabBrush
     {
         _currentBrushPrefab = prefab;
         CreateGhostInstance();
+        ClearRectGhosts();
     }
 
     public static bool IsCurrentBrush(GameObject prefab)
@@ -288,6 +499,14 @@ public static class PrefabBrush
     {
         _currentBrushPrefab = null;
         DestroyGhost();
+        ClearRectGhosts();
+    }
+
+    public static void SetMode(BrushMode mode)
+    {
+        _mode = mode;
+        DestroyGhost();
+        ClearRectGhosts();
     }
 
     #endregion
