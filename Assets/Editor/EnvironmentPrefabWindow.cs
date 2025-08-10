@@ -6,10 +6,22 @@ using System.IO;
 public class EnvironmentPrefabWindow : EditorWindow
 {
     private Vector2 _scrollPosition;
-    private readonly List<string> _subFolders = new();
+
+    private static string _searchQuery = "";
+    private static string _lastSearchQuery = "";
+
+    private static string _parentQuery = "";
+    public static string ParentQuery => _parentQuery;
+
+    private readonly List<string> _subFolderPaths = new();
+    private  Dictionary<string, bool> _foldoutsState = new();
+    private static readonly Dictionary<string, List<GameObject>> _prefabsPerFolder = new();
+    private readonly Dictionary<Object, Texture2D> _previewCache = new();
     
-    private readonly Dictionary<string, bool> _foldoutsState = new();
-    private readonly Dictionary<string, List<GameObject>> _prefabsPerFolder = new(); // ✅ New: cache prefabs per folder
+    // 🆕 UI state for toolbar selection (mirrors PrefabBrush.Mode)
+    private int _modeIndex = 0;
+    private static readonly string[] _modeLabels = { "Paint", "Line", "Rectangle" };
+
 
     [MenuItem("Tools/Environment Prefabs Window")]
     public static void ShowWindow()
@@ -19,54 +31,51 @@ public class EnvironmentPrefabWindow : EditorWindow
 
     private void OnEnable()
     {
+        _modeIndex = (int)PrefabBrush.Mode;
         ReloadAll();
-    }
+    } 
 
-    private void ReloadAll() // ✅ New: central reload method
+    #region Reload / Load Logic
+
+    private void ReloadAll()
     {
-        ListSubfolderPaths();
+        _parentQuery = "";
+        _previewCache.Clear();
+        LoadSubfolderPaths();
         LoadFoldoutStates();
-        LoadPrefabsPerFolder(); // ✅ Load per-folder prefabs once
+        LoadPrefabsPerFolder();
     }
 
-    private void ListSubfolderPaths(string loadPath = "Assets/Level Assets")
+    private void LoadSubfolderPaths(string loadPath = "Level Assets")
     {
-        _subFolders.Clear();
-        
-        string fullPath = Path.Combine(Application.dataPath, loadPath.Substring("Assets/".Length));
-        
-        if (Directory.Exists(fullPath))
-        {
-            string[] subfolderPaths = Directory.GetDirectories(fullPath);
+        _subFolderPaths.Clear();
+        string fullPath = Path.Combine(Application.dataPath, loadPath);
 
-            foreach (string path in subfolderPaths)
-            {
-                string relativePath = "Assets" + path.Replace(Application.dataPath, "").Replace('\\', '/');
-                _subFolders.Add(relativePath);
-            }
-        }
-        else
+        if (!Directory.Exists(fullPath))
         {
             Debug.LogWarning($"Folder not found: {loadPath}");
+            return;
+        }
+
+        foreach (string path in Directory.GetDirectories(fullPath))
+        {
+            string relativePath = "Assets" + path.Replace(Application.dataPath, "").Replace('\\', '/');
+            _subFolderPaths.Add(relativePath);
         }
     }
 
     private void LoadFoldoutStates()
     {
         _foldoutsState.Clear();
-
-        foreach (string subfolder in _subFolders)
-        {
-            _foldoutsState.TryAdd(subfolder, false); // 🆕 Changed: use full path as key
-        }
+        foreach (string subfolder in _subFolderPaths)
+            _foldoutsState[subfolder] = false;
     }
-    
 
-    private void LoadPrefabsPerFolder() // ✅ New: loads all subfolder prefabs once
+    private void LoadPrefabsPerFolder()
     {
         _prefabsPerFolder.Clear();
 
-        foreach (string folderPath in _subFolders)
+        foreach (string folderPath in _subFolderPaths)
         {
             string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { folderPath });
             List<GameObject> prefabs = new();
@@ -83,76 +92,200 @@ public class EnvironmentPrefabWindow : EditorWindow
         }
     }
 
+    #endregion
+
+    #region GUI
+
     private void OnGUI()
     {
-        if (_prefabsPerFolder == null || _prefabsPerFolder.Count == 0)
+        if (_prefabsPerFolder.Count == 0)
         {
             EditorGUILayout.LabelField("No prefabs found in Assets/Level Assets");
-            if (GUILayout.Button("Reload Prefabs"))
-            {
-                ReloadAll(); // 🆕 uses central reload
-            }
+            if (GUILayout.Button("Reload Prefabs")) ReloadAll();
             return;
         }
 
+        DrawToolbar();
+        HandleSearchFoldoutLogic();
+        DrawPrefabScrollView();
+
+        DrawPrefabEntry(PrefabBrush.CurrentBrushPrefab);
+        if (GUILayout.Button("Reload Prefabs")) ReloadAll();
+    }
+
+    private void DrawToolbar()
+    {
+        EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
+        _searchQuery = GUILayout.TextField(_searchQuery, GUI.skin.FindStyle("ToolbarSearchTextField"));
+        if (GUILayout.Button("x", GUI.skin.FindStyle("ToolbarSearchCancelButton")))
+            _searchQuery = "";
+        EditorGUILayout.EndHorizontal();
+
+        DrawModeToolbar();
+        
+        if(!PrefabBrush.CurrentBrushPrefab) return;
+        if (GUILayout.Button("Reset Prefab Brush"))
+            PrefabBrush.ResetBrushPrefab();
+    }
+    
+    // 🆕 Tool mode toolbar
+    private void DrawModeToolbar()
+    {
+        EditorGUILayout.Space(5);
+        EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
+        int newIndex = GUILayout.Toolbar(_modeIndex, _modeLabels, EditorStyles.toolbarButton, GUILayout.MinHeight(22));
+        EditorGUILayout.EndHorizontal();
+
+        if (newIndex != _modeIndex)
+        {
+            _modeIndex = newIndex;
+            PrefabBrush.SetMode((PrefabBrush.BrushMode)_modeIndex);
+        }
+    }
+
+
+    private void HandleSearchFoldoutLogic()
+    {
+        bool searchCleared = !string.IsNullOrEmpty(_lastSearchQuery) && string.IsNullOrEmpty(_searchQuery);
+        bool searchBegun = string.IsNullOrEmpty(_lastSearchQuery) && !string.IsNullOrEmpty(_searchQuery);
+        _lastSearchQuery = _searchQuery;
+
+        if (searchCleared)
+        {
+            List<string> keys = new(_foldoutsState.Keys);
+            foreach (string key in keys)
+                _foldoutsState[key] = false; 
+        } 
+        else if (searchBegun)
+        {
+            List<string> keys = new(_foldoutsState.Keys);
+            foreach (string key in keys)
+                _foldoutsState[key] = true; 
+        }
+    }
+
+    private void DrawPrefabScrollView()
+    {
         _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
 
-        foreach (string subFolderPath in _subFolders)
+        foreach (string subFolderPath in _subFolderPaths)
         {
             string folderName = Path.GetFileName(subFolderPath);
 
-            _foldoutsState[subFolderPath] = EditorGUILayout.Foldout(_foldoutsState[subFolderPath], folderName, true, EditorStyles.foldoutHeader); // 🆕 Changed key
+            _foldoutsState[subFolderPath] = EditorGUILayout.Foldout(_foldoutsState[subFolderPath], folderName, true, EditorStyles.foldoutHeader);
 
-            if (_foldoutsState[subFolderPath])
+            if (!_foldoutsState[subFolderPath]) continue;
+
+            if (_prefabsPerFolder.TryGetValue(subFolderPath, out List<GameObject> prefabs))
             {
-                EditorGUI.indentLevel++;
-                if (_prefabsPerFolder.TryGetValue(subFolderPath, out List<GameObject> prefabs)) // ✅ New: use cached prefabs
+                foreach (GameObject prefab in prefabs)
                 {
-                    foreach (GameObject prefab in prefabs)
-                    {
-                        EditorGUILayout.BeginHorizontal("box");
-                        GUILayout.Label(AssetPreview.GetAssetPreview(prefab) ?? AssetPreview.GetMiniThumbnail(prefab), GUILayout.Width(64), GUILayout.Height(64));
-                        EditorGUILayout.BeginVertical();
-                        GUILayout.Label(prefab.name, EditorStyles.boldLabel);
+                    if (!string.IsNullOrEmpty(_searchQuery) &&
+                        !prefab.name.ToLower().Contains(_searchQuery.ToLower()))
+                        continue;
 
-                        if (GUILayout.Button("Place in Scene"))
-                        {
-                            PlacePrefabInScene(prefab, SceneView.lastActiveSceneView.pivot);
-                        }
-
-                        if (GUILayout.Button("Place in Scene (0, 0, 0)"))
-                        {
-                            PlacePrefabInScene(prefab, Vector3.zero);
-                        }
-
-                        EditorGUILayout.EndVertical();
-                        EditorGUILayout.EndHorizontal();
-                    }
+                    DrawPrefabEntry(prefab);
                 }
-                else
-                {
-                    EditorGUILayout.HelpBox("No prefabs found in folder.", MessageType.Info);
-                }
-
-                EditorGUI.indentLevel--;
+            }
+            else
+            {
+                EditorGUILayout.HelpBox("No prefabs found in folder.", MessageType.Info);
             }
 
-            EditorGUILayout.Space(); // ✅ Optional: add space between foldouts
+            EditorGUILayout.Space();
         }
 
         EditorGUILayout.EndScrollView();
-
-        if (GUILayout.Button("Reload Prefabs"))
-        {
-            ReloadAll(); // 🆕 uses central reload
-        }
     }
 
-    private void PlacePrefabInScene(GameObject prefab, Vector3 pos)
+    private void DrawPrefabEntry(GameObject prefab)
     {
-        GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
-        Undo.RegisterCreatedObjectUndo(instance, "Place Prefab");
-        instance.transform.position = pos;
-        Selection.activeGameObject = instance;
+        if (!prefab) return;
+        
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.Space(20);
+        EditorGUILayout.BeginHorizontal("box");
+
+        Texture2D preview = GetCachedPreview(prefab);
+        GUILayout.Label(preview, GUILayout.Width(96), GUILayout.Height(96));
+
+        EditorGUILayout.BeginVertical();
+        GUILayout.Label(prefab.name, EditorStyles.boldLabel);
+
+        DrawPrefabSelectButton(prefab);
+
+        if (PrefabBrush.IsCurrentBrush(prefab))
+        {
+            DrawParentCreateTextField();
+        }
+
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.EndHorizontal();
     }
+
+    private void DrawPrefabSelectButton(GameObject prefab)
+    {
+        Color originalColor = GUI.backgroundColor;
+
+        if (PrefabBrush.IsCurrentBrush(prefab))
+            GUI.backgroundColor = new Color(1f, 0.85f, 0.3f);
+
+        if (GUILayout.Button("Select " + prefab.name))
+            PrefabBrush.SetBrushPrefab(prefab);
+
+        GUI.backgroundColor = originalColor;
+    }
+
+    private void DrawParentCreateTextField()
+    {
+        GUILayout.Label("Type empty parent name");
+        _parentQuery = GUILayout.TextField(_parentQuery);
+    }
+
+    #endregion
+
+    #region Preview
+
+    private Texture2D GetCachedPreview(GameObject prefab)
+    {
+        if (_previewCache.TryGetValue(prefab, out Texture2D cachedPreview) && cachedPreview != null)
+            return cachedPreview;
+
+        Texture2D newPreview = AssetPreview.GetAssetPreview(prefab);
+        if (newPreview != null)
+        {
+            _previewCache[prefab] = newPreview;
+            return newPreview;
+        }
+
+        Repaint(); // keep repainting until preview is ready
+        return AssetPreview.GetMiniThumbnail(prefab); // fallback
+
+    }
+
+    #endregion
+    
+    #region Public API
+
+    public static string PrefabToSubFolder(GameObject prefab)
+    {
+        foreach (var pair in _prefabsPerFolder)
+        {
+            if (pair.Value.Contains(prefab))
+            {
+                // Get only the last part of the path (the folder name)
+                return Path.GetFileName(pair.Key);
+            }
+        }
+
+        return "Random objects";
+    }
+
+    public static void ResetParentQuery()
+    {
+        _parentQuery = "";
+    }
+    
+    #endregion
 }
