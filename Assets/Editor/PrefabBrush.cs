@@ -34,6 +34,8 @@ public static class PrefabBrush
     private static bool _isRectDragging;
     private static Vector3 _rectStartCell;
     private static readonly List<GameObject> _rectGhosts = new(); // pooled ghosts for area preview
+    private static GameObject _tempPaintingSurface;
+    
     
     public enum BrushMode {Paint, Line, Rectangle}
     private static BrushMode _mode = BrushMode.Paint;
@@ -55,14 +57,26 @@ public static class PrefabBrush
         {
             case BrushMode.Paint:
                 HandleContinuousPaintInput();
-                GhostPreviewLogic();
+                if (!_isPainting)
+                {
+                    GhostPreviewLogic();
+                    break;
+                }
+                DestroyGhost();
                 break;
+            
             case BrushMode.Line:
                 HandleContinuousPaintInput(); //to do
                 break;
+            
             case BrushMode.Rectangle:
                 HandleRectToolInput();
-                GhostPreviewLogic();
+                if (!_isRectDragging)
+                {
+                    GhostPreviewLogic();
+                    break;
+                }
+                DestroyGhost();
                 break;
         }
         
@@ -130,17 +144,16 @@ public static class PrefabBrush
         if (CurrentBrushPrefab == null) return;
 
         Event e = Event.current;
-
         // MouseDown: record start, lock Y, begin drag
         if (e.type == EventType.MouseDown && e.button == 0 && !e.alt)
         {
             var ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
-            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, _paintingLayer, QueryTriggerInteraction.Collide))
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _paintingLayer, QueryTriggerInteraction.Collide))
             {
                 _isRectDragging = true;
-
+                
                 // lock plane Y using your existing free-place snap
-                var start = SnapToFreePlace(hit.point, hit.normal, gridSize);
+                Vector3 start = SnapToFreePlace(hit.point, hit.normal, gridSize);
                 _paintY = start.y;
                 _rectStartCell = new Vector3(
                     Mathf.Round(start.x / gridSize.x) * gridSize.x,
@@ -148,6 +161,8 @@ public static class PrefabBrush
                     Mathf.Round(start.z / gridSize.z) * gridSize.z
                 );
 
+                _tempPaintingSurface = CreatePaintingSurface.CreatePaintingSurfaceAtPosition(new Vector3(_rectStartCell.x, _paintY - gridSize.y, _rectStartCell.z));
+                
                 e.Use();
             }
         }
@@ -192,6 +207,10 @@ public static class PrefabBrush
 
             ClearRectGhosts();
             _isRectDragging = false;
+            
+            Object.DestroyImmediate(_tempPaintingSurface);
+            _tempPaintingSurface = null;
+            
             e.Use();
         }
     }
@@ -230,7 +249,7 @@ public static class PrefabBrush
         obj.transform.position = position;
 
         // Parent under subfolder group in hierarchy
-        GameObject parent = GetOrCreateParent(EnvironmentPrefabWindow.GetParentEmptyName());
+        GameObject parent = GetOrCreateParent(EnvironmentPrefabWindow.ParentQuery);
         obj.transform.SetParent(parent.transform);
 
         Undo.RegisterCreatedObjectUndo(obj, "Paint Platform");
