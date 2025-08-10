@@ -39,6 +39,7 @@ public class EnvironmentPrefabWindow : EditorWindow
 
     private void ReloadAll()
     {
+        _parentQuery = "";
         _previewCache.Clear();
         LoadSubfolderPaths();
         LoadFoldoutStates();
@@ -279,6 +280,11 @@ public class EnvironmentPrefabWindow : EditorWindow
         }
 
         return "Random objects";
+    }
+
+    public static void ResetParentQuery()
+    {
+        _parentQuery = "";
     }
     
     #endregion
