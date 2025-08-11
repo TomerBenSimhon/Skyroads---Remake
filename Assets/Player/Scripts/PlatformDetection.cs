@@ -36,8 +36,7 @@ public class PlatformDetection : MonoBehaviour
     void HandlePlatformEnter()
     {
         if(!TryDetectPlatform(out RaycastHit hit)) return;                          // checks if we detected a new special platform
-        if(!hit.collider.TryGetComponent(out IPlatformEffect newEffect)) return;   
-        
+        if(!hit.transform.TryGetComponent(out IPlatformEffect newEffect)) return;
         TryRemoveEffect(_currentPlatform);    // If on a different platform, remove old effect                             
         
         _currentPlatform = hit.collider.gameObject;     //assigns _currentPlatform to the new platform and applies the effect 
