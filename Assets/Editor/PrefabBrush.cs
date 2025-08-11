@@ -519,7 +519,6 @@ public static class PrefabBrush
         _currentBrushPrefab = null;
         DestroyGhost();
         ClearRectGhosts();
-        EnvironmentPrefabWindow.ResetParentQuery();
     }
 
     public static void SetMode(BrushMode mode)
