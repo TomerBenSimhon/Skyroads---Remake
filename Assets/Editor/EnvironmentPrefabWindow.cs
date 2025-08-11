@@ -50,6 +50,7 @@ public class EnvironmentPrefabWindow : EditorWindow
         LoadSubfolderPaths();
         LoadFoldoutStates();
         LoadPrefabsPerFolder();
+        PrefabBrush.LoadPaintingSurfaces();
     }
 
     private void LoadSubfolderPaths(string loadPath = "Level Assets")

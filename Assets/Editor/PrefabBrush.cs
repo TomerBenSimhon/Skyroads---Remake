@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using System.Linq;
+using Codice.Client.BaseCommands;
 using UnityEngine;
 using UnityEditor;
 using Object = UnityEngine.Object;
@@ -24,7 +25,7 @@ public static class PrefabBrush
 
     // 🆕 Continuous paint state
     static bool _isPainting;                       // dragging with LMB
-    static float _paintY;                          // locked Y plane during drag
+    static float _paintY = -1000f;                          // locked Y plane during drag
     static Vector3 _lastCell = new(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
     // 🆕 cache the first-hit normal for this drag
     static Vector3 _lockedNormal = Vector3.up;
@@ -36,12 +37,15 @@ public static class PrefabBrush
     private static readonly List<GameObject> _rectGhosts = new(); // pooled ghosts for area preview
     private static GameObject _tempPaintingSurface;
     
+    private static GameObject _paintingSurface;
+    
     
     public enum BrushMode {Paint, Line, Rectangle}
     private static BrushMode _mode = BrushMode.Paint;
     public static BrushMode Mode => _mode;
 
     #endregion
+    
 
     #region Initialization
 
@@ -49,6 +53,8 @@ public static class PrefabBrush
     {
         SceneView.duringSceneGui += OnSceneGUI;
         DestroyGhost();
+        CleanupTempSurfaces();
+        
     }
 
     static void OnSceneGUI(SceneView sceneView)
@@ -79,6 +85,11 @@ public static class PrefabBrush
                 DestroyGhost();
                 break;
         }
+        
+        HandlePaintingSurfaceInput();
+        
+        if (_mode != BrushMode.Rectangle || !_isRectDragging)
+            CleanupTempSurfaces();
         
         if(!_currentBrushPrefab) return;
         SceneView.RepaintAll();
@@ -115,6 +126,11 @@ public static class PrefabBrush
 
                 TryPlaceAtMouseOnLockedPlane(placeImmediately: true, isFirstPlace: true);
                 e.Use();
+            }
+            else
+            {
+                _paintY = -1000f;
+                return;
             }
         }
 
@@ -161,9 +177,14 @@ public static class PrefabBrush
                     Mathf.Round(start.z / gridSize.z) * gridSize.z
                 );
 
-                _tempPaintingSurface = CreatePaintingSurface.CreatePaintingSurfaceAtPosition(new Vector3(_rectStartCell.x, _paintY - gridSize.y, _rectStartCell.z));
+                _tempPaintingSurface = CreatePaintingSurfaceAtPosition(new Vector3(_rectStartCell.x, _paintY - gridSize.y, _rectStartCell.z));
                 
                 e.Use();
+            }
+            else
+            {
+                _paintY = -1000f;
+                return;
             }
         }
 
@@ -210,6 +231,29 @@ public static class PrefabBrush
             
             Object.DestroyImmediate(_tempPaintingSurface);
             _tempPaintingSurface = null;
+            
+            e.Use();
+        }
+    }
+
+    static void HandlePaintingSurfaceInput()
+    {
+        if (CurrentBrushPrefab == null) return;
+        if(_paintingSurface == null) return;
+        
+        Event e = Event.current;
+
+        if (e.type == EventType.ScrollWheel)
+        {
+            if (e.delta.y > 0)
+            {
+                _paintingSurface.transform.position -= Vector3.up * gridSize.y;
+            }
+
+            if (e.delta.y < 0)
+            {
+                _paintingSurface.transform.position += Vector3.up * gridSize.y;
+            }
             
             e.Use();
         }
@@ -393,6 +437,7 @@ public static class PrefabBrush
             return;
         }
 
+        Debug.Log(hit.collider.gameObject.name);
         Vector3 ghostPosition = SnapToFreePlace(hit.point, hit.normal, gridSize);
 
         if (previewInstance == null || previewInstance.name != _currentBrushPrefab.name + "_Ghost")
@@ -401,6 +446,10 @@ public static class PrefabBrush
         }
 
         previewInstance.transform.position = ghostPosition;
+        
+        // …then show it (only now do we activate)
+        if (!previewInstance.activeSelf)
+            previewInstance.SetActive(true);
     }
 
     static void CreateGhostInstance()
@@ -415,6 +464,8 @@ public static class PrefabBrush
             collider.enabled = false;
 
         SetGhostMaterial(previewInstance);
+        
+        previewInstance.SetActive(false);
     }
 
     static void DestroyGhost()
@@ -463,7 +514,7 @@ public static class PrefabBrush
     #endregion
 
     #region Snapping Logic
-
+    
     static Vector3 SnapToGrid(Vector3 pos, Vector3 grid)
     {
         return new Vector3(
@@ -505,7 +556,6 @@ public static class PrefabBrush
     public static void SetBrushPrefab(GameObject prefab)
     {
         _currentBrushPrefab = prefab;
-        CreateGhostInstance();
         ClearRectGhosts();
     }
 
@@ -519,6 +569,7 @@ public static class PrefabBrush
         _currentBrushPrefab = null;
         DestroyGhost();
         ClearRectGhosts();
+        CleanupTempSurfaces();
     }
 
     public static void SetMode(BrushMode mode)
@@ -526,7 +577,49 @@ public static class PrefabBrush
         _mode = mode;
         DestroyGhost();
         ClearRectGhosts();
+        CleanupTempSurfaces();
     }
+    public static void LoadPaintingSurfaces()
+    {
+        _paintingSurface = GameObject.Find("PaintingSurface");
+        if(_paintingSurface == null)
+            Debug.LogError("No painting surface found");
+    }
+
+    static void CleanupTempSurfaces()
+    {
+        if (_tempPaintingSurface != null)
+        {
+            Object.DestroyImmediate(_tempPaintingSurface);
+            _tempPaintingSurface = null;
+        }
+
+        // Also nuke any that might have survived domain reloads:
+        var all = Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+        foreach (var go in all)
+        {
+            if (go != null && go.name == "PaintingSurface_Temp")
+                Object.DestroyImmediate(go);
+        }
+    }
+    
+    public static GameObject CreatePaintingSurfaceAtPosition(Vector3 position)
+    {
+        GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        plane.name = "PaintingSurface_Temp";
+        plane.transform.position = position;
+        plane.transform.localScale = Vector3.one * 1000f;
+        plane.layer = LayerMask.NameToLayer("Painting Surface");
+
+        // invisible + not saved
+        var renderer = plane.GetComponent<MeshRenderer>();
+        if (renderer)
+            renderer.enabled = false;
+
+        //plane.hideFlags = HideFlags.HideAndDontSave;
+        return plane;
+    }
+
 
     #endregion
 }
