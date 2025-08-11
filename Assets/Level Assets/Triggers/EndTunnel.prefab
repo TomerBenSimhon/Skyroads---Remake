@@ -63,9 +63,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2569720840118499085}
   - {fileID: 7989358904186078212}
   - {fileID: 5073008454883503931}
+  - {fileID: 2569720840118499085}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3689627945218818196
@@ -2355,6 +2355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2569720840118499085}
   - component: {fileID: 3410641670715702429}
+  - component: {fileID: 5616877217059525875}
   m_Layer: 12
   m_Name: Painting Surface
   m_TagString: Untagged
@@ -2398,6 +2399,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5616877217059525875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4139989986385793851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb12ae16fd5dd8e499cb7fc66ead0e2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8350976645101339162
 GameObject:
   m_ObjectHideFlags: 0
