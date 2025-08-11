@@ -37,7 +37,7 @@ MonoBehaviour:
   jumpCutAcceleration: 65
   centerOffset: {x: 0, y: 0, z: 0}
   halfExtents: {x: 0.5, y: 0.2, z: 0.8}
-  groundHeight: 0.4
+  groundHeight: 0.5
   groundSpringStrength: 8
   groundSpringDamping: 0.45
   groundSpringExtraHeight: 0.25
