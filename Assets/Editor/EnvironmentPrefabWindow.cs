@@ -10,8 +10,9 @@ public class EnvironmentPrefabWindow : EditorWindow
     private static string _searchQuery = "";
     private static string _lastSearchQuery = "";
 
-    private static string _parentQuery = "";
+    private static string _parentQuery;
     public static string ParentQuery => _parentQuery;
+    private const string kParentKey = "EnvPrefabWindow.ParentQuery";
 
     private readonly List<string> _subFolderPaths = new();
     private  Dictionary<string, bool> _foldoutsState = new();
@@ -32,14 +33,19 @@ public class EnvironmentPrefabWindow : EditorWindow
     private void OnEnable()
     {
         _modeIndex = (int)PrefabBrush.Mode;
+        _parentQuery = EditorPrefs.GetString(kParentKey, _parentQuery ?? "");
         ReloadAll();
-    } 
+    }
+
+    private void OnDisable()
+    {
+        EditorPrefs.SetString(kParentKey, _parentQuery ?? "");
+    }
 
     #region Reload / Load Logic
 
     private void ReloadAll()
     {
-        _parentQuery = "";
         _previewCache.Clear();
         LoadSubfolderPaths();
         LoadFoldoutStates();
@@ -240,7 +246,11 @@ public class EnvironmentPrefabWindow : EditorWindow
     private void DrawParentCreateTextField()
     {
         GUILayout.Label("Type empty parent name");
+        EditorGUILayout.BeginHorizontal();
         _parentQuery = GUILayout.TextField(_parentQuery);
+        if (GUILayout.Button("x", GUI.skin.FindStyle("ToolbarSearchCancelButton")))
+            _parentQuery = "";
+        EditorGUILayout.EndHorizontal();
     }
 
     #endregion
@@ -281,11 +291,7 @@ public class EnvironmentPrefabWindow : EditorWindow
 
         return "Random objects";
     }
-
-    public static void ResetParentQuery()
-    {
-        _parentQuery = "";
-    }
+    
     
     #endregion
 }
