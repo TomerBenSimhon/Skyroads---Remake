@@ -59,15 +59,15 @@ public static class PrefabBrush
     {
         SceneView.duringSceneGui += OnSceneGUI;
         previewInstance = null;
-        DestroyGhost();
-        CleanupTempSurfaces();
+        DestroyGhost(true);
+        CleanupTempSurfaces(true);
     }
 
     static void OnSceneGUI(SceneView sceneView)
     {
         if (!EnvironmentPrefabWindow.IsWindowOpen)
         {
-            DestroyGhost();
+            DestroyGhost(false);
             return;
         }
         
@@ -106,7 +106,16 @@ public static class PrefabBrush
         if (_mode == BrushMode.Erase && _currentBrushPrefab != null)
             _currentBrushPrefab = null;
         
-        SceneView.RepaintAll();
+        var evt = Event.current;
+        if (evt != null)
+        {
+            if (evt.type == EventType.MouseMove ||
+                evt.type == EventType.MouseDrag ||
+                evt.type == EventType.ScrollWheel)
+            {
+                SceneView.RepaintAll();
+            }
+        }
     }
     
 
@@ -417,33 +426,31 @@ public static class PrefabBrush
     static void GhostPreviewLogic()
     {
         bool isErase = _mode == BrushMode.Erase;
+
+        // Skip immediately if no prefab in Paint mode
+        if (!isErase && _currentBrushPrefab == null)
+        {
+            DestroyGhost(false);
+            return;
+        }
+
         Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-        
         LayerMask layer = isErase ? _paintingLayerNoPlane : _paintingLayer;
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layer, QueryTriggerInteraction.Collide))
         {
-            DestroyGhost();
+            DestroyGhost(false);
             return;
         }
 
-        if (!_currentBrushPrefab && !isErase)
-        {
-            DestroyGhost();
-            return;
-        }
-        
-       
-        Vector3 ghostPosition = !isErase ? SnapToFreePlace(hit.point, hit.normal, gridSize) : SnapToGrid(hit.collider.transform.position, gridSize);
+        Vector3 ghostPosition = !isErase
+            ? SnapToFreePlace(hit.point, hit.normal, gridSize)
+            : SnapToGrid(hit.collider.transform.position, gridSize);
 
         if (!previewInstance || (_currentBrushPrefab && previewInstance && previewInstance.name != _currentBrushPrefab.name + "_Ghost"))
-
-        {
             CreateGhostInstance(isErase);
-        }
 
         previewInstance.transform.position = ghostPosition;
-        
-        // …then show it (only now do we activate)
+
         if (!previewInstance.activeSelf)
             previewInstance.SetActive(true);
     }
@@ -476,21 +483,20 @@ public static class PrefabBrush
         previewInstance.SetActive(false);
     }
 
-    static void DestroyGhost()
+    static void DestroyGhost(bool deep = false)
     {
         if (previewInstance != null)
         {
             Object.DestroyImmediate(previewInstance);
             previewInstance = null;
-            return;
         }
 
-        foreach (GameObject ghost in Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None))
+        if (!deep) return; // ← avoid scene-wide scan unless we explicitly ask for it
+
+        foreach (var ghost in Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None))
         {
-            if (ghost.name.EndsWith("_Ghost"))
-            {
+            if (ghost != null && ghost.name.EndsWith("_Ghost"))
                 Object.DestroyImmediate(ghost);
-            }
         }
     }
     
@@ -638,25 +644,25 @@ public static class PrefabBrush
     public static void ResetBrushPrefab()
     {
         _currentBrushPrefab = null;
-        DestroyGhost();
+        DestroyGhost(true);
         ClearRectGhosts();
-        CleanupTempSurfaces();
+        CleanupTempSurfaces(true);
     }
 
     public static void SetTool(BrushTool tool)
     {
         _tool = tool;
-        DestroyGhost();
+        DestroyGhost(true);
         ClearRectGhosts();
-        CleanupTempSurfaces();
+        CleanupTempSurfaces(true);
     }
 
     public static void SetMode(BrushMode mode)
     {
         _mode = mode;
-        DestroyGhost();
+        DestroyGhost(true);
         ClearRectGhosts();
-        CleanupTempSurfaces();
+        CleanupTempSurfaces(true);
     }
     public static void LoadPaintingSurfaces()
     {
@@ -665,7 +671,7 @@ public static class PrefabBrush
             Debug.LogError("No painting surface found");
     }
 
-    static void CleanupTempSurfaces()
+    static void CleanupTempSurfaces(bool deep = false)
     {
         if (_tempPaintingSurface != null)
         {
@@ -673,13 +679,12 @@ public static class PrefabBrush
             _tempPaintingSurface = null;
         }
 
-        // Also nuke any that might have survived domain reloads:
+        if (!deep) return; // ← only scan the whole scene on explicit calls
+
         var all = Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
         foreach (var go in all)
-        {
             if (go != null && go.name == "PaintingSurface_Temp")
                 Object.DestroyImmediate(go);
-        }
     }
     
     
