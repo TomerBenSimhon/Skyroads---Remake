@@ -12,7 +12,8 @@ public static class PrefabBrush
 {
     #region Fields
 
-    private static LayerMask _paintingLayer = LayerMask.GetMask("Painting Surface");
+    private static LayerMask _paintingLayer = LayerMask.GetMask("Painting Surface", "Painting Plane");
+    private static LayerMask _paintingLayerNoPlane = LayerMask.GetMask("Painting Surface");
 
     static GameObject previewInstance;
     private static GameObject _currentBrushPrefab;
@@ -121,7 +122,7 @@ public static class PrefabBrush
         if (_mode == BrushMode.Erase && e.type == EventType.MouseDown && e.button == 0 && !e.alt)
         {
             Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _paintingLayer,
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _paintingLayerNoPlane,
                     QueryTriggerInteraction.Collide))
             {
                 if (hit.collider.gameObject == _paintingSurface) return;
@@ -171,7 +172,7 @@ public static class PrefabBrush
             else if (_mode == BrushMode.Erase)
             {
                 Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _paintingLayer,
+                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _paintingLayerNoPlane,
                         QueryTriggerInteraction.Collide))
                 {
                     TryDeleteObjectOnLockedPlane(hit.collider.gameObject);
@@ -417,7 +418,9 @@ public static class PrefabBrush
     {
         bool isErase = _mode == BrushMode.Erase;
         Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _paintingLayer, QueryTriggerInteraction.Collide))
+        
+        LayerMask layer = isErase ? _paintingLayerNoPlane : _paintingLayer;
+        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layer, QueryTriggerInteraction.Collide))
         {
             DestroyGhost();
             return;
