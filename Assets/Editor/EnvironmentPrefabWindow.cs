@@ -1,10 +1,16 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using Codice.Client.BaseCommands;
+using Unity.VisualScripting;
+using Object = UnityEngine.Object;
 
 public class EnvironmentPrefabWindow : EditorWindow
 {
+    public static bool IsWindowOpen;
+    
     private Vector2 _scrollPosition;
 
     private static string _searchQuery = "";
@@ -20,8 +26,10 @@ public class EnvironmentPrefabWindow : EditorWindow
     private readonly Dictionary<Object, Texture2D> _previewCache = new();
     
     // 🆕 UI state for toolbar selection (mirrors PrefabBrush.Mode)
+    private int _toolIndex = 0;
+    private static readonly string[] _toolLabels = { "Brush", "Line", "Rectangle" };
     private int _modeIndex = 0;
-    private static readonly string[] _modeLabels = { "Paint", "Line", "Rectangle" };
+    private static readonly string[] _modeLabels = { "Paint", "Erase" };
 
 
     [MenuItem("Tools/Environment Prefabs Window")]
@@ -32,6 +40,7 @@ public class EnvironmentPrefabWindow : EditorWindow
 
     private void OnEnable()
     {
+        _toolIndex = (int)PrefabBrush.Tool;
         _modeIndex = (int)PrefabBrush.Mode;
         _parentQuery = EditorPrefs.GetString(kParentKey, _parentQuery ?? "");
         ReloadAll();
@@ -40,6 +49,16 @@ public class EnvironmentPrefabWindow : EditorWindow
     private void OnDisable()
     {
         EditorPrefs.SetString(kParentKey, _parentQuery ?? "");
+    }
+
+    private void OnBecameInvisible()
+    {
+        IsWindowOpen = false;
+    }
+
+    private void OnBecameVisible()
+    {
+        IsWindowOpen = true;
     }
 
     #region Reload / Load Logic
@@ -51,6 +70,7 @@ public class EnvironmentPrefabWindow : EditorWindow
         LoadFoldoutStates();
         LoadPrefabsPerFolder();
         PrefabBrush.LoadPaintingSurfaces();
+        
     }
 
     private void LoadSubfolderPaths(string loadPath = "Level Assets")
@@ -140,13 +160,33 @@ public class EnvironmentPrefabWindow : EditorWindow
     {
         EditorGUILayout.Space(5);
         EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
-        int newIndex = GUILayout.Toolbar(_modeIndex, _modeLabels, EditorStyles.toolbarButton, GUILayout.MinHeight(22));
+        int newModeIndex = GUILayout.Toolbar(_modeIndex, _modeLabels, EditorStyles.toolbarButton, GUILayout.MinHeight(22));
         EditorGUILayout.EndHorizontal();
 
-        if (newIndex != _modeIndex)
+        if (newModeIndex != _modeIndex)
         {
-            _modeIndex = newIndex;
+            _modeIndex = newModeIndex;
             PrefabBrush.SetMode((PrefabBrush.BrushMode)_modeIndex);
+        }
+        
+        //for now show only brush on erase
+        bool isErase = _modeIndex == 1;
+        string[] toolLabels = isErase ? new[] { "Brush" } : _toolLabels;
+        if (isErase)
+        {
+            _toolIndex = 0;
+            PrefabBrush.SetTool(PrefabBrush.BrushTool.Brush);
+        }
+        
+        EditorGUILayout.Space(5);
+        EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
+        int newToolIndex = GUILayout.Toolbar(_toolIndex, toolLabels, EditorStyles.toolbarButton, GUILayout.MinHeight(22));
+        EditorGUILayout.EndHorizontal();
+
+        if (newToolIndex != _toolIndex)
+        {
+            _toolIndex = newToolIndex;
+            PrefabBrush.SetTool((PrefabBrush.BrushTool)_toolIndex);
         }
     }
 
@@ -239,7 +279,11 @@ public class EnvironmentPrefabWindow : EditorWindow
             GUI.backgroundColor = new Color(1f, 0.85f, 0.3f);
 
         if (GUILayout.Button("Select " + prefab.name))
+        {
             PrefabBrush.SetBrushPrefab(prefab);
+            PrefabBrush.SetMode(PrefabBrush.BrushMode.Paint);
+            _modeIndex = 0;
+        }
 
         GUI.backgroundColor = originalColor;
     }
@@ -292,7 +336,6 @@ public class EnvironmentPrefabWindow : EditorWindow
 
         return "Random objects";
     }
-    
     
     #endregion
 }

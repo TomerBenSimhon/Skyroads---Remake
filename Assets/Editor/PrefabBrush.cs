@@ -12,7 +12,8 @@ public static class PrefabBrush
 {
     #region Fields
 
-    private static LayerMask _paintingLayer = LayerMask.GetMask("Painting Surface");
+    private static LayerMask _paintingLayer = LayerMask.GetMask("Painting Surface", "Painting Plane");
+    private static LayerMask _paintingLayerNoPlane = LayerMask.GetMask("Painting Surface");
 
     static GameObject previewInstance;
     private static GameObject _currentBrushPrefab;
@@ -22,9 +23,10 @@ public static class PrefabBrush
 
     static Vector3 gridSize = new(2f, 0.5f, 2f);
     static readonly string ghostMaterialPath = "Assets/Editor/Ghost_mat.mat";
+    static readonly string eraseGhostMaterialPath = "Assets/Editor/EraseGhost_mat.mat";
 
     // 🆕 Continuous paint state
-    static bool _isPainting;                       // dragging with LMB
+    static bool _isBrushDragging;                       // dragging with LMB
     static float _paintY = -1000f;                          // locked Y plane during drag
     static Vector3 _lastCell = new(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
     // 🆕 cache the first-hit normal for this drag
@@ -40,7 +42,11 @@ public static class PrefabBrush
     private static GameObject _paintingSurface;
     
     
-    public enum BrushMode {Paint, Line, Rectangle}
+    public enum BrushTool {Brush, Line, Rectangle}
+    private static BrushTool _tool = BrushTool.Brush;
+    public static BrushTool Tool => _tool;
+    
+    public enum BrushMode {Paint, Erase }
     private static BrushMode _mode = BrushMode.Paint;
     public static BrushMode Mode => _mode;
 
@@ -52,18 +58,24 @@ public static class PrefabBrush
     static PrefabBrush()
     {
         SceneView.duringSceneGui += OnSceneGUI;
-        DestroyGhost();
-        CleanupTempSurfaces();
-        
+        previewInstance = null;
+        DestroyGhost(true);
+        CleanupTempSurfaces(true);
     }
 
     static void OnSceneGUI(SceneView sceneView)
     {
-        switch (_mode)
+        if (!EnvironmentPrefabWindow.IsWindowOpen)
         {
-            case BrushMode.Paint:
-                HandleContinuousPaintInput();
-                if (!_isPainting)
+            DestroyGhost(false);
+            return;
+        }
+        
+        switch (_tool)
+        {
+            case BrushTool.Brush:
+                HandleBrushToolInput();
+                if (!_isBrushDragging)
                 {
                     GhostPreviewLogic();
                     break;
@@ -71,11 +83,11 @@ public static class PrefabBrush
                 DestroyGhost();
                 break;
             
-            case BrushMode.Line:
-                HandleContinuousPaintInput(); //to do
+            case BrushTool.Line:
+                HandleBrushToolInput(); //to do
                 break;
             
-            case BrushMode.Rectangle:
+            case BrushTool.Rectangle:
                 HandleRectToolInput();
                 if (!_isRectDragging)
                 {
@@ -88,11 +100,22 @@ public static class PrefabBrush
         
         HandlePaintingSurfaceInput();
         
-        if (_mode != BrushMode.Rectangle || !_isRectDragging)
+        if (_tool != BrushTool.Rectangle || !_isRectDragging)
             CleanupTempSurfaces();
+
+        if (_mode == BrushMode.Erase && _currentBrushPrefab != null)
+            _currentBrushPrefab = null;
         
-        if(!_currentBrushPrefab) return;
-        SceneView.RepaintAll();
+        var evt = Event.current;
+        if (evt != null)
+        {
+            if (evt.type == EventType.MouseMove ||
+                evt.type == EventType.MouseDrag ||
+                evt.type == EventType.ScrollWheel)
+            {
+                SceneView.RepaintAll();
+            }
+        }
     }
     
 
@@ -101,19 +124,32 @@ public static class PrefabBrush
     #region Painting Logic
 
     // 🆕 Input handler for MouseDown/Drag/Up to keep painting across grid cells
-    static void HandleContinuousPaintInput()
+    static void HandleBrushToolInput()
     {
-        if (_currentBrushPrefab == null) return;
-
         Event e = Event.current;
-
+        
+        if (_mode == BrushMode.Erase && e.type == EventType.MouseDown && e.button == 0 && !e.alt)
+        {
+            Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _paintingLayerNoPlane,
+                    QueryTriggerInteraction.Collide))
+            {
+                if (hit.collider.gameObject == _paintingSurface) return;
+                
+                _isBrushDragging = true;
+                _paintY = hit.transform.position.y;
+                TryDeleteObjectOnLockedPlane(hit.collider.gameObject);
+                e.Use();
+            }
+        }
+        
         // Begin drag: lock the plane Y at the first hit and place immediately
-        if (e.type == EventType.MouseDown && e.button == 0 && !e.alt)
+        if (_mode == BrushMode.Paint && _currentBrushPrefab && e.type == EventType.MouseDown && e.button == 0 && !e.alt)
         {
             Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _paintingLayer, QueryTriggerInteraction.Collide))
             {
-                _isPainting = true;
+                _isBrushDragging = true;
                 _placedThisDrag.Clear();
                 
                 // 🆕 cache the drag normal (dominant axis so it’s stable)
@@ -135,16 +171,29 @@ public static class PrefabBrush
         }
 
         // Drag: keep painting when we enter a new snapped cell on the locked plane
-        if (_isPainting && e.type == EventType.MouseDrag && e.button == 0)
+        if (_isBrushDragging && e.type == EventType.MouseDrag && e.button == 0)
         {
-            TryPlaceAtMouseOnLockedPlane();
-            e.Use();
+            if (_mode == BrushMode.Paint && _currentBrushPrefab)
+            {
+                TryPlaceAtMouseOnLockedPlane();
+                e.Use();
+            }
+            else if (_mode == BrushMode.Erase)
+            {
+                Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _paintingLayerNoPlane,
+                        QueryTriggerInteraction.Collide))
+                {
+                    TryDeleteObjectOnLockedPlane(hit.collider.gameObject);
+                    e.Use();
+                }
+            }
         }
 
         // End drag
-        if (_isPainting && e.type == EventType.MouseUp && e.button == 0)
+        if (_isBrushDragging && e.type == EventType.MouseUp && e.button == 0)
         {
-            _isPainting = false;
+            _isBrushDragging = false;
             _placedThisDrag.Clear();
             e.Use();
         }
@@ -177,7 +226,7 @@ public static class PrefabBrush
                     Mathf.Round(start.z / gridSize.z) * gridSize.z
                 );
 
-                _tempPaintingSurface = CreatePaintingSurfaceAtPosition(new Vector3(_rectStartCell.x, _paintY - gridSize.y, _rectStartCell.z));
+                _tempPaintingSurface = CreatePaintingSurface.CreatePaintingSurfaceAtPosition(new Vector3(_rectStartCell.x, _paintY - gridSize.y, _rectStartCell.z));
                 
                 e.Use();
             }
@@ -239,26 +288,29 @@ public static class PrefabBrush
     static void HandlePaintingSurfaceInput()
     {
         if (CurrentBrushPrefab == null) return;
-        if(_paintingSurface == null) return;
-        
+        if (_paintingSurface == null) return;
+
         Event e = Event.current;
+        if (e.type != EventType.ScrollWheel) return;
 
-        if (e.type == EventType.ScrollWheel)
+        // Scroll direction: +y = wheel down, -y = wheel up
+        float baseStep = gridSize.y;
+
+        // Detect modifier during scroll:
+        // - e.control = Ctrl on Windows/Linux
+        // - e.command = Cmd on macOS
+        // - EditorGUI.actionKey covers Ctrl/Cmd depending on platform
+        bool fast = e.control || e.command || EditorGUI.actionKey;
+
+        float step = fast ? baseStep * 5f : baseStep;
+        float delta = (e.delta.y > 0f) ? -step : (e.delta.y < 0f ? step : 0f);
+
+        if (Mathf.Abs(delta) > 0f)
         {
-            if (e.delta.y > 0)
-            {
-                _paintingSurface.transform.position -= Vector3.up * gridSize.y;
-            }
-
-            if (e.delta.y < 0)
-            {
-                _paintingSurface.transform.position += Vector3.up * gridSize.y;
-            }
-            
+            _paintingSurface.transform.position += Vector3.up * delta;
             e.Use();
         }
     }
-    
 
 
     // 🆕 Intersect mouse with plane at _paintY, snap, and place if entering new cell
@@ -297,6 +349,15 @@ public static class PrefabBrush
         obj.transform.SetParent(parent.transform);
 
         Undo.RegisterCreatedObjectUndo(obj, "Paint Platform");
+    }
+
+    static void TryDeleteObjectOnLockedPlane(GameObject obj)
+    {
+        if(!Mathf.Approximately(obj.transform.position.y, _paintY)) return;
+        if(obj == _paintingSurface) return;
+                
+        GameObject root = PrefabUtility.GetNearestPrefabInstanceRoot(obj);
+        Undo.DestroyObjectImmediate(root);
     }
 
     // 🆕 Get existing parent GO or create one and cache it
@@ -355,6 +416,90 @@ public static class PrefabBrush
         return cells;
     }
 
+ 
+
+
+    #endregion
+
+    #region Ghost Preview Logic
+
+    static void GhostPreviewLogic()
+    {
+        bool isErase = _mode == BrushMode.Erase;
+
+        // Skip immediately if no prefab in Paint mode
+        if (!isErase && _currentBrushPrefab == null)
+        {
+            DestroyGhost(false);
+            return;
+        }
+
+        Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+        LayerMask layer = isErase ? _paintingLayerNoPlane : _paintingLayer;
+        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layer, QueryTriggerInteraction.Collide))
+        {
+            DestroyGhost(false);
+            return;
+        }
+
+        Vector3 ghostPosition = !isErase
+            ? SnapToFreePlace(hit.point, hit.normal, gridSize)
+            : SnapToGrid(hit.collider.transform.position, gridSize);
+
+        if (!previewInstance || (_currentBrushPrefab && previewInstance && previewInstance.name != _currentBrushPrefab.name + "_Ghost"))
+            CreateGhostInstance(isErase);
+
+        previewInstance.transform.position = ghostPosition;
+
+        if (!previewInstance.activeSelf)
+            previewInstance.SetActive(true);
+    }
+
+    static void CreateGhostInstance(bool isErase = false)
+    {
+        DestroyGhost();
+
+        if (!isErase)
+        {
+            previewInstance = (GameObject)PrefabUtility.InstantiatePrefab(_currentBrushPrefab);
+            previewInstance.name = _currentBrushPrefab.name + "_Ghost";
+            previewInstance.hideFlags = HideFlags.DontSave;
+
+            foreach (var collider in previewInstance.GetComponentsInChildren<Collider>())
+                collider.enabled = false;
+
+            SetGhostMaterial(previewInstance);
+        }
+        else
+        {
+            previewInstance = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            previewInstance.name =  "Erase_Ghost";
+            previewInstance.transform.localScale = gridSize * 1.1f;
+            previewInstance.hideFlags = HideFlags.DontSave;
+            
+            SetGhostMaterial(previewInstance, true);
+        }
+        
+        previewInstance.SetActive(false);
+    }
+
+    static void DestroyGhost(bool deep = false)
+    {
+        if (previewInstance != null)
+        {
+            Object.DestroyImmediate(previewInstance);
+            previewInstance = null;
+        }
+
+        if (!deep) return; // ← avoid scene-wide scan unless we explicitly ask for it
+
+        foreach (var ghost in Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None))
+        {
+            if (ghost != null && ghost.name.EndsWith("_Ghost"))
+                Object.DestroyImmediate(ghost);
+        }
+    }
+    
     // Make sure we have enough pooled ghosts, then place/update them
     private static void UpdateRectGhosts(List<Vector3> cells)
     {
@@ -418,78 +563,10 @@ public static class PrefabBrush
     }
 
 
-    #endregion
-
-    #region Ghost Preview Logic
-
-    static void GhostPreviewLogic()
+    static void SetGhostMaterial(GameObject ghost, bool isErase = false)
     {
-        Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _paintingLayer, QueryTriggerInteraction.Collide))
-        {
-            DestroyGhost();
-            return;
-        }
-
-        if (!_currentBrushPrefab)
-        {
-            DestroyGhost();
-            return;
-        }
-
-        Debug.Log(hit.collider.gameObject.name);
-        Vector3 ghostPosition = SnapToFreePlace(hit.point, hit.normal, gridSize);
-
-        if (previewInstance == null || previewInstance.name != _currentBrushPrefab.name + "_Ghost")
-        {
-            CreateGhostInstance();
-        }
-
-        previewInstance.transform.position = ghostPosition;
-        
-        // …then show it (only now do we activate)
-        if (!previewInstance.activeSelf)
-            previewInstance.SetActive(true);
-    }
-
-    static void CreateGhostInstance()
-    {
-        DestroyGhost();
-
-        previewInstance = (GameObject)PrefabUtility.InstantiatePrefab(_currentBrushPrefab);
-        previewInstance.name = _currentBrushPrefab.name + "_Ghost";
-        previewInstance.hideFlags = HideFlags.DontSave;
-
-        foreach (var collider in previewInstance.GetComponentsInChildren<Collider>())
-            collider.enabled = false;
-
-        SetGhostMaterial(previewInstance);
-        
-        previewInstance.SetActive(false);
-    }
-
-    static void DestroyGhost()
-    {
-        if (previewInstance != null)
-        {
-            Object.DestroyImmediate(previewInstance);
-            previewInstance = null;
-            return;
-        }
-
-        foreach (var ghost in Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None))
-        {
-            if (ghost.name.EndsWith("_Ghost"))
-            {
-                Object.DestroyImmediate(ghost);
-            }
-        }
-    }
-
-
-    static void SetGhostMaterial(GameObject ghost)
-    {
-        Material ghostMat = AssetDatabase.LoadAssetAtPath<Material>(ghostMaterialPath);
+        Material ghostMat = !isErase ? AssetDatabase.LoadAssetAtPath<Material>(ghostMaterialPath)
+                : AssetDatabase.LoadAssetAtPath<Material>(eraseGhostMaterialPath);
 
         if (ghostMat == null)
         {
@@ -567,17 +644,25 @@ public static class PrefabBrush
     public static void ResetBrushPrefab()
     {
         _currentBrushPrefab = null;
-        DestroyGhost();
+        DestroyGhost(true);
         ClearRectGhosts();
-        CleanupTempSurfaces();
+        CleanupTempSurfaces(true);
+    }
+
+    public static void SetTool(BrushTool tool)
+    {
+        _tool = tool;
+        DestroyGhost(true);
+        ClearRectGhosts();
+        CleanupTempSurfaces(true);
     }
 
     public static void SetMode(BrushMode mode)
     {
         _mode = mode;
-        DestroyGhost();
+        DestroyGhost(true);
         ClearRectGhosts();
-        CleanupTempSurfaces();
+        CleanupTempSurfaces(true);
     }
     public static void LoadPaintingSurfaces()
     {
@@ -586,7 +671,7 @@ public static class PrefabBrush
             Debug.LogError("No painting surface found");
     }
 
-    static void CleanupTempSurfaces()
+    static void CleanupTempSurfaces(bool deep = false)
     {
         if (_tempPaintingSurface != null)
         {
@@ -594,31 +679,15 @@ public static class PrefabBrush
             _tempPaintingSurface = null;
         }
 
-        // Also nuke any that might have survived domain reloads:
+        if (!deep) return; // ← only scan the whole scene on explicit calls
+
         var all = Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
         foreach (var go in all)
-        {
             if (go != null && go.name == "PaintingSurface_Temp")
                 Object.DestroyImmediate(go);
-        }
     }
     
-    public static GameObject CreatePaintingSurfaceAtPosition(Vector3 position)
-    {
-        GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-        plane.name = "PaintingSurface_Temp";
-        plane.transform.position = position;
-        plane.transform.localScale = Vector3.one * 1000f;
-        plane.layer = LayerMask.NameToLayer("Painting Surface");
-
-        // invisible + not saved
-        var renderer = plane.GetComponent<MeshRenderer>();
-        if (renderer)
-            renderer.enabled = false;
-
-        //plane.hideFlags = HideFlags.HideAndDontSave;
-        return plane;
-    }
+    
 
 
     #endregion
