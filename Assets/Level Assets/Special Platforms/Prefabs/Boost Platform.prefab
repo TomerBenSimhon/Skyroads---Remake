@@ -204,7 +204,7 @@ MonoBehaviour:
   boostStackCount: 2
   springModifier: 1
   jumpModifier: 1
-  boostSpeed: 25
+  boostSpeed: 30
   boostAcceleration: 50
   boostDuration: 0.7
 --- !u!65 &3912375325577560074

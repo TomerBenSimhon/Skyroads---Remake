@@ -15,6 +15,7 @@ public class PlayerDeath : MonoBehaviour
     }
     public void Die()
     {
+        if (IsDead) return;
         IsDead = true;
         DeathEffect();
         GameManager.Instance.RestartLevel(deathTimer);
@@ -22,6 +23,7 @@ public class PlayerDeath : MonoBehaviour
 
     public void DieNoFuel()
     {
+        if (IsDead) return;
         IsDead = true;
         NoFuelEffect();
         GameManager.Instance.RestartLevel(noFuelTimer);

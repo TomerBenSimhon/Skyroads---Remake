@@ -345,7 +345,7 @@ public static class PrefabBrush
         obj.transform.position = position;
 
         // Parent under subfolder group in hierarchy
-        GameObject parent = GetOrCreateParent(EnvironmentPrefabWindow.ParentQuery);
+        GameObject parent = GetOrCreateParent(EnvironmentPrefabWindow.ParentQuery, position);
         obj.transform.SetParent(parent.transform);
 
         Undo.RegisterCreatedObjectUndo(obj, "Paint Platform");
@@ -361,7 +361,7 @@ public static class PrefabBrush
     }
 
     // 🆕 Get existing parent GO or create one and cache it
-    static GameObject GetOrCreateParent(string name)
+    static GameObject GetOrCreateParent(string name, Vector3 position)
     {
         if (string.IsNullOrEmpty(name)) name = "Ungrouped";
 
@@ -371,7 +371,7 @@ public static class PrefabBrush
             if (parent == null)
             {
                 parent = new GameObject(name);
-                parent.transform.position = Vector3.zero;
+                parent.transform.position = position;
                 Undo.RegisterCreatedObjectUndo(parent, "Create " + name);
             }
             PrefabsParents[name] = parent;
