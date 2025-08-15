@@ -5,9 +5,10 @@ using Unity.Cinemachine;
 [DisallowMultipleComponent]
 public class PlayerRespawnOnAwake : MonoBehaviour
 {
-    private void Start()
+    private void Awake()
     {
         var cm = CheckpointManager.Instance;
+        if (cm == null) return;
 
         // Seed a baseline once (first time only)
         if (!cm.HasCheckpoint)
@@ -47,12 +48,6 @@ public class PlayerRespawnOnAwake : MonoBehaviour
         
         if (!snapCam) return;
         CinemachineCore.OnTargetObjectWarped(gameObject.transform, transform.position - oldPos);
-    }
-
-    private IEnumerator ReassertPoseEndOfFrame(Vector3 pos, Quaternion rot)
-    {
-        yield return new WaitForEndOfFrame();
-        Teleport(pos, rot, snapCam: false);
     }
 
 }
