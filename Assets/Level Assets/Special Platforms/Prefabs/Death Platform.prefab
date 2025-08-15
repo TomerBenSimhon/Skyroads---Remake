@@ -161,8 +161,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2684698513707522465}
-  - component: {fileID: 7899297445156518835}
-  - component: {fileID: -34440833323909315}
   - component: {fileID: 6745268332896911256}
   m_Layer: 8
   m_Name: Death Platform
@@ -188,31 +186,6 @@ Transform:
   - {fileID: 122869116617091524}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7899297445156518835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7900088194168663206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d052c50a03eb1d4da4c035f20437cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-34440833323909315
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7900088194168663206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7bdd88850537214a8d88fc009aaf83f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  platformType: 4
 --- !u!65 &6745268332896911256
 BoxCollider:
   m_ObjectHideFlags: 0
