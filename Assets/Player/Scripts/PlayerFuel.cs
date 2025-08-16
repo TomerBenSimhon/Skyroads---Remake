@@ -1,8 +1,9 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class PlayerFuel : MonoBehaviour 
+public class PlayerFuel : MonoBehaviour, ICheckpointSavable
 { 
     [Header("UI Settings")]
     [SerializeField] TextMeshProUGUI fuelText;
@@ -19,11 +20,18 @@ public class PlayerFuel : MonoBehaviour
     private float _fuel;
     private float _usedFuel;
 
+    private float _checkpointFuel;
+
     void Awake()
     {
         _playerDeath = GetComponent<PlayerDeath>();
         _lastFrameZPos = transform.position.z;
         _fuel = startingFuel;
+    }
+
+    private void Start()
+    {
+        _fuel = _checkpointFuel <= 0 ? startingFuel : _checkpointFuel;
     }
 
     void Update()
@@ -52,8 +60,26 @@ public class PlayerFuel : MonoBehaviour
         _fuel = Mathf.Clamp(_fuel, 0f, startingFuel);
     }
 
+    public void SetCheckpointFuel(float amount)
+    {
+        _checkpointFuel = amount;
+    }
+
     private void DisplayFuel()
     {
         fuelText.text = "Fuel:\n" + _fuel.ToString("F1");
+    }
+    
+    
+    //checkpoint saves
+    public struct SaveData { public float newStartingFuel; }
+    public string SaveKey => "PlayerFuel";
+    public object CaptureState() => new SaveData {newStartingFuel = _checkpointFuel};
+    
+    
+    public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
+        _checkpointFuel = saveData.newStartingFuel;
     }
 }
