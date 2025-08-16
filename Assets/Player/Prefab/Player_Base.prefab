@@ -271,7 +271,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4957178113008295126}
-  - component: {fileID: 3652008492197271213}
+  - component: {fileID: 5797143128978257342}
   m_Layer: 7
   m_Name: Collider
   m_TagString: Untagged
@@ -294,8 +294,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 9186654950110160553}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &3652008492197271213
-BoxCollider:
+--- !u!136 &5797143128978257342
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -312,8 +312,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.2, y: 0.3, z: 0.2}
+  serializedVersion: 2
+  m_Radius: 0.15
+  m_Height: 1.2
+  m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7387373131145844381
 GameObject:
@@ -498,6 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <DefaultSettings>k__BackingField: {fileID: 11400000, guid: 12b0cfa89b603b7409cd8d6a432967ec, type: 2}
+  playerVisuals: {fileID: 469699207865981621}
 --- !u!114 &-8538563256640884461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -575,6 +578,9 @@ MonoBehaviour:
   barrierLayer:
     serializedVersion: 2
     m_Bits: 2304
+  barrierCastCenterOffset: {x: 0, y: -0.08, z: 0}
+  barrierCastHalfExtents: {x: 0, y: 0, z: 0}
+  barrierDetectionDistance: 0.48
 --- !u!114 &8366250962938230958
 MonoBehaviour:
   m_ObjectHideFlags: 0
