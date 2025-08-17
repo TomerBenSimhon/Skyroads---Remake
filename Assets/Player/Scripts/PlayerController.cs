@@ -9,11 +9,11 @@ using UnityEngine.Serialization;
 public class PlayerController : MonoBehaviour
 {
     [field:SerializeField] public PlayerControllerSettings DefaultSettings { get; private set; }
+    [SerializeField] private GameObject playerVisuals;
     public PlayerControllerSettings RuntimeSettings { get; private set; }
     
     private PlayerInput _input;
     private Rigidbody _rb;
-    private BoxCollider _collider;
     private Coroutine _jumpBufferCoroutine;
     
     private float _currentGravity;
@@ -30,11 +30,7 @@ public class PlayerController : MonoBehaviour
     {
         _input = GetComponent<PlayerInput>();
         _rb = GetComponent<Rigidbody>();
-        _collider = GetComponentInChildren<BoxCollider>();
         RuntimeSettings = Instantiate(DefaultSettings);
-        
-        if(_collider == null)
-            Debug.LogError("No child box collider attached");
     }
     
     private void Update()
@@ -345,7 +341,7 @@ public class PlayerController : MonoBehaviour
 
         // Apply final rotation
         Quaternion finalRotation = Quaternion.Euler(euler);
-        transform.rotation = Quaternion.Slerp(transform.rotation, finalRotation, RuntimeSettings.rotationSpeed * Time.fixedDeltaTime);
+        playerVisuals.transform.rotation = Quaternion.Slerp(playerVisuals.transform.rotation, finalRotation, RuntimeSettings.rotationSpeed * Time.fixedDeltaTime);
     }
 
     #endregion

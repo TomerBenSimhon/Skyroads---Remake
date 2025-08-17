@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerShoot : MonoBehaviour
+public class PlayerShoot : MonoBehaviour, ICheckpointSavable
 {
     [Header("References")]
     [SerializeField] private GameObject bulletPrefab;
@@ -53,4 +53,17 @@ public class PlayerShoot : MonoBehaviour
     }
 
     #endif
+    
+    
+    
+    public struct SaveData { public bool Enabled; }
+    public string SaveKey => "PlayerShoot";
+    public object CaptureState() => new SaveData {Enabled = enabled};
+    
+    
+    public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
+        enabled = saveData.Enabled;
+    }
 }
