@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     public void LoadNextLevel()
     {
         // usually start fresh; omit MarkRespawnPending()
+        CheckpointManager.Instance?.ResetCheckpoint();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
