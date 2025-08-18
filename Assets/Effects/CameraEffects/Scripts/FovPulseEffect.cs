@@ -4,6 +4,7 @@ public class FovPulseEffect : ICameraEffect
 {
     public string Tag { get; }
     public bool IsFinished { get; private set; }
+    private bool _isFinishedFOV = false;
 
     private readonly float _delta;                 // e.g., +8f
     private readonly float _inTime, _holdTime, _outTime;
@@ -31,8 +32,16 @@ public class FovPulseEffect : ICameraEffect
 
     public CamDelta Tick(float dt)
     {
-        if (IsFinished) return default;
+        if (_isFinishedFOV && _phase != 2)
+        {
+            if (_phase == 0)
+                _t =_outTime - _t * (_outTime / _inTime);
 
+            if (_phase == 1)
+                _t = 0f;
+            
+            _phase = 2;
+        }
         float w; // weight 0..1
         switch (_phase)
         {
@@ -57,5 +66,5 @@ public class FovPulseEffect : ICameraEffect
         return new CamDelta { fovAdd = _delta * w };
     }
 
-    public void Cancel() { IsFinished = true; }
+    public void Cancel() { _isFinishedFOV = true; }
 }

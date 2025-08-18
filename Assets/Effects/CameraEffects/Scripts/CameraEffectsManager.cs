@@ -50,7 +50,7 @@ public class CameraEffectsManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(tag)) return;
         for (int i = _effects.Count - 1; i >= 0; --i)
-            if (_effects[i].Tag == tag) { _effects[i].Cancel(); _effects.RemoveAt(i); }
+            if (_effects[i].Tag == tag) { _effects[i].Cancel(); }
     }
 
     void LateUpdate()

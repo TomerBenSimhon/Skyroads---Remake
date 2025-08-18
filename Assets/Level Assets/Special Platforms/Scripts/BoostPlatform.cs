@@ -27,7 +27,7 @@ public class BoostPlatform : MonoBehaviour, IPlatformEffect
 
     private void Awake()
     {
-        effects = GetComponent<Effects>();
+        effects = GetComponentInChildren<Effects>();
     }
 
     // a coroutine has to start and stop from the same instance 
@@ -58,6 +58,8 @@ public class BoostPlatform : MonoBehaviour, IPlatformEffect
     public void Remove(PlayerController player, PlatformDetection runner, ref Coroutine boostCoroutine)
     {
         boostCoroutine = runner.StartCoroutine(StopBoost(player, boostDuration, runner));
+        
+        effects.Cancel();
     }
 
     IEnumerator StopBoost(PlayerController player, float duration, PlatformDetection runner)

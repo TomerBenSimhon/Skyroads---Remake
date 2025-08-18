@@ -33,4 +33,28 @@ public class Effects : MonoBehaviour
             }
         }
     }
+
+    public void Cancel(Transform target = null, float magnitude = 1f, Vector3? positionOverride = null)
+    {
+        var call = new EffectCall {
+            source   = transform,
+            target   = target,
+            position = positionOverride ?? transform.position,
+            magnitude= magnitude
+        };
+        
+        if (CameraEffectsManager.I != null && cameraEffects != null)
+        {
+            for (int i = 0; i < cameraEffects.Count; i++)
+            {
+                var spec = cameraEffects[i];
+                if (spec == null) continue;
+                var eff = spec.Build(call);
+                if (eff != null)
+                {
+                    CameraEffectsManager.I.CancelTag(cameraEffects[i].tag);
+                }
+            }
+        }
+    }
 }
