@@ -73,4 +73,9 @@ public class CheckpointManager : MonoBehaviour
         rot = default;
         return false;
     }
+
+    public void ResetCheckpoint()
+    {
+        _hasCheckpoint = false;
+    }
 }
