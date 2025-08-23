@@ -254,7 +254,7 @@ public class EnvironmentPrefabWindow : EditorWindow
         EditorGUILayout.BeginHorizontal("box");
 
         Texture2D preview = GetCachedPreview(prefab);
-        GUILayout.Label(preview, GUILayout.Width(96), GUILayout.Height(96));
+        GUILayout.Label(preview, GUILayout.Width(64), GUILayout.Height(64));
 
         EditorGUILayout.BeginVertical();
         GUILayout.Label(prefab.name, EditorStyles.boldLabel);
