@@ -21,7 +21,7 @@ public static class PrefabBrush
 
     public static Dictionary<string, GameObject> PrefabsParents = new();
 
-    static Vector3 gridSize = new(2f, 0.5f, 2f);
+    static Vector3 gridSize = new(3f, 0.5f, 3f);
     static readonly string ghostMaterialPath = "Assets/Editor/Ghost_mat.mat";
     static readonly string eraseGhostMaterialPath = "Assets/Editor/EraseGhost_mat.mat";
 
