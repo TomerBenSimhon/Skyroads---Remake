@@ -5,7 +5,6 @@ using UnityEngine;
 public class BoostPlatform : MonoBehaviour, IPlatformEffect
 {
     private PlatformDetection platformDetection;
-    private Effects effects;
     
     [Header("Modifiers")]
     [Range(1f,2f)] [Tooltip("multiply forward velocity by this number at the start of the boost")] 
@@ -23,12 +22,7 @@ public class BoostPlatform : MonoBehaviour, IPlatformEffect
     [Range(1f,300f)] [Tooltip("overrides forward acceleration by this number")] 
     public float boostAcceleration = 20f;
     [Range(0.1f,2f)]public float boostDuration = 0.5f;
-
-
-    private void Awake()
-    {
-        effects = GetComponentInChildren<Effects>();
-    }
+    
 
     // a coroutine has to start and stop from the same instance 
     // thats why we are passing in the PlatformDetection instance so we can start and stop the boostCoroutine from there
@@ -52,14 +46,12 @@ public class BoostPlatform : MonoBehaviour, IPlatformEffect
         player.RuntimeSettings.groundSpringStrength = springModifier * player.DefaultSettings.groundSpringStrength;
         player.RuntimeSettings.jumpHeight = jumpModifier * player.DefaultSettings.jumpHeight;
         
-        effects.Play();
+        GlobalEventManager.I.TriggerEvent("BoostApplied", gameObject);
     }
 
     public void Remove(PlayerController player, PlatformDetection runner, ref Coroutine boostCoroutine)
     {
         boostCoroutine = runner.StartCoroutine(StopBoost(player, boostDuration, runner));
-        
-        effects.Cancel();
     }
 
     IEnumerator StopBoost(PlayerController player, float duration, PlatformDetection runner)
@@ -73,5 +65,7 @@ public class BoostPlatform : MonoBehaviour, IPlatformEffect
         
         if(runner.CurrentPlatformType == PlatformType.Boost)
             runner.SetPlatform(PlatformType.None);
+        
+        GlobalEventManager.I.TriggerCancelEvent("BoostRemoved", gameObject);
     }
 }
