@@ -25,10 +25,10 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.139
+    - _Alpha: 0.5
     - _AlphaX: 0.084
     - _AlphaY: 0
-    - _GlowFrequency: 1
+    - _GlowFrequency: 0.7
     - _GlowSize: 0.073
     - _GlowSizeX: 0
     - _GlowSizeY: 0.2
