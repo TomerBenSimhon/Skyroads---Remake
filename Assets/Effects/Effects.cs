@@ -9,28 +9,38 @@ using UnityEngine.Events;
 public class Effects : MonoBehaviour
 {
     [SerializeField] private GameObject eventObject;
-    [SerializeField] private string triggerName;
-    [SerializeField] private string cancelName;
+    [SerializeField] private GlobalEvents.Id triggerId;
+    [SerializeField] private GlobalEvents.Id cancelId;
     
     [Header("Camera Effects")]
     [SerializeReference] 
     private List<CameraEffectSpec> cameraEffects;
 
 
-    private void Update()
+    private void OnEnable()
     {
-        foreach (var eventObj in GlobalEventManager.I.TriggerEvents)
-        {
-            if(eventObj.Key == triggerName && eventObj.Value == eventObject)
-                Play();
-        }
-
-        foreach (var eventObj in GlobalEventManager.I.CancelEvents)
-        {
-            if(eventObj.Key == cancelName && eventObj.Value == eventObject)
-                Cancel();
-        }
+        GlobalEvents.Triggered += OnTriggered;
+        GlobalEvents.Cancelled += OnCancelled;
     }
+
+    private void OnDisable()
+    {
+        GlobalEvents.Triggered -= OnTriggered;
+        GlobalEvents.Cancelled -= OnCancelled;
+    }
+
+    private void OnTriggered(GlobalEvents.Id id, GameObject sender)
+    {
+        if (id == triggerId && (eventObject == null || sender == eventObject))
+            Play();
+    }
+
+    private void OnCancelled(GlobalEvents.Id id, GameObject sender)
+    {
+        if (id == cancelId && (eventObject == null || sender == eventObject))
+            Cancel();
+    }
+
 
     /// Call this from gameplay when you want to play effects on this object.
     public void Play(Transform target = null, float magnitude = 1f, Vector3? positionOverride = null)

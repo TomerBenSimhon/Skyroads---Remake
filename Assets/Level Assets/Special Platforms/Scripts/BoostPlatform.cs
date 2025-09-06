@@ -46,7 +46,7 @@ public class BoostPlatform : MonoBehaviour, IPlatformEffect
         player.RuntimeSettings.groundSpringStrength = springModifier * player.DefaultSettings.groundSpringStrength;
         player.RuntimeSettings.jumpHeight = jumpModifier * player.DefaultSettings.jumpHeight;
         
-        GlobalEventManager.I.TriggerEvent("BoostApplied", gameObject);
+        GlobalEvents.Trigger(GlobalEvents.Id.BoostApplied, gameObject);
     }
 
     public void Remove(PlayerController player, PlatformDetection runner, ref Coroutine boostCoroutine)
@@ -66,6 +66,6 @@ public class BoostPlatform : MonoBehaviour, IPlatformEffect
         if(runner.CurrentPlatformType == PlatformType.Boost)
             runner.SetPlatform(PlatformType.None);
         
-        GlobalEventManager.I.TriggerCancelEvent("BoostRemoved", gameObject);
+        GlobalEvents.Cancel(GlobalEvents.Id.BoostRemoved, gameObject);
     }
 }
