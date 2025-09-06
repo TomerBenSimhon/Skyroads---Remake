@@ -1,4 +1,3 @@
-// GlobalEvents.cs (static, no MonoBehaviour needed)
 using System;
 using UnityEngine;
 
