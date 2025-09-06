@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[DefaultExecutionOrder(-100)]
+[DefaultExecutionOrder(-1000000)]
 public class Unparent : MonoBehaviour
 {
     private void Awake()

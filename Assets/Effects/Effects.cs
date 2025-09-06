@@ -16,6 +16,8 @@ public class Effects : MonoBehaviour
     [SerializeReference] 
     private List<CameraEffectSpec> cameraEffects;
 
+    [Header("Particle Effects")]
+    [SerializeField] private List<ParticleEffectSpec> particleEffects = new();
 
     private void OnEnable()
     {
@@ -66,6 +68,20 @@ public class Effects : MonoBehaviour
                 }
             }
         }
+        
+        if (particleEffects != null && particleEffects.Count > 0 && ParticleEffectsManager.I != null)
+        {
+            var call1 = new EffectCall  // however you build it today
+            {
+                source   = transform,
+                target   = target,
+                position = positionOverride ?? transform.position,
+                magnitude= magnitude
+            };
+
+            foreach (var ps in particleEffects)
+                ParticleEffectsManager.I.Play(ps, call1);
+        }
     }
 
     public void Cancel(Transform target = null, float magnitude = 1f, Vector3? positionOverride = null)
@@ -89,6 +105,18 @@ public class Effects : MonoBehaviour
                     CameraEffectsManager.I.CancelTag(cameraEffects[i].tag);
                 }
             }
+        }
+        
+        if (particleEffects != null && particleEffects.Count > 0 && ParticleEffectsManager.I != null)
+        {
+            var call1 = new EffectCall { 
+                source   = transform,
+                target   = target,
+                position = positionOverride ?? transform.position,
+                magnitude= magnitude 
+            };
+            foreach (var ps in particleEffects)
+                ParticleEffectsManager.I.Cancel(ps, call1);
         }
     }
 }
