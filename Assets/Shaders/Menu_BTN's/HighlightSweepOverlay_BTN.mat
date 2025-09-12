@@ -25,21 +25,21 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.139
+    - _Alpha: 0.5
     - _AlphaX: 0.084
     - _AlphaY: 0
-    - _GlowFrequency: 0.4
+    - _GlowFrequency: 0.7
     - _GlowSize: 0.073
     - _GlowSizeX: 0
     - _GlowSizeY: 0.2
     - _GlowSpeed: 1
     - _GlowSpeedX: 0.16
     - _GlowSpeedY: 1
-    - _GlowWidth: 0.384
+    - _GlowWidth: 1
     - _GlowWidthX: 0.09
     - _GlowWidthY: 0.01
     m_Colors:
-    - _GlowColor: {r: 0.50980395, g: 0.04342471, b: 0.04342471, a: 1}
+    - _GlowColor: {r: 16.000002, g: 0, b: 0, a: 1}
     - _GlowDir: {r: 1, g: 1, b: 0, a: 0}
     - _GlowDirection: {r: 1.95, g: 2.18, b: 1.42, a: 2.97}
   m_BuildTextureStacks: []
