@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class GlobalEvents
 {
-    public enum Id { BoostApplied, BoostRemoved, PlayerJumpApplied, PlayerJumpRemoved }
+    public enum Id { BoostApplied, BoostRemoved }
 
     public static event Action<Id, GameObject> Triggered;
     public static event Action<Id, GameObject> Cancelled;
