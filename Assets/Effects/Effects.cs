@@ -8,6 +8,7 @@ using UnityEngine.Events;
 [DefaultExecutionOrder(-10)]
 public class Effects : MonoBehaviour
 {
+    [Tooltip("if eventObject is null, then every Effect script with the same Id will run")]
     [SerializeField] private GameObject eventObject;
     [SerializeField] private GlobalEvents.Id triggerId;
     [SerializeField] private GlobalEvents.Id cancelId;
@@ -15,6 +16,10 @@ public class Effects : MonoBehaviour
     [Header("Camera Effects")]
     [SerializeReference] 
     private List<CameraEffectSpec> cameraEffects;
+    
+    // NEW
+    [SerializeField] 
+    private List<ParticleEffectSpec> particleEffects; // NEW
 
 
     private void OnEnable()
@@ -31,13 +36,13 @@ public class Effects : MonoBehaviour
 
     private void OnTriggered(GlobalEvents.Id id, GameObject sender)
     {
-        if (id == triggerId && (eventObject == null || sender == eventObject))
+        if (id == triggerId && (eventObject == null || sender == null || sender == eventObject))
             Play();
     }
 
     private void OnCancelled(GlobalEvents.Id id, GameObject sender)
     {
-        if (id == cancelId && (eventObject == null || sender == eventObject))
+        if (id == cancelId && (eventObject == null || sender == null || sender == eventObject))
             Cancel();
     }
 
@@ -66,6 +71,16 @@ public class Effects : MonoBehaviour
                 }
             }
         }
+        
+        if (particleEffects != null)
+        {
+            for (int i = 0; i < particleEffects.Count; i++)
+            {
+                var pspec = particleEffects[i];
+                if (pspec == null) continue;
+                pspec.Play(call);
+            }
+        }
     }
 
     public void Cancel(Transform target = null, float magnitude = 1f, Vector3? positionOverride = null)
@@ -88,6 +103,16 @@ public class Effects : MonoBehaviour
                 {
                     CameraEffectsManager.I.CancelTag(cameraEffects[i].tag);
                 }
+            }
+        }
+        
+        if (particleEffects != null)
+        {
+            for (int i = 0; i < particleEffects.Count; i++)
+            {
+                var pspec = particleEffects[i];
+                if (pspec == null) continue;
+                pspec.Stop(call);
             }
         }
     }
