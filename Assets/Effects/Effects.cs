@@ -1,94 +1,83 @@
-// Effects.cs  (camera-only for now)
+// Effects.cs  (camera + particles, per-spec trigger/cancel masks)
 
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 [DefaultExecutionOrder(-10)]
 public class Effects : MonoBehaviour
 {
-    [SerializeField] private GameObject eventObject;
-    [SerializeField] private GlobalEvents.Id triggerId;
-    [SerializeField] private GlobalEvents.Id cancelId;
-    
     [Header("Camera Effects")]
     [SerializeReference] 
-    private List<CameraEffectSpec> cameraEffects;
+    private List<CameraEffectSpec> cameraEffects = new();
+    
+    [SerializeField]
+    private List<ParticleEffectSpec> particleEffects = new();
 
-
-    private void OnEnable()
+    void OnEnable()
     {
         GlobalEvents.Triggered += OnTriggered;
         GlobalEvents.Cancelled += OnCancelled;
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
         GlobalEvents.Triggered -= OnTriggered;
         GlobalEvents.Cancelled -= OnCancelled;
     }
 
-    private void OnTriggered(GlobalEvents.Id id, GameObject sender)
+    void OnTriggered(GlobalEvents.Id id, GameObject sender)
     {
-        if (id == triggerId && (eventObject == null || sender == eventObject))
-            Play();
-    }
-
-    private void OnCancelled(GlobalEvents.Id id, GameObject sender)
-    {
-        if (id == cancelId && (eventObject == null || sender == eventObject))
-            Cancel();
-    }
-
-
-    /// Call this from gameplay when you want to play effects on this object.
-    public void Play(Transform target = null, float magnitude = 1f, Vector3? positionOverride = null)
-    {
-        var call = new EffectCall {
-            source   = transform,
-            target   = target,
-            position = positionOverride ?? transform.position,
-            magnitude= magnitude
-        };
-
+        // CAMERA
         if (CameraEffectsManager.I != null && cameraEffects != null)
         {
-            for (int i = 0; i < cameraEffects.Count; i++)
+            var call = new EffectCall { source = transform, target = null, position = transform.position, magnitude = 1f };
+            foreach (var spec in cameraEffects)
             {
-                var spec = cameraEffects[i];
                 if (spec == null) continue;
-                var eff = spec.Build(call);
-                if (eff != null)
+                if (spec.MatchesTrigger(id, sender))
                 {
-                    bool policy = spec.replaceExisting;
-                    CameraEffectsManager.I.Play(eff, policy);
+                    var eff = spec.Build(call);
+                    if (eff != null)
+                        CameraEffectsManager.I.Play(eff, spec.replaceExisting);
                 }
+            }
+        }
+
+        // PARTICLES
+        if (particleEffects != null)
+        {
+            foreach (var pspec in particleEffects)
+            {
+                if (pspec == null) continue;
+                if (pspec.MatchesTrigger(id, sender))
+                    pspec.Play();
             }
         }
     }
 
-    public void Cancel(Transform target = null, float magnitude = 1f, Vector3? positionOverride = null)
+    void OnCancelled(GlobalEvents.Id id, GameObject sender)
     {
-        var call = new EffectCall {
-            source   = transform,
-            target   = target,
-            position = positionOverride ?? transform.position,
-            magnitude= magnitude
-        };
-        
+        // CAMERA
         if (CameraEffectsManager.I != null && cameraEffects != null)
         {
-            for (int i = 0; i < cameraEffects.Count; i++)
+            foreach (var spec in cameraEffects)
             {
-                var spec = cameraEffects[i];
                 if (spec == null) continue;
-                var eff = spec.Build(call);
-                if (eff != null)
-                {
-                    CameraEffectsManager.I.CancelTag(cameraEffects[i].tag);
-                }
+                if (spec.MatchesCancel(id, sender))
+                    CameraEffectsManager.I.CancelTag(spec.tag);
+            }
+        }
+
+        // PARTICLES
+        if (particleEffects != null)
+        {
+            foreach (var pspec in particleEffects)
+            {
+                if (pspec == null) continue;
+                if (pspec.MatchesCancel(id, sender))
+                    pspec.Stop();
             }
         }
     }
+
 }
