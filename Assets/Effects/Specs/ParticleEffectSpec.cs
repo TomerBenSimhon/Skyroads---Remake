@@ -6,53 +6,58 @@ public enum ParticleMode { OneShot, Looping }
 [Serializable]
 public class ParticleEffectSpec
 {
-    [Tooltip("Purely informational, to match your Spec pattern.")]
+    [Header("Info")]
     public string tag = "VFX/Generic";
 
     [Header("Target")]
-    [Tooltip("The GameObject that has the ParticleSystem (or a child).")]
     public GameObject particleObject;
+
+    [Header("Events (per-spec)")]
+    public GlobalEvents.Id triggerMask = GlobalEvents.Id.None;
+    public GlobalEvents.Id cancelMask  = GlobalEvents.Id.None;
+
+    [Tooltip("Optional filter: if set, only respond when this GameObject is the event sender.")]
+    public GameObject eventObject;
 
     [Header("Behavior")]
     public ParticleMode mode = ParticleMode.OneShot;
-
-    [Tooltip("For Looping: if > 0, auto-stop after this many seconds; if <= 0, runs until Effects.Cancel()")]
     public float loopDurationSeconds = -1f;
-
-    [Tooltip("When stopping, also clear existing particles instantly.")]
     public bool clearOnStop = false;
 
-    /// Play according to mode (called by Effects.Play)
-    public void Play(EffectCall call)
+    public bool MatchesTrigger(GlobalEvents.Id id, GameObject sender)
+    {
+        if ((triggerMask & id) == 0) return false;
+        if (eventObject != null && sender != eventObject && sender != null) return false;
+        return true;
+    }
+
+    public bool MatchesCancel(GlobalEvents.Id id, GameObject sender)
+    {
+        if ((cancelMask & id) == 0) return false;
+        if (eventObject != null && sender != eventObject && sender != null) return false;
+        return true;
+    }
+    public void Play()
     {
         if (!particleObject)
         {
-            Debug.LogWarning($"[ParticleEffectSpec] '{tag}' has no particleObject assigned.", particleObject);
+            Debug.LogWarning($"[ParticleEffectSpec] '{tag}' has no particleObject assigned.");
             return;
         }
-
         var ctrl = particleObject.GetComponent<ParticleController>();
         if (!ctrl) ctrl = particleObject.AddComponent<ParticleController>();
 
-        switch (mode)
-        {
-            case ParticleMode.OneShot:
-                ctrl.PlayOneShot();
-                break;
-            case ParticleMode.Looping:
-                ctrl.PlayLoop(loopDurationSeconds);
-                break;
-        }
+        if (mode == ParticleMode.OneShot)
+            ctrl.PlayOneShot();
+        else
+            ctrl.PlayLoop(loopDurationSeconds);
     }
 
-    /// Stop according to mode (called by Effects.Cancel)
-    public void Stop(EffectCall call)
+    public void Stop()
     {
         if (!particleObject) return;
         var ctrl = particleObject.GetComponent<ParticleController>();
         if (!ctrl) return;
-
-        // We keep it simple: any Cancel() stops loopers; one-shots are no-ops unless you want to force-stop them too
         ctrl.Stop(clearOnStop);
     }
 }

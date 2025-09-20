@@ -7,6 +7,8 @@ public class PlayerShootPickup : MonoBehaviour, IPickupsInterface
         if(!player.TryGetComponent(out PlayerShoot playerShoot)) return;
         playerShoot.enabled = true;
         
+        GlobalEvents.Trigger(GlobalEvents.Id.PowerUpApplied, gameObject);
+        
         Die();
     }
 

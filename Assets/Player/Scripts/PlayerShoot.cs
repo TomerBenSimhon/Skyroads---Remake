@@ -42,6 +42,8 @@ public class PlayerShoot : MonoBehaviour, ICheckpointSavable
         
         if (!bullet.TryGetComponent(out Bullet bulletScript)) return;
         bulletScript.SetVariables(bulletSpeed, bulletDamage, bulletLifeTime);
+        
+        GlobalEvents.Trigger(GlobalEvents.Id.PlayerFired);
     }
 
     #if UNITY_EDITOR

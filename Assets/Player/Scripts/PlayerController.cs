@@ -135,6 +135,8 @@ public class PlayerController : MonoBehaviour
         jumpVel.y = Mathf.Sqrt((RuntimeSettings.jumpHeight + yCorrection) * -2f * Physics.gravity.y * RuntimeSettings.gravity);
         if(float.IsNaN(jumpVel.y)) return;
         _rb.linearVelocity = jumpVel;
+        
+        GlobalEvents.Trigger(GlobalEvents.Id.PlayerJumped);
     }
 
     void HandleVariableJump()
