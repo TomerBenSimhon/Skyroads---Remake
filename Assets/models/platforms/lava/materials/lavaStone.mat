@@ -1,0 +1,266 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6550138899998441204
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: lavaStone
+  m_Shader: {fileID: 4800000, guid: ee7e4c9a5f6364b688a332c67fc32cca, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _METALLICSPECGLOSSMAP
+  - _NORMALMAP
+  m_InvalidKeywords:
+  - _DEBUGVIEW_NONE
+  - _DEFORM_ON
+  - _GLOSSYREFLECTIONS_OFF
+  - _METALLICGLOSSMAP
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses: []
+  m_LockedProperties: _EmissionMap
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _ArrowTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 5d9b6d9e8cd14524398adbce4d0c0e49, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 88aadea8afc1c734f9caf7d02c6165df, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CircleTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ClearCoatMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 2800000, guid: ae387009d233d3a4f822afd4e7680edb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LightningTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: ae387009d233d3a4f822afd4e7680edb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 2800000, guid: f51fab4338b0ae144b0fcc6185da0696, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: eddf6ef9490dcca4a8ec74316f75a27c, type: 3}
+        m_Scale: {x: 5.34, y: 12.4}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StarTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _Alpha: 1
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _ArrowArea: 0.2
+    - _ArrowCount: 3
+    - _ArrowGapX: 0
+    - _ArrowGapY: 0
+    - _ArrowGlow: 1.5
+    - _ArrowGlowDelay: 0.3
+    - _ArrowGlowSpeed: 1
+    - _ArrowPaddingX: 0.1
+    - _ArrowPaddingY: 0.1
+    - _ArrowScrollSpeed: 1
+    - _ArrowSpacingX: 1
+    - _ArrowSpacingY: 1
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _BlendOp: 0
+    - _BumpScale: 1
+    - _CircleCount: 10
+    - _CircleLifeMax: 2
+    - _CircleLifeMin: 0.5
+    - _CircleMoveSpeedMax: 0.5
+    - _CircleMoveSpeedMin: 0.1
+    - _CircleSizeMax: 0.2
+    - _CircleSizeMin: 0.05
+    - _ClearCoat: 0
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _CrackSoftness: 0.08
+    - _CrackThreshold: 0.55
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DeformAmp: 0.1
+    - _DeformEnabled: 1
+    - _DetailAlbedoMapScale: 1
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
+    - _EdgeBlendWidth: 0.1
+    - _EmissionStrength: 4
+    - _EnvironmentReflections: 1
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _GlowFrequency: 1
+    - _GlowSpeed: 1
+    - _GlowStrength: 0.2
+    - _GlowWidth: 0.2
+    - _GradientMaxY: 1
+    - _GradientMinY: 0
+    - _IsPlayerOn: 0
+    - _LightningIntensityOff: 0.2
+    - _LightningIntensityOn: 1
+    - _LightningTransitionTime: 1
+    - _Metallic: 0.338
+    - _Mode: 0
+    - _NoiseStrength: 0.3
+    - _NormalScale: 1
+    - _OcclusionStrength: 1
+    - _OffsetAmp: 0.85
+    - _OffsetFreq: 10
+    - _OutlineStrength: 0.3
+    - _Parallax: 0.005
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _ReflectionSharpness: 0.6
+    - _ReflectionStrength: 0.4
+    - _RimPower: 3
+    - _ShadowStrength: 0.3
+    - _SideGradientMax: 0.5
+    - _SideGradientMin: -0.5
+    - _Smoothness: 0.808
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SpecularIntensity: 0.5
+    - _SpecularPower: 64
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _StarCount: 10
+    - _StarDensity: 50
+    - _StarGlow: 2
+    - _StarLifeMax: 2
+    - _StarLifeMin: 0.5
+    - _StarRotMax: 120
+    - _StarRotMin: 30
+    - _StarSize: 0.02
+    - _StarSizeMax: 0.15
+    - _StarSizeMin: 0.05
+    - _StarTwinkleSpeed: 5
+    - _Surface: 0
+    - _TopEdgeBlendWidth: 0.1
+    - _TopGradientLerp: 0.5
+    - _UVSec: 0
+    - _ViewAngleGradientStrength: 0.5
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _ArrowColor: {r: 0.7, g: 1, b: 0.7, a: 1}
+    - _ArrowGlowColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BottomGradientColor: {r: 0, g: 0.29999998, b: 0, a: 1}
+    - _CenterColor: {r: 0, g: 1, b: 0, a: 1}
+    - _CircleColor1: {r: 1, g: 1, b: 1, a: 1}
+    - _CircleColor2: {r: 1, g: 0.5, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EdgeColor: {r: 1, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _GlowColor: {r: 1, g: 1, b: 1, a: 1}
+    - _GlowDir: {r: 1, g: 1, b: 0, a: 0}
+    - _LightningGlowColor: {r: 3, g: 3, b: 6, a: 1}
+    - _NoiseScroll: {r: 0.1, g: 0.05, b: 0, a: 0}
+    - _NoiseTiling: {r: 195, g: 253.9, b: 855.6, a: 0}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ReflectionTint: {r: 1, g: 1, b: 1, a: 1}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SideGradientEnd: {r: 0, g: 0, b: 0, a: 1}
+    - _SideGradientStart: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _StarColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TopEdgeColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TopGradientColor: {r: 0.39999998, g: 1, b: 0.39999998, a: 1}
+    - _TopGradientDirection: {r: 0, g: 1, b: 0, a: 0}
+    - _TopGradientEnd: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _TopGradientStart: {r: 1, g: 1, b: 1, a: 1}
+    - _UVScroll: {r: 0.1, g: 0, b: 0, a: 0}
+    - _ViewAngleGradientColor: {r: 0.09999997, g: 0.09999997, b: 0.09999997, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
