@@ -1,5 +1,3 @@
-// Effects.cs  (camera + particles, per-spec trigger/cancel masks)
-
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,29 +5,35 @@ using UnityEngine;
 public class Effects : MonoBehaviour
 {
     [Header("Camera Effects")]
-    [SerializeReference] 
+    [SerializeReference]
     private List<CameraEffectSpec> cameraEffects = new();
-    
+
     [SerializeField]
     private List<ParticleEffectSpec> particleEffects = new();
 
     void OnEnable()
     {
-        GlobalEvents.Triggered += OnTriggered;
-        GlobalEvents.Cancelled += OnCancelled;
+        GlobalEvents.Raised += OnEvent;
     }
 
     void OnDisable()
     {
-        GlobalEvents.Triggered -= OnTriggered;
-        GlobalEvents.Cancelled -= OnCancelled;
+        GlobalEvents.Raised -= OnEvent;
     }
 
-    void OnTriggered(GlobalEvents.Id id, GameObject sender)
+    void OnEvent(GlobalEvents.Id id, GameObject sender)
     {
         // CAMERA
         if (CameraEffectsManager.I != null && cameraEffects != null)
         {
+            // optional: cancel first, then trigger (prevents race if both match)
+            foreach (var spec in cameraEffects)
+            {
+                if (spec == null) continue;
+                if (spec.MatchesCancel(id, sender))
+                    CameraEffectsManager.I.CancelTag(spec.tag);
+            }
+
             var call = new EffectCall { source = transform, target = null, position = transform.position, magnitude = 1f };
             foreach (var spec in cameraEffects)
             {
@@ -46,6 +50,14 @@ public class Effects : MonoBehaviour
         // PARTICLES
         if (particleEffects != null)
         {
+            // same cancel-then-trigger order
+            foreach (var pspec in particleEffects)
+            {
+                if (pspec == null) continue;
+                if (pspec.MatchesCancel(id, sender))
+                    pspec.Stop();
+            }
+
             foreach (var pspec in particleEffects)
             {
                 if (pspec == null) continue;
@@ -54,30 +66,4 @@ public class Effects : MonoBehaviour
             }
         }
     }
-
-    void OnCancelled(GlobalEvents.Id id, GameObject sender)
-    {
-        // CAMERA
-        if (CameraEffectsManager.I != null && cameraEffects != null)
-        {
-            foreach (var spec in cameraEffects)
-            {
-                if (spec == null) continue;
-                if (spec.MatchesCancel(id, sender))
-                    CameraEffectsManager.I.CancelTag(spec.tag);
-            }
-        }
-
-        // PARTICLES
-        if (particleEffects != null)
-        {
-            foreach (var pspec in particleEffects)
-            {
-                if (pspec == null) continue;
-                if (pspec.MatchesCancel(id, sender))
-                    pspec.Stop();
-            }
-        }
-    }
-
 }

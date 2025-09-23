@@ -22,7 +22,7 @@ public class SlipperyPlatform : MonoBehaviour, IPlatformEffect
         player.RuntimeSettings.forwardAcceleration = forwardAcceleration;
         player.RuntimeSettings.forwardDeceleration = forwardAcceleration;
         
-        GlobalEvents.Trigger(GlobalEvents.Id.SlipperyApplied, gameObject);
+        GlobalEvents.Raise(GlobalEvents.Id.SlipperyApplied, gameObject);
     }
 
     public void Remove(PlayerController player, PlatformDetection runner, ref Coroutine coroutine)
@@ -37,6 +37,6 @@ public class SlipperyPlatform : MonoBehaviour, IPlatformEffect
         player.RuntimeSettings.forwardAcceleration = player.DefaultSettings.forwardAcceleration;
         player.RuntimeSettings.forwardDeceleration = player.DefaultSettings.forwardDeceleration;
         
-        GlobalEvents.Cancel(GlobalEvents.Id.SlipperyRemoved, gameObject);
+        GlobalEvents.Raise(GlobalEvents.Id.SlipperyRemoved, gameObject);
     }
 }
