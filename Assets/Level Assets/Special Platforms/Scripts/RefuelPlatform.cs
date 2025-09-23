@@ -20,7 +20,7 @@ public class RefuelPlatform : MonoBehaviour, IPlatformEffect
         runner.SetPlatform(PlatformType.Refuel);
         _isRefueling = true;
         
-        GlobalEvents.Trigger(GlobalEvents.Id.RefuelApplied, gameObject);
+        GlobalEvents.Raise(GlobalEvents.Id.RefuelApplied, gameObject);
     }
 
     public void Remove(PlayerController player, PlatformDetection runner, ref Coroutine coroutine)
@@ -31,6 +31,6 @@ public class RefuelPlatform : MonoBehaviour, IPlatformEffect
         _isRefueling = false;
         _playerFuel = null;
         
-        GlobalEvents.Cancel(GlobalEvents.Id.RefuelRemoved, gameObject);
+        GlobalEvents.Raise(GlobalEvents.Id.RefuelRemoved, gameObject);
     }
 }

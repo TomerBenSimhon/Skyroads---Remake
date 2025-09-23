@@ -10,7 +10,7 @@ public class PlayerFixPickup : MonoBehaviour, IPickupsInterface
         if(!player.TryGetComponent(out PlayerBroken playerBroken)) return;
         playerBroken.enabled = false;
         
-        GlobalEvents.Trigger(GlobalEvents.Id.FixApplied, gameObject);
+        GlobalEvents.Raise(GlobalEvents.Id.FixApplied, gameObject);
         
         Die();
     }

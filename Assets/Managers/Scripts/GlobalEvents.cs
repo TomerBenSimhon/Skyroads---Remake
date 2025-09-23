@@ -14,9 +14,9 @@ public static class GlobalEvents
         PowerUpApplied = 1 << 8, FixApplied = 1 << 9
     }
 
-    public static event Action<Id, GameObject> Triggered;
-    public static event Action<Id, GameObject> Cancelled;
+    // Single neutral event
+    public static event Action<Id, GameObject> Raised;
 
-    public static void Trigger(Id id, GameObject sender = null)  => Triggered?.Invoke(id, sender);
-    public static void Cancel(Id id, GameObject sender = null)   => Cancelled?.Invoke(id, sender);
+    // Single neutral raise method
+    public static void Raise(Id id, GameObject sender = null) => Raised?.Invoke(id, sender);
 }
