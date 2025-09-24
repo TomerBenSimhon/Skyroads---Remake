@@ -75,6 +75,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5415156880711651766}
+  - component: {fileID: 169419738855435594}
+  - component: {fileID: 271168415369943328}
   m_Layer: 6
   m_Name: Boost Arrows
   m_TagString: Untagged
@@ -99,6 +101,49 @@ Transform:
   - {fileID: 4973050526692700918}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &169419738855435594
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6872246750010933055}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3, y: 0.5, z: 3}
+  m_Center: {x: 0, y: -0.5, z: 0}
+--- !u!114 &271168415369943328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6872246750010933055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e36989152ff70e45a4ab52e34bca572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrow: {fileID: 6542726221084266258}
+  idleColor: {r: 0.968729, g: 1, b: 0, a: 1}
+  activeColor: {r: 0.09558028, g: 1, b: 0.015686274, a: 1}
+  interval: 0.2
+  punchScale: 2
+  punchDuration: 0.1
+  useSineGlow: 1
+  glowSpeed: 2
+  glowMin: 0.5
+  glowMax: 1.5
 --- !u!1001 &1569842693789264924
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -214,5 +259,10 @@ PrefabInstance:
 --- !u!4 &1316048217949883383 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bd7d6ba404f372d47833cdb80082eddd, type: 3}
+  m_PrefabInstance: {fileID: 1569842693789264924}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &6542726221084266258 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5694059874591286030, guid: bd7d6ba404f372d47833cdb80082eddd, type: 3}
   m_PrefabInstance: {fileID: 1569842693789264924}
   m_PrefabAsset: {fileID: 0}

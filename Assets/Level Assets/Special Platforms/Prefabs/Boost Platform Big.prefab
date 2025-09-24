@@ -5050,15 +5050,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraEffects:
   - rid: 5346983742512300110
-  particleEffects:
-  - tag: test
-    particleObject: {fileID: 4047358338219497871}
-    triggerMask: 1
-    cancelMask: 0
-    eventObject: {fileID: 6872246750010933055}
-    mode: 0
-    loopDurationSeconds: 0
-    clearOnStop: 0
+  particleEffects: []
   references:
     version: 2
     RefIds:
