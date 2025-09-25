@@ -135,12 +135,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrow: {fileID: 6542726221084266258}
-  idleColor: {r: 0.968729, g: 1, b: 0, a: 1}
-  activeColor: {r: 0.09558028, g: 1, b: 0.015686274, a: 1}
-  interval: 0.2
-  punchScale: 2
-  punchDuration: 0.1
-  useSineGlow: 1
+  idleColor: {r: 1, g: 1, b: 1, a: 1}
+  activeColor: {r: 1, g: 1, b: 0, a: 1}
+  punchScale: 1.5
+  punchDuration: 0.15
+  useSineGlow: 0
   glowSpeed: 2
   glowMin: 0.5
   glowMax: 1.5

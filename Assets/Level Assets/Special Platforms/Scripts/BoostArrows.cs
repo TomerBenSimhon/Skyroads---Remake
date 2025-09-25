@@ -4,13 +4,12 @@ using Material = UnityEngine.Material;
 
 public class BoostArrows : MonoBehaviour
 {
-    [Header("Arrows & Effects")]
+    [Header("Arrow")]
     public Renderer arrow;             // Assign each arrow's Renderer
 
-    [Header("Colors & Timing")]
+    [Header("Colors")]
     public Color idleColor = Color.red;
     public Color activeColor = Color.yellow;
-    public float interval = 0.2f;         // Time between arrow activations
 
     [Header("Punch Settings")]
     public float punchScale = 1.2f;       // How big the punch gets
@@ -21,8 +20,7 @@ public class BoostArrows : MonoBehaviour
     public float glowSpeed = 2f;          // How fast the glow pulses
     public float glowMin = 0.5f;          // Minimum brightness multiplier
     public float glowMax = 1.5f;          // Maximum brightness multiplier
-
-    private int currentIndex;
+    
     private PlayerController _controller;
     private bool _hasPlayed = false;
     
@@ -33,6 +31,7 @@ public class BoostArrows : MonoBehaviour
         arrow.material = new Material(arrow.material);
         
         _controller = FindFirstObjectByType<PlayerController>().GetComponent<PlayerController>();
+        arrow.material.SetColor("_BaseColor", idleColor);
     }
     
     void Update()
@@ -50,7 +49,7 @@ public class BoostArrows : MonoBehaviour
         }
             
         
-        if (!useSineGlow)
+        if (!useSineGlow || _hasPlayed)
             return;
 
         // Pulse idle arrows
@@ -58,7 +57,6 @@ public class BoostArrows : MonoBehaviour
         float intensity = Mathf.Lerp(glowMin, glowMax, sine);
         
         arrow.material.SetColor("_EmissionColor", idleColor * intensity);
-        
     }
     
     IEnumerator PlaySequence()
@@ -67,11 +65,13 @@ public class BoostArrows : MonoBehaviour
         StartCoroutine(Punch(arrow.transform));
 
         // 3. Light up arrow
-        arrow.material.SetColor("_EmissionColor", activeColor);
+        arrow.material.SetColor("_EmissionColor", activeColor * glowMax);
+        arrow.material.SetColor("_BaseColor", activeColor);
 
         // 4. Wait then revert
-        yield return new WaitForSeconds(interval);
+        yield return new WaitForSeconds(2f * punchDuration);
         arrow.material.SetColor("_EmissionColor", idleColor);
+        arrow.material.SetColor("_BaseColor", idleColor);
         
     }
 
