@@ -14,6 +14,7 @@ public class RefuelCoils : MonoBehaviour
     private PlatformDetection _playerPlatform;
     private Vector3 _startPosition;
     private Vector3 _endPosition;
+    private bool _initialized;
 
     private void Awake()
     {
@@ -26,13 +27,32 @@ public class RefuelCoils : MonoBehaviour
 
     private void Update()
     {
+       MoveCoilTop();
+    }
+
+    void MoveCoilTop()
+    {
         if (!_player) return;
         
         Vector3 target = _startPosition;
 
-        if (_playerPlatform.CurrentPlatformType == PlatformType.Refuel && Vector3.Distance(refuelCoilTop.position, _player.position) <= range )
+        bool isPlayerNearAndRefueling = _playerPlatform.CurrentPlatformType == PlatformType.Refuel &&
+                                        Vector3.Distance(refuelCoilTop.position, _player.position) <= range;
+
+        if (isPlayerNearAndRefueling )
             target = _endPosition;
         
         refuelCoilTop.position = Vector3.Lerp(refuelCoilTop.position, target, motionSpeed * Time.deltaTime);
+
+        if (isPlayerNearAndRefueling && !_initialized)
+        {
+            _initialized = true;
+            GlobalEvents.Raise(GlobalEvents.Id.CoilActivated, gameObject);
+        }
+        else if(!isPlayerNearAndRefueling && _initialized)
+        {
+            _initialized = false;
+            GlobalEvents.Raise(GlobalEvents.Id.CoilDeactivated, gameObject);
+        }
     }
 }
