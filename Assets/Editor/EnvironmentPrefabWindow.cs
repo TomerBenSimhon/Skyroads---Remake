@@ -10,6 +10,7 @@ using Object = UnityEngine.Object;
 public class EnvironmentPrefabWindow : EditorWindow
 {
     public static bool IsWindowOpen;
+    public static event Action<SceneView> OnWindowSceneGUI;
     
     private Vector2 _scrollPosition;
 
@@ -125,6 +126,15 @@ public class EnvironmentPrefabWindow : EditorWindow
 
     private void OnGUI()
     {
+        Event e = Event.current;
+        if (e != null && e.type == EventType.KeyDown)
+        {
+            // just pass the last active SceneView
+            var scene = SceneView.lastActiveSceneView;
+            if (scene != null)
+                OnWindowSceneGUI?.Invoke(scene);
+        }
+        
         if (_prefabsPerFolder.Count == 0)
         {
             EditorGUILayout.LabelField("No prefabs found in Assets/Level Assets");

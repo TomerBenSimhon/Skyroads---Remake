@@ -22,6 +22,7 @@ public static class PrefabBrush
     public static Dictionary<string, GameObject> PrefabsParents = new();
 
     static Vector3 gridSize = new(3f, 0.5f, 3f);
+    static Quaternion _brushRotation = Quaternion.identity;
     static readonly string ghostMaterialPath = "Assets/Editor/Ghost_mat.mat";
     static readonly string eraseGhostMaterialPath = "Assets/Editor/EraseGhost_mat.mat";
 
@@ -58,10 +59,13 @@ public static class PrefabBrush
     static PrefabBrush()
     {
         SceneView.duringSceneGui += OnSceneGUI;
+        EnvironmentPrefabWindow.OnWindowSceneGUI += OnSceneGUI;
+        
         previewInstance = null;
         DestroyGhost(true);
         CleanupTempSurfaces(true);
     }
+    
 
     static void OnSceneGUI(SceneView sceneView)
     {
@@ -106,15 +110,26 @@ public static class PrefabBrush
         if (_mode == BrushMode.Erase && _currentBrushPrefab != null)
             _currentBrushPrefab = null;
         
-        var evt = Event.current;
-        if (evt != null)
+        var e = Event.current;
+        if (e != null && e.type == EventType.KeyDown && e.keyCode == KeyCode.R && !e.alt && _currentBrushPrefab)
         {
-            if (evt.type == EventType.MouseMove ||
-                evt.type == EventType.MouseDrag ||
-                evt.type == EventType.ScrollWheel)
+            _brushRotation *= Quaternion.Euler(0f, 90f, 0f);
+
+            // update any visible ghost instantly
+            if (previewInstance != null)
             {
-                SceneView.RepaintAll();
+                previewInstance.transform.rotation = GetBrushRotation();
             }
+
+            e.Use();
+            SceneView.RepaintAll();
+        }
+        
+        var evt = Event.current;
+        if (evt == null) return;
+        if (evt.type is EventType.MouseMove or EventType.MouseDrag or EventType.ScrollWheel)
+        {
+            SceneView.RepaintAll();
         }
     }
     
@@ -323,7 +338,7 @@ public static class PrefabBrush
         Vector3 pointOnPlane = ray.GetPoint(dist);
 
         Vector3 snapped = isFirstPlace ? SnapToFreePlace(pointOnPlane, _lockedNormal, gridSize)
-            : SnapToGrid(pointOnPlane,gridSize);
+            : SnapToGrid(pointOnPlane, gridSize);
         snapped.y = _paintY;
 
         if (!placeImmediately && ApproximatelyCell(snapped, _lastCell)) return;
@@ -343,6 +358,7 @@ public static class PrefabBrush
     {
         GameObject obj = (GameObject)PrefabUtility.InstantiatePrefab(_currentBrushPrefab);
         obj.transform.position = position;
+        obj.transform.rotation = GetBrushRotation();
 
         // Parent under subfolder group in hierarchy
         GameObject parent = GetOrCreateParent(EnvironmentPrefabWindow.ParentQuery, position);
@@ -450,6 +466,11 @@ public static class PrefabBrush
             CreateGhostInstance(isErase);
 
         previewInstance.transform.position = ghostPosition;
+        
+        if (previewInstance != null && _mode == BrushMode.Paint)
+        {
+            previewInstance.transform.rotation = GetBrushRotation();
+        }
 
         if (!previewInstance.activeSelf)
             previewInstance.SetActive(true);
@@ -469,6 +490,8 @@ public static class PrefabBrush
                 collider.enabled = false;
 
             SetGhostMaterial(previewInstance);
+            
+            previewInstance.transform.rotation = GetBrushRotation();
         }
         else
         {
@@ -518,6 +541,8 @@ public static class PrefabBrush
             g.hideFlags = HideFlags.DontSave;
             g.SetActive(true);
             g.transform.position = cells[i];
+            
+            g.transform.rotation = GetBrushRotation();
         }
 
         // disable any extra ghosts in the pool
@@ -546,6 +571,8 @@ public static class PrefabBrush
 
         foreach (var col in g.GetComponentsInChildren<Collider>())
             col.enabled = false;
+        
+        g.transform.rotation = GetBrushRotation();
 
         SetGhostMaterial(g);
         g.SetActive(false);
@@ -628,11 +655,12 @@ public static class PrefabBrush
 
     #endregion
 
-    #region Public API
+    #region Public API and Helpers
 
     public static void SetBrushPrefab(GameObject prefab)
     {
         _currentBrushPrefab = prefab;
+        _brushRotation = Quaternion.identity;
         ClearRectGhosts();
     }
 
@@ -687,7 +715,15 @@ public static class PrefabBrush
                 Object.DestroyImmediate(go);
     }
     
-    
+    private static Quaternion GetBrushRotation()
+    {
+        var baseRot = _currentBrushPrefab 
+            ? _currentBrushPrefab.transform.rotation 
+            : Quaternion.identity;
+
+        return _brushRotation * baseRot;
+    }
+
 
 
     #endregion

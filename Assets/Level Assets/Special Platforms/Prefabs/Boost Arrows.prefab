@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4973050526692700918}
   - component: {fileID: 233843372026952651}
   - component: {fileID: 535362214713876888}
-  m_Layer: 12
+  m_Layer: 3
   m_Name: Painting Surface
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 5415156880711651766}
   - component: {fileID: 169419738855435594}
   - component: {fileID: 271168415369943328}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Boost Arrows
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,6 +219,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: arrows
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bd7d6ba404f372d47833cdb80082eddd, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1677408296331927158, guid: bd7d6ba404f372d47833cdb80082eddd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -230,6 +234,10 @@ PrefabInstance:
     - target: {fileID: 1677408296331927158, guid: bd7d6ba404f372d47833cdb80082eddd, type: 3}
       propertyPath: m_LocalPosition.z
       value: 1.4200592
+      objectReference: {fileID: 0}
+    - target: {fileID: 2463706537061040287, guid: bd7d6ba404f372d47833cdb80082eddd, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4758970445588001700, guid: bd7d6ba404f372d47833cdb80082eddd, type: 3}
       propertyPath: m_LocalPosition.x
