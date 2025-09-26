@@ -4,8 +4,8 @@ using UnityEngine;
 public class ArrowSequence : MonoBehaviour
 {
     [Header("Arrows & Effects")]
-    public Renderer[] arrows;             // Assign each arrow’s Renderer
-    public ParticleSystem[] bursts;       // Assign each arrow’s ParticleSystem
+    public Renderer[] arrows;             // Assign each arrow's Renderer
+    public ParticleSystem[] bursts;       // Assign each arrow's ParticleSystem
 
     [Header("Colors & Timing")]
     public Color idleColor = Color.red;
