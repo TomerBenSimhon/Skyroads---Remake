@@ -24,7 +24,7 @@ public class Checkpoint : MonoBehaviour
             CheckpointManager.Instance.SetSpawnPoint(_spawnPoint.position, Quaternion.identity, player);
             Debug.Log(_spawnPoint.position);
 
-            
+            GlobalEvents.Raise(GlobalEvents.Id.CheckpointTriggered,gameObject);
         }
     }
 }

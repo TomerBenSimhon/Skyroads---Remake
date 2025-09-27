@@ -292,6 +292,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Check_Point_Particle Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 3280519133390621041, guid: a71be3e7990efb040a07565c43cbb198, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3280519133390621042, guid: a71be3e7990efb040a07565c43cbb198, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -368,7 +372,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3280519133390621041, guid: a71be3e7990efb040a07565c43cbb198, type: 3}
     m_RemovedGameObjects:
     - {fileID: 1318935079978438865, guid: a71be3e7990efb040a07565c43cbb198, type: 3}
     - {fileID: 2319904205370560433, guid: a71be3e7990efb040a07565c43cbb198, type: 3}

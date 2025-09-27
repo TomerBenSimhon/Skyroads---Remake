@@ -12,7 +12,8 @@ public static class GlobalEvents
         SlipperyApplied = 1 << 4, SlipperyRemoved = 1 << 5,
         PlayerJumped = 1 << 6, PlayerFired = 1 << 7,
         PowerUpApplied = 1 << 8, FixApplied = 1 << 9,
-        CoilActivated = 1 << 10, CoilDeactivated = 1 << 11
+        CoilActivated = 1 << 10, CoilDeactivated = 1 << 11,
+        CheckpointTriggered = 1 << 12
     }
 
     // Single neutral event
