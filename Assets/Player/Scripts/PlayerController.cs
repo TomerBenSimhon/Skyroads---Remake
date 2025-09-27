@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
         _input = GetComponent<PlayerInput>();
         _rb = GetComponent<Rigidbody>();
         RuntimeSettings = Instantiate(DefaultSettings);
+        
+        GlobalEvents.Raise(GlobalEvents.Id.OnAwake, gameObject);
     }
     
     private void Update()
@@ -343,7 +345,7 @@ public class PlayerController : MonoBehaviour
 
         // Apply final rotation
         Quaternion finalRotation = Quaternion.Euler(euler);
-        playerVisuals.transform.rotation = Quaternion.Slerp(playerVisuals.transform.rotation, finalRotation, RuntimeSettings.rotationSpeed * Time.fixedDeltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, finalRotation, RuntimeSettings.rotationSpeed * Time.fixedDeltaTime);
     }
 
     #endregion

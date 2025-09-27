@@ -8,7 +8,7 @@ public class Checkpoint : MonoBehaviour
 
     void Awake()
     {
-        _spawnPoint = transform.Find("SpawnPoint");
+        _spawnPoint = transform.Find("Spawnpoint");
         if (_spawnPoint == null)
             Debug.LogError("No Spawn Point Found On Checkpoint");
     }
@@ -16,6 +16,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            GlobalEvents.Raise(GlobalEvents.Id.CheckpointTriggered, gameObject);
             GameObject player = other.GetComponentInParent<PlayerController>().gameObject;
             
             if (player.TryGetComponent(out PlayerFuel playerFuel))
@@ -23,8 +24,6 @@ public class Checkpoint : MonoBehaviour
             
             CheckpointManager.Instance.SetSpawnPoint(_spawnPoint.position, Quaternion.identity, player);
             Debug.Log(_spawnPoint.position);
-
-            GlobalEvents.Raise(GlobalEvents.Id.CheckpointTriggered,gameObject);
         }
     }
 }
