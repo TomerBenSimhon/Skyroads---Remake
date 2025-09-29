@@ -578,8 +578,8 @@ MonoBehaviour:
   barrierLayer:
     serializedVersion: 2
     m_Bits: 2304
-  barrierCastCenterOffset: {x: 0, y: -0.08, z: 0}
-  barrierCastHalfExtents: {x: 0, y: 0, z: 0}
+  barrierCastCenterOffset: {x: 0, y: -0.08, z: 0.18}
+  barrierCastHalfExtents: {x: 1.24, y: 0.66, z: 0.31}
   barrierDetectionDistance: 0.48
 --- !u!114 &8366250962938230958
 MonoBehaviour:

@@ -23,6 +23,7 @@ public class ParticleEffectSpec
     public ParticleMode mode = ParticleMode.OneShot;
     public float loopDurationSeconds = -1f;
     public bool clearOnStop = false;
+    public bool destroyOnStop = false;
 
     public bool MatchesTrigger(GlobalEvents.Id id, GameObject sender)
     {
@@ -63,5 +64,7 @@ public class ParticleEffectSpec
         var ctrl = particleObject.GetComponent<ParticleController>();
         if (!ctrl) return;
         ctrl.Stop(clearOnStop);
+        if(destroyOnStop) particleObject.SetActive(false);
+            
     }
 }

@@ -27,6 +27,15 @@ public class BarrierDetection : MonoBehaviour
         if(Physics.BoxCast(center, barrierCastHalfExtents, Vector3.forward, Quaternion.identity, barrierDetectionDistance, barrierLayer, QueryTriggerInteraction.Collide))    
             _playerDeath.Die();
     }
+
+    void OnCollisionStay(Collision other)
+    {
+        if (((1 << other.gameObject.layer) & barrierLayer) == 0) return;
+
+        Vector3 center = transform.position + barrierCastCenterOffset;
+        if(Physics.BoxCast(center, barrierCastHalfExtents, Vector3.forward, Quaternion.identity, barrierDetectionDistance, barrierLayer, QueryTriggerInteraction.Collide))    
+            _playerDeath.Die();
+    }
     
     #if UNITY_EDITOR
 
