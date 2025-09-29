@@ -45,7 +45,11 @@ public class ParticleEffectSpec
             return;
         }
         var ctrl = particleObject.GetComponent<ParticleController>();
-        if (!ctrl) ctrl = particleObject.AddComponent<ParticleController>();
+        if (!ctrl)
+        {
+            Debug.LogError($"{particleObject.name} has no ParticleController component.");
+            ctrl = particleObject.AddComponent<ParticleController>();
+        }
 
         if (mode == ParticleMode.OneShot)
             ctrl.PlayOneShot();
