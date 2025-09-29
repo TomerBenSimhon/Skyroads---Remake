@@ -36,7 +36,7 @@ public class CheckpointManager : MonoBehaviour
             SaveStateFrom(player);
     }
 
-    public void SaveStateFrom(GameObject player)
+    private void SaveStateFrom(GameObject player)
     {
         _snapshot.Clear();
         var savables = player.GetComponentsInChildren<ICheckpointSavable>(true);
