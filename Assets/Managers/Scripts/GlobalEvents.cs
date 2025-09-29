@@ -13,7 +13,7 @@ public static class GlobalEvents
         PlayerJumped = 1 << 6, PlayerFired = 1 << 7,
         PowerUpApplied = 1 << 8, FixApplied = 1 << 9,
         CoilActivated = 1 << 10, CoilDeactivated = 1 << 11,
-        OnAwake = 1 << 12
+        CheckpointTriggered = 1 << 12, OnAwake = 1 << 13
     }
 
     // Single neutral event

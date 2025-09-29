@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         RuntimeSettings = Instantiate(DefaultSettings);
         
-        GlobalEvents.Raise(GlobalEvents.Id.OnAwake);
+        GlobalEvents.Raise(GlobalEvents.Id.OnAwake, gameObject);
     }
     
     private void Update()
