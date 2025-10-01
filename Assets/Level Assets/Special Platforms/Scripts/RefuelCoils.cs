@@ -1,9 +1,11 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class RefuelCoils : MonoBehaviour
 {
+    
     [SerializeField] Transform refuelCoilTop;
     [SerializeField] private float range = 3f;
     [SerializeField] private float motionDistance = 0.5f;
@@ -18,8 +20,9 @@ public class RefuelCoils : MonoBehaviour
 
     private void Awake()
     {
-        _playerPlatform = FindAnyObjectByType<PlatformDetection>();
-        _player = _playerPlatform.transform;
+        _player = FindAnyObjectByType<PlayerController>(FindObjectsInactive.Include).transform;
+        if(_player)
+            _playerPlatform = _player.GetComponent<PlatformDetection>();
         
         _startPosition = refuelCoilTop.position;
         _endPosition = _startPosition + Vector3.up * motionDistance;

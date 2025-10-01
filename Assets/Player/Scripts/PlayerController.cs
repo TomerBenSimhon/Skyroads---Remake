@@ -238,7 +238,7 @@ public class PlayerController : MonoBehaviour
     
     #region Ground Checks and Alignment
 
-    private void CheckGroundStatus()
+    private void CheckGroundStatus() //when player lands
     {
         _isGrounded = IsGrounded(RuntimeSettings.groundSpringExtraHeight);  // testing purposes
         if (!_alignToGround && _isGrounded && _rb.linearVelocity.y <= 0.1f)
@@ -246,6 +246,8 @@ public class PlayerController : MonoBehaviour
             _alignToGround = true;
             _isJumping = false;
             _isFalling = false;
+            
+            GlobalEvents.Raise(GlobalEvents.Id.PlayerGrounded, gameObject);
         }
     }
     
