@@ -822,6 +822,10 @@ PrefabInstance:
       value: iceLong
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 545594967188d5b4db8544a0c6e37312, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 545594967188d5b4db8544a0c6e37312, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 18
       objectReference: {fileID: 0}
