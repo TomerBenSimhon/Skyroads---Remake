@@ -9921,6 +9921,7 @@ MonoBehaviour:
     mode: 1
     loopDurationSeconds: 0
     clearOnStop: 0
+    destroyOnStop: 0
   references:
     version: 2
     RefIds: []
