@@ -130,7 +130,7 @@ Material:
     - _Cull: 2
     - _Cutoff: 0.5
     - _DebugView: 0
-    - _DeformAmp: 0.13
+    - _DeformAmp: 0.04
     - _DeformAmplitude: 0.108
     - _DeformEnabled: 1
     - _DetailAlbedoMapScale: 0.32
@@ -166,7 +166,7 @@ Material:
     - _LavaColor: {r: 1, g: 0.34999996, b: 0.049999982, a: 1}
     - _NoiseScroll: {r: 0.12, g: 0.05, b: 0, a: 0}
     - _NoiseSpeed: {r: 3.87, g: 0.55, b: -0.02, a: 1.42}
-    - _NoiseTiling: {r: 0.2, g: 0.19, b: 1, a: 1}
+    - _NoiseTiling: {r: 2.15, g: 2.1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _UVScroll: {r: 1, g: 1, b: 0, a: 0}
     - _UVScrollSpeed: {r: 0.68, g: 0.34, b: -6.78, a: 2.58}
