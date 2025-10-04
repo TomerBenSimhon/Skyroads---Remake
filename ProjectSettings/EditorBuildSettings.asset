@@ -38,6 +38,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/NewLevelsScene/NewLevelsScene2.unity
     guid: a104d8d92dbe9db49912c6252366a98d
+  - enabled: 1
+    path: Assets/NewLevelsScene/NewLevelsScene3.unity
+    guid: 9e5a17f331af83c4c95ffcddd382142d
+  - enabled: 1
+    path: Assets/NewLevelsScene/NewLevelsScene4.unity
+    guid: 18a8880f75fef9c4d94271130d483922
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
