@@ -8,6 +8,7 @@ public class PlayerFollow : MonoBehaviour
 
     void Update()
     {
+        if (!target) return;
         transform.position = target.position;
     }
 }
