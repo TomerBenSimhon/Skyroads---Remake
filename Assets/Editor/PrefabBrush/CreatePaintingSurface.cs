@@ -6,10 +6,10 @@ public class CreatePaintingSurface : EditorWindow
     [MenuItem("Tools/Create Painting Plane")]
     private static void CreatePaintingPlane()
     {
-        GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Cube);
         plane.name = "PaintingSurface";
         plane.transform.position = Vector3.zero;
-        plane.transform.localScale = Vector3.one * 1000f;
+        plane.transform.localScale = Vector3.one * 10000f;
         plane.layer = LayerMask.NameToLayer("Painting Surface");
         plane.GetComponent<MeshRenderer>().enabled = false;
     }
