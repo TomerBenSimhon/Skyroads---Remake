@@ -23,8 +23,8 @@ public static class PrefabBrush
 
     static Vector3 gridSize = new(3f, 0.5f, 3f);
     static Quaternion _brushRotation = Quaternion.identity;
-    static readonly string ghostMaterialPath = "Assets/Editor/Ghost_mat.mat";
-    static readonly string eraseGhostMaterialPath = "Assets/Editor/EraseGhost_mat.mat";
+    static readonly string ghostMaterialPath = "Assets/Editor/PrefabBrush/Ghost_mat.mat";
+    static readonly string eraseGhostMaterialPath = "Assets/Editor/PrefabBrush/EraseGhost_mat.mat";
 
     // 🆕 Continuous paint state
     static bool _isBrushDragging;                       // dragging with LMB

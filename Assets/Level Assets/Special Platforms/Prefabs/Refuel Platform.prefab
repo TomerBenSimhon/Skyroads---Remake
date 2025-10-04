@@ -751,6 +751,10 @@ PrefabInstance:
       value: refuelSmall
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b26e154aeaa3fcd44b48e6c10ac35183, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b26e154aeaa3fcd44b48e6c10ac35183, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 18
       objectReference: {fileID: 0}
