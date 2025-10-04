@@ -30,7 +30,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Alpha: 0.02
-    - _GlowFrequency: 1
+    - _GlowFrequency: 0.3
     - _GlowSpeed: 1
     - _GlowWidth: 0.357
     - _SeamRange: 0.001

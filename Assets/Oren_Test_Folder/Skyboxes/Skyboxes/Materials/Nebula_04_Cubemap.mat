@@ -29,7 +29,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Exposure: 4.5
+    - _Exposure: 2
     - _Rotation: 245
     m_Colors:
     - _Tint: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0.5}
