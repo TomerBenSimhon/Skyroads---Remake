@@ -1,9 +1,10 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
-public class PlayerFuel : MonoBehaviour, ICheckpointSavable
+public class PlayerFuel : MonoBehaviour
 { 
     [Header("UI Settings")]
     [SerializeField] TextMeshProUGUI fuelText;
@@ -13,6 +14,9 @@ public class PlayerFuel : MonoBehaviour, ICheckpointSavable
     public float fuelConsumption;
     [Range(0f, 100f)]
     public float startingFuel;
+    
+    [Header("OnRespawn event")]
+    [SerializeField] GlobalEvents.Id onRespawn;
     
     private PlayerDeath _playerDeath;
     
@@ -29,8 +33,19 @@ public class PlayerFuel : MonoBehaviour, ICheckpointSavable
         _fuel = startingFuel;
     }
 
-    private void Start()
+    void OnEnable()
     {
+        GlobalEvents.Raised += OnRespawn;
+    }
+
+    void OnDisable()
+    {
+        GlobalEvents.Raised -= OnRespawn;
+    }
+
+    private void OnRespawn(GlobalEvents.Id id, GameObject player)
+    {
+        if ((id & onRespawn) == 0) return;
         _fuel = _checkpointFuel <= 0 ? startingFuel : _checkpointFuel;
     }
 
@@ -68,18 +83,5 @@ public class PlayerFuel : MonoBehaviour, ICheckpointSavable
     private void DisplayFuel()
     {
         fuelText.text = "Fuel:\n" + _fuel.ToString("F1");
-    }
-    
-    
-    //checkpoint saves
-    public struct SaveData { public float newStartingFuel; }
-    public string SaveKey => "PlayerFuel";
-    public object CaptureState() => new SaveData {newStartingFuel = _checkpointFuel};
-    
-    
-    public void RestoreState(object state)
-    {
-        var saveData = (SaveData)state;
-        _checkpointFuel = saveData.newStartingFuel;
     }
 }

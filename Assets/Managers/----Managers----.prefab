@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vcam: {fileID: 0}
   defaultFov: 75
-  maxFov: 100
+  maxFov: 105
 --- !u!1 &4308083785942973289
 GameObject:
   m_ObjectHideFlags: 0
