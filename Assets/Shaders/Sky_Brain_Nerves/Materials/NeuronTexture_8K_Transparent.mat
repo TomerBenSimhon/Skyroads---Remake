@@ -29,15 +29,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.041
-    - _GlowFrequency: 1
+    - _Alpha: 0.02
+    - _GlowFrequency: 0.3
     - _GlowSpeed: 1
     - _GlowWidth: 0.357
     - _SeamRange: 0.001
     - _SeamSpeed: 0.5
     m_Colors:
     - _GlowColor: {r: 10, g: 5, b: 1, a: 1}
-    - _GlowDir: {r: 0.1, g: 0.1, b: 0, a: 0}
-    - _MainTexSpeed: {r: 0.1, g: 0.1, b: 0, a: 0}
+    - _GlowDir: {r: 0.01, g: 0.1, b: 0, a: 0}
+    - _MainTexSpeed: {r: 0.01, g: 0.01, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

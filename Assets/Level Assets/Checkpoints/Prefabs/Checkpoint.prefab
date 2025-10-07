@@ -4542,6 +4542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76248e02e9ddc98469a391149245192a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spawnPoint: {fileID: 1850345410774096352}
   fuelAmount: 0
 --- !u!136 &4286044597780141118
 CapsuleCollider:
