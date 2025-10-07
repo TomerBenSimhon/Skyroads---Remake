@@ -2,15 +2,20 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    private Transform _spawnPoint;
+    [SerializeField] private Transform _spawnPoint;
     [SerializeField][Range(0f,100f)] private float fuelAmount;
 
 
     void Awake()
     {
-        _spawnPoint = transform.Find("Spawnpoint");
         if (_spawnPoint == null)
+            _spawnPoint = transform.Find("Spawnpoint");
+        if (_spawnPoint == null)
+        {
             Debug.LogError("No Spawn Point Found On Checkpoint");
+            Debug.Log(transform.position);
+        }
+        
     }
     private void OnTriggerEnter(Collider other)
     {
