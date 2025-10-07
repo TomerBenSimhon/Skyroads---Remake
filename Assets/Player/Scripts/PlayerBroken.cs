@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [DefaultExecutionOrder(1)]
-public class PlayerBroken : MonoBehaviour, ICheckpointSavable
+public class PlayerBroken : MonoBehaviour
 {
     [SerializeField] PlayerControllerSettings controllerSettings;
     
@@ -16,16 +16,5 @@ public class PlayerBroken : MonoBehaviour, ICheckpointSavable
     void Start()
     {
         controllerSettings.CopyTo(_playerController.RuntimeSettings);
-    }
-
-    public struct SaveData { public bool Enabled; }
-    public string SaveKey => "PlayerBroken";
-    public object CaptureState() => new SaveData {Enabled = enabled};
-    
-    
-    public void RestoreState(object state)
-    {
-        var saveData = (SaveData)state;
-        enabled = saveData.Enabled;
     }
 }

@@ -9,12 +9,8 @@ public class CheckpointManager : MonoBehaviour
     private Vector3 _spawnPoint;
     private Quaternion _spawnRotation = Quaternion.identity;
 
-    // Snapshot of gameplay state (per component)
-    private readonly Dictionary<string, object> _snapshot = new();
-
     // Flags
     private bool _hasCheckpoint;
-    private bool _respawnPending;
 
     public bool HasCheckpoint => _hasCheckpoint;
 
@@ -26,45 +22,18 @@ public class CheckpointManager : MonoBehaviour
     }
 
     // Called by checkpoint trigger OR initial seeding from Player
-    public void SetSpawnPoint(Vector3 pos, Quaternion rot, GameObject player = null)
+    public void SetSpawnPoint(Vector3 pos, Quaternion rot)
     {
         _spawnPoint = pos;
         _spawnRotation = rot;
         _hasCheckpoint = true;
-
-        if (player != null)
-            SaveStateFrom(player);
-    }
-
-    private void SaveStateFrom(GameObject player)
-    {
-        _snapshot.Clear();
-        var savables = player.GetComponentsInChildren<ICheckpointSavable>(true);
-        foreach (var s in savables)
-            _snapshot[s.SaveKey] = s.CaptureState();
-    }
-
-    public void ApplySavedStateTo(GameObject player)
-    {
-        if (_snapshot.Count == 0) return;
-        var savables = player.GetComponentsInChildren<ICheckpointSavable>(true);
-        foreach (var s in savables)
-            if (_snapshot.TryGetValue(s.SaveKey, out var data))
-                s.RestoreState(data);
-    }
-
-    // Called BEFORE LoadScene
-    public void MarkRespawnPending()
-    {
-        _respawnPending = true;
     }
 
     // Consumed by the new Player in Awake
     public bool TryConsumeRespawn(out Vector3 pos, out Quaternion rot)
     {
-        if (_respawnPending && _hasCheckpoint)
+        if (_hasCheckpoint)
         {
-            _respawnPending = false;
             pos = _spawnPoint;
             rot = _spawnRotation;
             return true;

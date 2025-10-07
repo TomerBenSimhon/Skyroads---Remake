@@ -5125,7 +5125,7 @@ MonoBehaviour:
         magnitudeScale: 1
         replaceExisting: 0
         triggerMask: 1
-        cancelMask: 2
+        cancelMask: 32770
         eventObject: {fileID: 6872246750010933055}
         delta: 12
         inTime: 0.3

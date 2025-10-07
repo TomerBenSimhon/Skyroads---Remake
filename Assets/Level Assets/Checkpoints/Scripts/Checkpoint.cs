@@ -5,7 +5,6 @@ public class Checkpoint : MonoBehaviour
     [SerializeField] private Transform _spawnPoint;
     [SerializeField][Range(0f,100f)] private float fuelAmount;
 
-
     void Awake()
     {
         if (_spawnPoint == null)
@@ -17,18 +16,18 @@ public class Checkpoint : MonoBehaviour
         }
         
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             GlobalEvents.Raise(GlobalEvents.Id.CheckpointTriggered, gameObject);
-            GameObject player = other.GetComponentInParent<PlayerController>().gameObject;
-            
-            if (player.TryGetComponent(out PlayerFuel playerFuel))
+
+            var player = other.GetComponentInParent<PlayerController>()?.gameObject;
+            if (player && player.TryGetComponent(out PlayerFuel playerFuel))
                 playerFuel.SetCheckpointFuel(fuelAmount);
-            
-            CheckpointManager.Instance.SetSpawnPoint(_spawnPoint.position, Quaternion.identity, player);
-            Debug.Log(_spawnPoint.position);
+
+            CheckpointManager.Instance.SetSpawnPoint(_spawnPoint.position, _spawnPoint.rotation);
         }
     }
 }

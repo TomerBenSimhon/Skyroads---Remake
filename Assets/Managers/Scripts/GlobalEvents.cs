@@ -15,7 +15,8 @@ public static class GlobalEvents
         CoilActivated = 1 << 10, CoilDeactivated = 1 << 11,
         CheckpointTriggered = 1 << 12, 
         OnAwake = 1 << 13,
-        PlayerGrounded = 1 << 14
+        PlayerGrounded = 1 << 14,
+        PlayerDied = 1 << 15, PlayerRespawned = 1 << 16
     }
 
     // Single neutral event
