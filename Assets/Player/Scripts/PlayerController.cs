@@ -278,6 +278,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            if(_alignToGround)
+                GlobalEvents.Raise(GlobalEvents.Id.PlayerAirborne);
+            
             _alignToGround = false;
         }
     }
