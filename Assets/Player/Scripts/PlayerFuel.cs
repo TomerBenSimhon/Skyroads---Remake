@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 public class PlayerFuel : MonoBehaviour
 { 
     [Header("UI Settings")]
-    [SerializeField] TextMeshProUGUI fuelText;
+    [SerializeField] TextMeshPro fuelText;
     
     [Header("Settings")]
     [Range(0f, 10f)] [Tooltip("Fuel per unit traveled forward")]
