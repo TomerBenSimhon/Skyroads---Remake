@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Dashboard : MonoBehaviour
 {
@@ -7,8 +8,16 @@ public class Dashboard : MonoBehaviour
     public float wheelAngle = 90f;        // max left/right deflection
     public float wheelTurnSpeed = 10f;    // lerp speed (per second)
 
+    [Header("Button Settings")]
+    [SerializeField] private Transform jumpButton;
+    [SerializeField] private Transform fireButton;
+    public float buttonDelta = 1f;
+    public float buttonSpeed = 1f;
+    
     [Header("Bobbing Settings")] 
-    public float maxBob = 1f;
+    public float maxBobY = 1f;
+    public float maxBobX = 1f;
+    public float bobSpeed = 1f;
 
     private PlayerInput _input;
     private Rigidbody _playerRb;
@@ -17,16 +26,18 @@ public class Dashboard : MonoBehaviour
     
     private Vector3 _wheelStartEuler;
     private Vector3 _startPos;
+    private Vector3 _fireButtonStartPos;
+    private Vector3 _jumpButtonStartPos;
     private float _maxJumpVel;
 
     void Awake()
     {
-        _input = GetComponent<PlayerInput>();
         _playerController = FindFirstObjectByType<PlayerController>();
 
         if (_playerController)
         {
             _playerRb = _playerController.GetComponent<Rigidbody>();
+            _input = _playerController.GetComponent<PlayerInput>();
             _controllerSettings = _playerController.DefaultSettings;
         }
             
@@ -37,11 +48,14 @@ public class Dashboard : MonoBehaviour
         _wheelStartEuler = wheel.localEulerAngles;
         _maxJumpVel = Mathf.Sqrt(_playerController.DefaultSettings.jumpHeight * -2f * Physics.gravity.y * _playerController.DefaultSettings.gravity);
         _startPos = transform.position;
+        _fireButtonStartPos = fireButton.localPosition;
+        _jumpButtonStartPos = jumpButton.localPosition;
     }
 
     void Update()
     {
         TurnWheel();
+        PressButtons();
         Bobbing();
     }
 
@@ -61,9 +75,31 @@ public class Dashboard : MonoBehaviour
         wheel.localEulerAngles = e;
     }
 
+    private void PressButtons()
+    {
+        Vector3 targetJump = _jumpButtonStartPos;
+        targetJump.y += _input.JumpHeld ? -buttonDelta : 0f;
+        
+        jumpButton.localPosition = Vector3.Lerp(jumpButton.localPosition, targetJump, buttonSpeed * Time.deltaTime);
+
+        Vector3 targetFire = _fireButtonStartPos;
+        targetFire.y += _input.ShootHeld ? -buttonDelta : 0f;
+        
+        fireButton.localPosition = Vector3.Lerp(fireButton.localPosition, targetFire, buttonSpeed * Time.deltaTime);
+    }
+
     private void Bobbing()
     {
-        float targetY = Helper.MapValue(_playerRb.linearVelocity.y, -_controllerSettings.terminalVelocity, _maxJumpVel, maxBob, -maxBob);
-        transform.position =Vector3.Lerp(transform.position, _startPos + Vector3.up * targetY, Time.deltaTime); 
+        Vector3 target = _startPos;
+
+        target.y += Helper.MapValue(_playerRb.linearVelocity.y,
+            -_controllerSettings.terminalVelocity, _maxJumpVel,
+            maxBobY, -maxBobY);
+        
+         target.x += Helper.MapValue(_playerRb.linearVelocity.x, 
+            -_controllerSettings.horizontalSpeed, _controllerSettings.horizontalSpeed, 
+            maxBobX, -maxBobX);
+        
+        transform.position =Vector3.Lerp(transform.position, target, bobSpeed * Time.deltaTime); 
     }
 }
