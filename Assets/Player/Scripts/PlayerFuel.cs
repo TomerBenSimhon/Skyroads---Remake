@@ -21,7 +21,7 @@ public class PlayerFuel : MonoBehaviour
     private PlayerDeath _playerDeath;
     
     private float _lastFrameZPos;
-    private float _fuel;
+    [SerializeField] private float _fuel;
     private float _usedFuel;
 
     private float _checkpointFuel;
@@ -82,6 +82,7 @@ public class PlayerFuel : MonoBehaviour
 
     private void DisplayFuel()
     {
+        if (!fuelText) return;
         fuelText.text = "Fuel:\n" + _fuel.ToString("F1");
     }
 }
