@@ -7,7 +7,8 @@ using UnityEngine.Serialization;
 public class PlayerFuel : MonoBehaviour
 { 
     [Header("UI Settings")]
-    [SerializeField] TextMeshProUGUI fuelText;
+    [SerializeField] TextMeshPro fuelText;
+    [SerializeField] Renderer fuelRenderer;
     
     [Header("Settings")]
     [Range(0f, 10f)] [Tooltip("Fuel per unit traveled forward")]
@@ -21,7 +22,7 @@ public class PlayerFuel : MonoBehaviour
     private PlayerDeath _playerDeath;
     
     private float _lastFrameZPos;
-    private float _fuel;
+    [SerializeField] private float _fuel;
     private float _usedFuel;
 
     private float _checkpointFuel;
@@ -31,6 +32,9 @@ public class PlayerFuel : MonoBehaviour
         _playerDeath = GetComponent<PlayerDeath>();
         _lastFrameZPos = transform.position.z;
         _fuel = startingFuel;
+        
+        if(!fuelText) Debug.LogWarning("Fuel text not set");
+        if(!fuelRenderer) Debug.LogWarning("Fuel renderer not set");
     }
 
     void OnEnable()
@@ -82,6 +86,12 @@ public class PlayerFuel : MonoBehaviour
 
     private void DisplayFuel()
     {
-        fuelText.text = "Fuel:\n" + _fuel.ToString("F1");
+        if (fuelText) 
+            fuelText.text = _fuel.ToString("F1");
+        if (fuelRenderer)
+        {
+            float level = Helper.MapValue(_fuel, 0f, startingFuel, 0f, 1f);
+            fuelRenderer.material.SetFloat("_Level", level);
+        }
     }
 }

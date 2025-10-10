@@ -49,11 +49,11 @@ public class PlayerRespawn : MonoBehaviour
         if (TryGetComponent<Rigidbody>(out var rb))
         {
             bool wasKin = rb.isKinematic;
-
-            rb.isKinematic = true;
+            
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-
+            rb.isKinematic = true;
+            
             rb.position = pos;
             rb.rotation = rot;
             transform.SetPositionAndRotation(pos, rot);
