@@ -8,6 +8,7 @@ public class PlayerFuel : MonoBehaviour
 { 
     [Header("UI Settings")]
     [SerializeField] TextMeshPro fuelText;
+    [SerializeField] Renderer fuelRenderer;
     
     [Header("Settings")]
     [Range(0f, 10f)] [Tooltip("Fuel per unit traveled forward")]
@@ -82,7 +83,12 @@ public class PlayerFuel : MonoBehaviour
 
     private void DisplayFuel()
     {
-        if (!fuelText) return;
-        fuelText.text = "Fuel:\n" + _fuel.ToString("F1");
+        if (fuelText) 
+            fuelText.text = "Fuel:\n" + _fuel.ToString("F1");
+        if (fuelRenderer)
+        {
+            float level = Helper.MapValue(_fuel, 0f, startingFuel, 0f, 1f);
+            fuelRenderer.material.SetFloat("_Level", level);
+        }
     }
 }
