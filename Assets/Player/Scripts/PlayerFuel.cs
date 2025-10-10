@@ -84,7 +84,7 @@ public class PlayerFuel : MonoBehaviour
     private void DisplayFuel()
     {
         if (fuelText) 
-            fuelText.text = "Fuel:\n" + _fuel.ToString("F1");
+            fuelText.text = _fuel.ToString("F1");
         if (fuelRenderer)
         {
             float level = Helper.MapValue(_fuel, 0f, startingFuel, 0f, 1f);
