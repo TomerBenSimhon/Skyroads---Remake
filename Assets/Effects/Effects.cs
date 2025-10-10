@@ -55,14 +55,20 @@ public class Effects : MonoBehaviour
             {
                 if (pspec == null) continue;
                 if (pspec.MatchesCancel(id, sender))
-                    pspec.Stop();
+                {
+                    pspec.Stop(id);
+                    pspec.particleObject.SetActive(false);
+                }
             }
 
             foreach (var pspec in particleEffects)
             {
                 if (pspec == null) continue;
                 if (pspec.MatchesTrigger(id, sender))
+                {
+                    pspec.particleObject.SetActive(true);
                     pspec.Play();
+                }
             }
         }
     }

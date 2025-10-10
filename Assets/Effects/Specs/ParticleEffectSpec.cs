@@ -24,6 +24,8 @@ public class ParticleEffectSpec
     public float loopDurationSeconds = -1f;
     public bool clearOnStop = false;
     public bool destroyOnStop = false;
+    [Tooltip("if destroyOnStop is true, then this event will destroy it")]
+    public GlobalEvents.Id destroyMask  = GlobalEvents.Id.None;
 
     public bool MatchesTrigger(GlobalEvents.Id id, GameObject sender)
     {
@@ -58,13 +60,13 @@ public class ParticleEffectSpec
             ctrl.PlayLoop(loopDurationSeconds);
     }
 
-    public void Stop()
+    public void Stop(GlobalEvents.Id id)
     {
         if (!particleObject) return;
         var ctrl = particleObject.GetComponent<ParticleController>();
         if (!ctrl) return;
         ctrl.Stop(clearOnStop);
-        if(destroyOnStop) particleObject.SetActive(false);
+        if(destroyOnStop && (id & destroyMask) != 0) particleObject.SetActive(false);
             
     }
 }

@@ -918,6 +918,7 @@ MonoBehaviour:
     loopDurationSeconds: 0
     clearOnStop: 0
     destroyOnStop: 0
+    destroyMask: 0
   - tag: Fix Pickup
     particleObject: {fileID: 7864321917429541373}
     triggerMask: 512
@@ -927,6 +928,7 @@ MonoBehaviour:
     loopDurationSeconds: 0
     clearOnStop: 0
     destroyOnStop: 0
+    destroyMask: 0
   - tag: Shoot Pickup
     particleObject: {fileID: 6796322238660052018}
     triggerMask: 256
@@ -936,6 +938,7 @@ MonoBehaviour:
     loopDurationSeconds: 0
     clearOnStop: 0
     destroyOnStop: 0
+    destroyMask: 0
   - tag: Slippery
     particleObject: {fileID: 1742028014022867280}
     triggerMask: 16
@@ -945,6 +948,7 @@ MonoBehaviour:
     loopDurationSeconds: 0
     clearOnStop: 0
     destroyOnStop: 0
+    destroyMask: 0
   - tag: Boost Trail
     particleObject: {fileID: 5521914356629589729}
     triggerMask: 1
@@ -954,6 +958,7 @@ MonoBehaviour:
     loopDurationSeconds: 0
     clearOnStop: 0
     destroyOnStop: 0
+    destroyMask: 0
   references:
     version: 2
     RefIds: []
@@ -983,12 +988,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3084012840746252496}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000014603138}
-  m_LocalPosition: {x: -0.0059992075, y: 0.013999939, z: -0.87200165}
-  m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 0.29999998}
+  m_LocalRotation: {x: -0.4999986, y: 0.50000143, z: 0.50000006, w: -0.49999997}
+  m_LocalPosition: {x: -0.70166934, y: -0.032649476, z: 0.345}
+  m_LocalScale: {x: 0.61224484, y: 0.29999998, z: 0.4999999}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2246547902291497423}
+  m_Father: {fileID: 4104595827546924462}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &6574249318913708587
 Light:
@@ -1470,6 +1475,7 @@ MonoBehaviour:
   fuelText: {fileID: 0}
   fuelConsumption: 0.2
   startingFuel: 100
+  onRespawn: 0
 --- !u!114 &-3415269241991583869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2312,7 +2318,7 @@ PrefabInstance:
     - {fileID: 1752777822484449036, guid: 01d160b98821ef846aca554de35aa595, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 5330501064823733477, guid: 01d160b98821ef846aca554de35aa595, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 7936078372427204740, guid: 01d160b98821ef846aca554de35aa595, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7957960701163546060}
     m_AddedComponents: []
@@ -2320,6 +2326,11 @@ PrefabInstance:
 --- !u!4 &2246547902291497423 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5330501064823733477, guid: 01d160b98821ef846aca554de35aa595, type: 3}
+  m_PrefabInstance: {fileID: 6256882054388198698}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4104595827546924462 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7936078372427204740, guid: 01d160b98821ef846aca554de35aa595, type: 3}
   m_PrefabInstance: {fileID: 6256882054388198698}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7140172355828339377
