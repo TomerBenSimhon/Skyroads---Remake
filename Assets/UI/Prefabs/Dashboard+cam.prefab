@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2981276212980923763}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,10 +29,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2611666367809729019}
   - {fileID: 4124661773079926114}
-  - {fileID: 3611326347051323718}
   - {fileID: 7680192314583877144}
+  - {fileID: 5997426049658637512}
+  - {fileID: 2611666367809729019}
+  - {fileID: 3611326347051323718}
   - {fileID: 2769838659480103293}
   - {fileID: 2129099226492523462}
   - {fileID: 2484303927319755262}
@@ -52,7 +53,6 @@ Transform:
   - {fileID: 2763326072642781222}
   - {fileID: 8316057546550911028}
   - {fileID: 5281464348132396227}
-  - {fileID: 5997426049658637512}
   - {fileID: 4433907327361765430}
   - {fileID: 3981706826874371217}
   - {fileID: 1222932352093991425}
@@ -209,7 +209,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: 2140032, guid: c3299f2137316ca49ac5c2f192dda322, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -253,8 +253,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: sadw
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c3299f2137316ca49ac5c2f192dda322, type: 2}
+  m_sharedMaterial: {fileID: 2140032, guid: c3299f2137316ca49ac5c2f192dda322, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -712,7 +712,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5554437324115335349}
   - component: {fileID: 4629535802088599758}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Dashboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -752,15 +752,15 @@ MonoBehaviour:
   wheel: {fileID: 3981706826874371217}
   wheelAngle: 45
   wheelTurnSpeed: 3
-  jumpButton: {fileID: 0}
-  fireButton: {fileID: 0}
-  buttonDelta: 1
-  buttonSpeed: 1
+  jumpButton: {fileID: 4124661773079926114}
+  fireButton: {fileID: 7680192314583877144}
+  buttonDelta: 0.2
+  buttonSpeed: 10
   maxBobY: 1
   maxBobX: 0.35
   bobSpeed: 2
-  rotationSpeed: 1
-  rotationAngle: 5
+  rotationSpeed: 2
+  rotationAngle: 2
 --- !u!1 &3046932525691562510
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,7 +856,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4089883402071698365}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: PS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1249,7 +1249,7 @@ Transform:
   m_GameObject: {fileID: 3646592335212527322}
   serializedVersion: 2
   m_LocalRotation: {x: -0.00000041093176, y: 0.7071068, z: 0.7071068, w: 0.00000041093176}
-  m_LocalPosition: {x: 3.5906043, y: 0.07214782, z: -0.8167944}
+  m_LocalPosition: {x: 3.5906043, y: 0.09, z: -0.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1404,7 +1404,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2445242990264543751}
   - component: {fileID: 2927138544123473198}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Effects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1588,7 +1588,7 @@ Transform:
   m_GameObject: {fileID: 4855557267645959277}
   serializedVersion: 2
   m_LocalRotation: {x: -0.00000041093176, y: 0.7071068, z: 0.7071068, w: 0.00000041093176}
-  m_LocalPosition: {x: 4.5593004, y: 0.07214782, z: -1.4912453}
+  m_LocalPosition: {x: 4.5593004, y: 0.082, z: -1.491}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

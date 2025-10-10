@@ -32,6 +32,9 @@ public class PlayerFuel : MonoBehaviour
         _playerDeath = GetComponent<PlayerDeath>();
         _lastFrameZPos = transform.position.z;
         _fuel = startingFuel;
+        
+        if(!fuelText) Debug.LogWarning("Fuel text not set");
+        if(!fuelRenderer) Debug.LogWarning("Fuel renderer not set");
     }
 
     void OnEnable()
