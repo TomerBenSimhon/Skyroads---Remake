@@ -128,7 +128,7 @@ MonoBehaviour:
     m_StyleName: Regular
     m_PointSize: 144
     m_Scale: 1
-    m_UnitsPerEM: 2048
+    m_UnitsPerEM: 1400
     m_LineHeight: 146.57143
     m_AscentLine: 123.42857
     m_CapLine: 115
@@ -145,7 +145,7 @@ MonoBehaviour:
     m_StrikethroughThickness: 2.0571427
     m_TabWidth: 88
   m_Material: {fileID: 2140032}
-  m_SourceFontFileGUID: 8a2b9e2a607dd2143b58c44bc32410b4
+  m_SourceFontFileGUID: 60425f3ce6e082648a71d7b94b4ed645
   m_CreationSettings:
     sourceFontFileName: 
     sourceFontFileGUID: 8a2b9e2a607dd2143b58c44bc32410b4
@@ -165,7 +165,7 @@ MonoBehaviour:
     fontStyleModifier: 0
     renderMode: 4165
     includeFontFeatures: 1
-  m_SourceFontFile: {fileID: 12800000, guid: 8a2b9e2a607dd2143b58c44bc32410b4, type: 3}
+  m_SourceFontFile: {fileID: 12800000, guid: 60425f3ce6e082648a71d7b94b4ed645, type: 3}
   m_SourceFontFilePath: 
   m_AtlasPopulationMode: 1
   InternalDynamicOS: 0

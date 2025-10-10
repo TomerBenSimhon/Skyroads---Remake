@@ -34,7 +34,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _EdgeWidth: 0.1
-    - _Level: 0.616
+    - _Level: 0.442
     - _NoiseAmt: 0.025
     - _WaveAmp: 0.0343
     - _WaveFreq: 5.3
