@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/NewLevelsScene/NewLevelsScene1 +graybox.unity.meta
+guid: b3674a79cab82274a859ac790927b825
+========
 guid: 8fd57401b17f4ba45840ea36d0c5dec2
 folderAsset: yes
+>>>>>>>> Dev:Assets/models/dashboard.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
