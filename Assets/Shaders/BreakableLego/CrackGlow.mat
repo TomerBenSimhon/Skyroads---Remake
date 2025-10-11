@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CrackGlow
+  m_Shader: {fileID: 4800000, guid: bbdc4335b2e4af54b8c87039649ec35d, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: _Metallic
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 26ba9271f6006014f91ed1acd269ea40, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 4616c27960063c14889e7c74d1d2bb12, type: 3}
+        m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _CrackMask:
+        m_Texture: {fileID: 2800000, guid: cfe6562aaf4b4ff4495473d52d2f2a76, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: 26206e416d944bb409ba17202449f7ad, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ToonRamp:
+        m_Texture: {fileID: 2800000, guid: 2c71ddea62f21444595f81def423f53c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BlinkAmount: 1
+    - _BlinkSpeed: 0.51
+    - _BumpScale: 1.2
+    - _ClearCoat: 0
+    - _ClearCoatSmooth: 0
+    - _CrackFeather: 0
+    - _CrackHardness: 5
+    - _EmissionMul: 3
+    - _GlowIntensity: 10
+    - _Metallic: 0
+    - _MinAlbedo: 0.2
+    - _NoiseNormalStrength: 0
+    - _NoiseScale: 2
+    - _OutlineBlinkSpeed: 5.7
+    - _OutlineDepthEps: 0.00886
+    - _OutlineIntensityMax: 1
+    - _OutlineIntensityMin: 0.1
+    - _OutlinePixelsMax: 40
+    - _OutlinePixelsMin: 12.3
+    - _OutlineUseScreen: 1
+    - _OutlineWidth: 0.0601
+    - _OutlineWidthMax: 0.0756
+    - _OutlineWidthMin: 0.0354
+    - _OutlineWidthWorld: 0.1
+    - _OutlineWidthWorldMax: 0.1
+    - _OutlineWidthWorldMin: 0.0133
+    - _Smoothness: 1
+    - _SpecSteps: 8
+    - _Specular: 1
+    - _SweepAmount: 0.95
+    - _SweepOffset: 0
+    - _SweepSoftness: 0.5
+    - _SweepSpeed: 0.2
+    - _SweepWidth: 0.3
+    - _ToneStrength: 1
+    - _ToonEdgeBoost: 1
+    - _ToonSteps: 8
+    - _TriScale: 0.1
+    - _TriSharp: 1
+    - _UseRamp: 1
+    - _UseToneMap: 1
+    - _UseTriplanar: 0
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _GlowColor: {r: 0.19999996, g: 0.9, b: 1.5, a: 1}
+    - _NoiseSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _OutlineColor: {r: 1, g: 0.7372549, b: 0, a: 1}
+    - _SweepDir: {r: 23.46, g: 11.67, b: 8.42, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
