@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 26ba9271f6006014f91ed1acd269ea40, type: 3}
+        m_Texture: {fileID: 2800000, guid: 746bdc689884db647ae7031caffa1d28, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -47,7 +47,7 @@ Material:
     m_Floats:
     - _BlinkAmount: 1
     - _BlinkSpeed: 0.51
-    - _BumpScale: 1.2
+    - _BumpScale: 0.78
     - _ClearCoat: 0
     - _ClearCoatSmooth: 0
     - _CrackFeather: 0
@@ -58,14 +58,14 @@ Material:
     - _MinAlbedo: 0.2
     - _NoiseNormalStrength: 0
     - _NoiseScale: 2
-    - _OutlineBlinkSpeed: 5.7
+    - _OutlineBlinkSpeed: 3
     - _OutlineDepthEps: 0.00886
     - _OutlineIntensityMax: 1
-    - _OutlineIntensityMin: 0.1
+    - _OutlineIntensityMin: 0.3
     - _OutlinePixelsMax: 40
     - _OutlinePixelsMin: 12.3
     - _OutlineUseScreen: 1
-    - _OutlineWidth: 0.0601
+    - _OutlineWidth: 0.1
     - _OutlineWidthMax: 0.0756
     - _OutlineWidthMin: 0.0354
     - _OutlineWidthWorld: 0.1
@@ -84,14 +84,14 @@ Material:
     - _ToonSteps: 8
     - _TriScale: 0.1
     - _TriSharp: 1
-    - _UseRamp: 1
+    - _UseRamp: 0
     - _UseToneMap: 1
     - _UseTriplanar: 0
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _GlowColor: {r: 0.19999996, g: 0.9, b: 1.5, a: 1}
+    - _BaseColor: {r: 0, g: 1, b: 0.5999999, a: 1}
+    - _GlowColor: {r: 0, g: 0.15048815, b: 0.4509804, a: 1}
     - _NoiseSpeed: {r: 0, g: 0, b: 0, a: 0}
-    - _OutlineColor: {r: 1, g: 0.7372549, b: 0, a: 1}
+    - _OutlineColor: {r: 1, g: 0.69405246, b: 0, a: 1}
     - _SweepDir: {r: 23.46, g: 11.67, b: 8.42, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
