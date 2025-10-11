@@ -10416,6 +10416,22 @@ MonoBehaviour:
     loopDurationSeconds: 0
     clearOnStop: 0
     destroyOnStop: 0
+    destroyMask: 0
+  soundEffects:
+  - tag: Zap
+    sfx: {fileID: 11400000, guid: 2852c970b16c5404898af62637c4499a, type: 2}
+    triggerMask: 1024
+    cancelMask: 0
+    eventObject: {fileID: 3468131680401859054}
+    mode: 0
+    spaceOverride: 0
+    volumeMultiplier: 0.7
+    pitchOffset: 0
+    randomizePitch: 1
+    randomPitchRange: 0.2
+    loopDurationSeconds: 0
+    fadeOutOnStopSeconds: 0
+  oneShotPoolSize: 8
   references:
     version: 2
     RefIds: []

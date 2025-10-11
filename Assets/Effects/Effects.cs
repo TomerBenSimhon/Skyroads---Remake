@@ -2,40 +2,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-// NOTE:
-// - Requires: GlobalEvents.cs (with GlobalEvents.Raised event),
-//             ParticleEffectSpec.cs,
-//             CameraEffectSpec + CameraEffectsManager (your existing camera system),
-//             SfxClip.cs, SoundEffectSpec.cs,
-//             EffectsAudioHelpers.cs (extension helpers for audio).
-//
-// Flow per event: CANCEL first → TRIGGER after (for camera, particles, sounds).
+// Requires: GlobalEvents.cs, ParticleEffectSpec.cs, CameraEffectSpec/CameraEffectsManager,
+//           SfxClip.cs, SoundEffectSpec.cs, EffectsAudioHelpers.cs
 
 [DefaultExecutionOrder(-10)]
 public class Effects : MonoBehaviour
 {
-    // ===== Camera Effects (unchanged pattern) =====
+    [Header("Debug")]
+    [SerializeField] private bool enableDebugLogs = false;
+
+    // ===== Camera Effects =====
     [Header("Camera Effects")]
     [SerializeReference] private List<CameraEffectSpec> cameraEffects = new();
 
-    // ===== Particle Effects (existing) =====
+    // ===== Particle Effects =====
+    [Header("Particle Effects")]
     [SerializeField] private List<ParticleEffectSpec> particleEffects = new();
 
-    // ===== Sound Effects (new) =====
+    // ===== Sound Effects =====
+    [Header("Sound Effects")]
     [SerializeField] private List<SoundEffectSpec> soundEffects = new();
 
-    // Runtime holders for looped SFX
-    private readonly Dictionary<string, AudioSource> _loopSources = new();
-    private readonly Dictionary<string, Coroutine> _autoStops = new();
+    // Per-tag sources for BOTH one-shots and loops
+    private readonly Dictionary<string, AudioSource> _tagSources = new();
+    private readonly Dictionary<string, Coroutine>   _autoStops  = new();
 
-    private void OnEnable()
-    {
-        GlobalEvents.Raised += OnEvent;
-    }
-
+    private void OnEnable()  => GlobalEvents.Raised += OnEvent;
     private void OnDisable()
     {
         GlobalEvents.Raised -= OnEvent;
+
+        // Safety: stop & clear anything still playing under this Effects
+        if (enableDebugLogs) Debug.Log($"[Effects:{name}] OnDisable: stopping all child audio sources.");
+        var all = GetComponentsInChildren<AudioSource>(true);
+        foreach (var src in all)
+        {
+            if (src && src.isPlaying) src.Stop();
+        }
+        _tagSources.Clear();
+        _autoStops.Clear();
     }
 
     private void OnEvent(GlobalEvents.Id id, GameObject sender)
@@ -45,15 +50,16 @@ public class Effects : MonoBehaviour
         // =======================
         if (CameraEffectsManager.I != null && cameraEffects != null && cameraEffects.Count > 0)
         {
-            // cancel
             foreach (var spec in cameraEffects)
             {
                 if (spec == null) continue;
                 if (spec.MatchesCancel(id, sender))
+                {
+                    if (enableDebugLogs) Debug.Log($"[Effects:{name}] Camera CANCEL {spec.tag} on {id}");
                     CameraEffectsManager.I.CancelTag(spec.tag);
+                }
             }
 
-            // trigger
             var call = new EffectCall
             {
                 source    = transform,
@@ -67,7 +73,8 @@ public class Effects : MonoBehaviour
                 if (spec == null) continue;
                 if (!spec.MatchesTrigger(id, sender)) continue;
 
-                var eff = spec.Build(call); // your existing API
+                if (enableDebugLogs) Debug.Log($"[Effects:{name}] Camera TRIGGER {spec.tag} on {id}");
+                var eff = spec.Build(call);
                 if (eff != null)
                     CameraEffectsManager.I.Play(eff, spec.replaceExisting);
             }
@@ -78,22 +85,22 @@ public class Effects : MonoBehaviour
         // =========================
         if (particleEffects != null && particleEffects.Count > 0)
         {
-            // cancel
             foreach (var pspec in particleEffects)
             {
                 if (pspec == null) continue;
                 if (!pspec.MatchesCancel(id, sender)) continue;
 
+                if (enableDebugLogs) Debug.Log($"[Effects:{name}] Particles CANCEL {pspec.tag} on {id}");
                 pspec.Stop(id);
                 if (pspec.particleObject) pspec.particleObject.SetActive(false);
             }
 
-            // trigger
             foreach (var pspec in particleEffects)
             {
                 if (pspec == null) continue;
                 if (!pspec.MatchesTrigger(id, sender)) continue;
 
+                if (enableDebugLogs) Debug.Log($"[Effects:{name}] Particles TRIGGER {pspec.tag} on {id}");
                 if (pspec.particleObject) pspec.particleObject.SetActive(true);
                 pspec.Play();
             }
@@ -104,17 +111,21 @@ public class Effects : MonoBehaviour
         // ======================
         if (soundEffects != null && soundEffects.Count > 0)
         {
-            // ---- cancel loops first
+            // ---- CANCEL (handles loops AND long one-shots)
             foreach (var sspec in soundEffects)
             {
                 if (sspec == null || sspec.sfx == null) continue;
                 if (!sspec.MatchesCancel(id, sender)) continue;
 
-                if (_loopSources.TryGetValue(sspec.tag, out var src) && src)
-                {
-                    // extension method from EffectsAudioHelpers
+                if (enableDebugLogs) Debug.Log($"[Effects:{name}] Sound CANCEL {sspec.tag} on {id}");
+
+                // 1) per-tag source
+                if (_tagSources.TryGetValue(sspec.tag, out var src) && src)
                     this.StopSource(src, sspec.fadeOutOnStopSeconds);
-                }
+
+                // 2) sweep all children for any matching sources just in case
+                this.StopBySpecSweep(sspec, sspec.fadeOutOnStopSeconds, enableDebugLogs);
+
                 // clear any pending auto-stop
                 if (_autoStops.TryGetValue(sspec.tag, out var routine) && routine != null)
                 {
@@ -123,7 +134,7 @@ public class Effects : MonoBehaviour
                 }
             }
 
-            // ---- then triggers
+            // ---- TRIGGER
             var call = new EffectCall
             {
                 source    = transform,
@@ -137,14 +148,16 @@ public class Effects : MonoBehaviour
                 if (sspec == null || sspec.sfx == null) continue;
                 if (!sspec.MatchesTrigger(id, sender)) continue;
 
-                // create/reuse a source (loops get a dedicated child, one-shots reuse root)
-                var src = this.GetOrCreateSource(sspec, _loopSources);
+                if (enableDebugLogs) Debug.Log($"[Effects:{name}] Sound TRIGGER {sspec.tag} on {id}");
+
+                // Dedicated per-tag source (child GameObject) so cancel can always reach it
+                var src = this.GetOrCreateTaggedSource(sspec, _tagSources);
                 this.ConfigureSource(src, sspec); // mixer + 2D/3D + distances
 
-                // resolve final volume/pitch (optionally scale by call.magnitude)
+                // resolve volume/pitch (optionally scale by call.magnitude)
                 sspec.ResolveVolumePitch(out var vol, out var pitch, call.magnitude);
                 src.volume = vol;
-                src.pitch = pitch;
+                src.pitch  = pitch;
 
                 if (sspec.mode == SoundMode.OneShot)
                 {
@@ -165,7 +178,7 @@ public class Effects : MonoBehaviour
                             sspec.tag,
                             sspec.loopDurationSeconds,
                             sspec.fadeOutOnStopSeconds,
-                            _loopSources,
+                            _tagSources,
                             _autoStops
                         );
                     }

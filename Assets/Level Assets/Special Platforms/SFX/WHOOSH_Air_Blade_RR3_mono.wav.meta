@@ -1,0 +1,39 @@
+fileFormatVersion: 2
+guid: 02981d1f2ba873b468dcd08522e34ced
+labels:
+- usfx
+- imphenzia
+- mono
+- whoosh
+- swoosh
+- air
+- blade
+- swing
+AssetOrigin:
+  serializedVersion: 1
+  productId: 17256
+  packageName: Universal Sound FX
+  packageVersion: 1.6
+  assetPath: Assets/Universal Sound FX/WHOOSHES/Air/WHOOSH_Air_Blade_RR3_mono.wav
+  uploadId: 736765
+AudioImporter:
+  externalObjects: {}
+  serializedVersion: 8
+  defaultSettings:
+    serializedVersion: 2
+    loadType: 0
+    sampleRateSetting: 2
+    sampleRateOverride: 22050
+    compressionFormat: 0
+    quality: 0
+    conversionMode: 0
+    preloadAudioData: 1
+  platformSettingOverrides: {}
+  forceToMono: 0
+  normalize: 1
+  loadInBackground: 0
+  ambisonic: 0
+  3D: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

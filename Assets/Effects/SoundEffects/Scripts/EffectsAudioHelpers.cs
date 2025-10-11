@@ -5,35 +5,24 @@ using UnityEngine.Audio;
 
 public static class EffectsAudioHelpers
 {
-    // Create/reuse an AudioSource for this spec. Loops get a per-tag child.
-    public static AudioSource GetOrCreateSource(
+    // Keep a dedicated per-tag AudioSource so cancel can stop both loops and one-shots.
+    public static AudioSource GetOrCreateTaggedSource(
         this Effects self,
         SoundEffectSpec spec,
-        Dictionary<string, AudioSource> loopSources)
+        Dictionary<string, AudioSource> tagSources)
     {
-        if (spec.mode == SoundMode.Looping)
-        {
-            if (loopSources.TryGetValue(spec.tag, out var existing) && existing)
-                return existing;
-        }
+        if (tagSources.TryGetValue(spec.tag, out var existing) && existing)
+            return existing;
 
-        // Loops → dedicated child under Effects (follows transform for 3D).
-        // One-shots → reuse/attach to root object.
-        var host = (spec.mode == SoundMode.Looping)
-            ? self.GetOrCreateChild($"SFX_{spec.tag}")
-            : self.gameObject;
-
-        var src = host.GetComponent<AudioSource>();
+        var host = self.GetOrCreateChild($"SFX_{spec.tag}"); // child follows root transform (3D)
+        var src  = host.GetComponent<AudioSource>();
         if (!src) src = host.AddComponent<AudioSource>();
         src.playOnAwake = false;
 
-        if (spec.mode == SoundMode.Looping)
-            loopSources[spec.tag] = src;
-
+        tagSources[spec.tag] = src;
         return src;
     }
 
-    // Ensure/find a named child
     public static GameObject GetOrCreateChild(this Effects self, string name)
     {
         var t = self.transform.Find(name);
@@ -43,11 +32,12 @@ public static class EffectsAudioHelpers
         return go;
     }
 
-    // Apply mixer + 2D/3D + distances
     public static void ConfigureSource(this Effects self, AudioSource src, SoundEffectSpec spec)
     {
+        // mixer
         src.outputAudioMixerGroup = spec.sfx.mixerGroup;
 
+        // 2D/3D
         bool use3D = spec.Use3D();
         src.spatialBlend = use3D ? 1f : 0f;
 
@@ -59,7 +49,6 @@ public static class EffectsAudioHelpers
         }
     }
 
-    // Stop with optional fade (runs on Effects for coroutine)
     public static void StopSource(this Effects self, AudioSource src, float fadeSeconds)
     {
         if (!src) return;
@@ -67,19 +56,25 @@ public static class EffectsAudioHelpers
         self.StartCoroutine(FadeOutAndStop(src, fadeSeconds));
     }
 
-    // Start/replace an auto-stop timer for a looping tag
-    public static void StartAutoStop(
-        this Effects self,
-        string tag,
-        float seconds,
-        float fadeSeconds,
-        Dictionary<string, AudioSource> loopSources,
-        Dictionary<string, Coroutine> autoStops)
+    // Extra-robust cancel: sweep all child AudioSources and stop anything that matches the spec
+    // by tag-host name OR by clip identity.
+    public static void StopBySpecSweep(this Effects self, SoundEffectSpec spec, float fadeSeconds, bool debugLog = false)
     {
-        if (autoStops.TryGetValue(tag, out var routine) && routine != null)
-            self.StopCoroutine(routine);
+        var children = self.GetComponentsInChildren<AudioSource>(true);
+        foreach (var src in children)
+        {
+            if (!src || !src.isPlaying) continue;
 
-        autoStops[tag] = self.StartCoroutine(AutoStopAfter(tag, seconds, fadeSeconds, loopSources, autoStops, self));
+            bool nameMatches = src.gameObject.name == $"SFX_{spec.tag}" || src.gameObject.name.StartsWith($"SFX_{spec.tag}");
+            bool clipMatches = (spec.sfx.clip != null && src.clip == spec.sfx.clip);
+
+            if (nameMatches || clipMatches)
+            {
+                if (debugLog) Debug.Log($"[Effects:{self.name}] Sweep stop: {src.gameObject.name} " +
+                                        $"(nameMatch={nameMatches}, clipMatch={clipMatches})");
+                self.StopSource(src, fadeSeconds);
+            }
+        }
     }
 
     // --- coroutines ---
@@ -97,16 +92,30 @@ public static class EffectsAudioHelpers
         if (src) { src.Stop(); src.volume = startVol; }
     }
 
+    public static void StartAutoStop(
+        this Effects self,
+        string tag,
+        float seconds,
+        float fadeSeconds,
+        Dictionary<string, AudioSource> tagSources,
+        Dictionary<string, Coroutine> autoStops)
+    {
+        if (autoStops.TryGetValue(tag, out var routine) && routine != null)
+            self.StopCoroutine(routine);
+
+        autoStops[tag] = self.StartCoroutine(AutoStopAfter(tag, seconds, fadeSeconds, tagSources, autoStops, self));
+    }
+
     private static IEnumerator AutoStopAfter(
         string tag,
         float seconds,
         float fadeSeconds,
-        Dictionary<string, AudioSource> loopSources,
+        Dictionary<string, AudioSource> tagSources,
         Dictionary<string, Coroutine> autoStops,
         Effects self)
     {
         yield return new WaitForSeconds(seconds);
-        if (loopSources.TryGetValue(tag, out var src) && src)
+        if (tagSources.TryGetValue(tag, out var src) && src)
             self.StopSource(src, fadeSeconds);
         autoStops[tag] = null;
     }

@@ -32,6 +32,70 @@ Transform:
   - {fileID: 1213198490531739767}
   m_Father: {fileID: 3950411765882437193}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1373247178514679860
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2026794571470027382}
+  - component: {fileID: 4051817846279892152}
+  m_Layer: 6
+  m_Name: Effects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2026794571470027382
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373247178514679860}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6301720929804845089}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4051817846279892152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373247178514679860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b05087a5aee1c4d4187bc991b54f7658, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableDebugLogs: 0
+  cameraEffects: []
+  particleEffects: []
+  soundEffects:
+  - tag: SlipperyLoop
+    sfx: {fileID: 11400000, guid: de21484d708ee9b4a8d5b0c9133364eb, type: 2}
+    triggerMask: 16
+    cancelMask: 32
+    eventObject: {fileID: 0}
+    mode: 1
+    spaceOverride: 0
+    volumeMultiplier: 0.065
+    pitchOffset: 0
+    randomizePitch: 0
+    randomPitchRange: 0
+    loopDurationSeconds: -1
+    fadeOutOnStopSeconds: 0.5
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &2462778048357197091
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,6 +679,7 @@ Transform:
   - {fileID: 6884063668290326781}
   - {fileID: 7118291000659955881}
   - {fileID: 5149713631574470797}
+  - {fileID: 2026794571470027382}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7491224429177616414
