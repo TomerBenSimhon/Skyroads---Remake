@@ -5083,6 +5083,21 @@ MonoBehaviour:
   cameraEffects:
   - rid: 5346983742512300110
   particleEffects: []
+  soundEffects:
+  - tag: BoostWoosh
+    sfx: {fileID: 11400000, guid: 4bd68b3ce7c0fd54dbeb9c4d07315047, type: 2}
+    triggerMask: 1
+    cancelMask: 0
+    eventObject: {fileID: 0}
+    mode: 0
+    spaceOverride: 0
+    volumeMultiplier: 0.563
+    pitchOffset: -0.1
+    randomizePitch: 1
+    randomPitchRange: 0.1
+    loopDurationSeconds: 0
+    fadeOutOnStopSeconds: 0
+  oneShotPoolSize: 8
   references:
     version: 2
     RefIds:

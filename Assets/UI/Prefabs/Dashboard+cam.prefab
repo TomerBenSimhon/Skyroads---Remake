@@ -1441,6 +1441,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraEffects: []
   particleEffects: []
+  soundEffects: []
+  oneShotPoolSize: 8
   references:
     version: 2
     RefIds: []
@@ -2087,7 +2089,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1801748945312984279}
   - component: {fileID: 3397239885933821224}
-  - component: {fileID: 6343202309271928103}
   - component: {fileID: 8821224951650033091}
   m_Layer: 0
   m_Name: DashboardCam
@@ -2162,14 +2163,6 @@ Camera:
   m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &6343202309271928103
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5703943252888072126}
-  m_Enabled: 1
 --- !u!114 &8821224951650033091
 MonoBehaviour:
   m_ObjectHideFlags: 0
