@@ -17,7 +17,7 @@ public static class GlobalEvents
         OnAwake = 1 << 13,
         PlayerGrounded = 1 << 14,
         PlayerDied = 1 << 15, PlayerRespawned = 1 << 16, PlayerBroken = 1 << 17, 
-        PlayerAirborne = 1 << 18
+        PlayerAirborne = 1 << 18, OnEventTriggered = 1 << 19
     }
 
     // Single neutral event
