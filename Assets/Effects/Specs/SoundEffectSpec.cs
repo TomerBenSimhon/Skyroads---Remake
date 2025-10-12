@@ -2,39 +2,31 @@ using System;
 using UnityEngine;
 
 public enum SoundMode { OneShot, Looping }
-public enum SpaceOverride { UseAssetDefault, Force2D, Force3D }
 
 [Serializable]
 public class SoundEffectSpec
 {
-    [Header("Info")]
+    [Header("Tag & Asset")]
     public string tag = "SFX/Generic";
+    public SfxClip sfx;
 
-    [Header("Asset")]
-    public SfxClip sfx;                               // holds the clip & defaults
-
-    [Header("Events (per-spec)")]
+    [Header("Events")]
     public GlobalEvents.Id triggerMask = GlobalEvents.Id.None;
     public GlobalEvents.Id cancelMask  = GlobalEvents.Id.None;
-
-    [Tooltip("Optional filter: only react when this sender raises the event.")]
+    [Tooltip("If set, only respond to events from this sender.")]
     public GameObject eventObject;
 
     [Header("Behavior")]
     public SoundMode mode = SoundMode.OneShot;
-    [Tooltip("Override 2D/3D set on SfxClip; leave 'UseAssetDefault' to respect asset.")]
-    public SpaceOverride spaceOverride = SpaceOverride.UseAssetDefault;
-
     [Range(0f,1f)] public float volumeMultiplier = 1f;
     public float pitchOffset = 0f;
     public bool randomizePitch = false;
-    [Min(0f)] public float randomPitchRange = 0.1f;   // +/- around base pitch
-
-    [Tooltip("If > 0, loops can auto-stop after this many seconds (-1 = no auto-stop).")]
+    [Min(0f)] public float randomPitchRange = 0.1f;
+    [Tooltip("If > 0, loops will auto-stop after this many seconds (-1 = none).")]
     public float loopDurationSeconds = -1f;
 
-    [Header("Stop Options")]
-    [Tooltip("Seconds to fade-out when stopping a loop. 0 = immediate.")]
+    [Header("Stop")]
+    [Tooltip("Seconds to fade-out when stopping. 0 = instant.")]
     public float fadeOutOnStopSeconds = 0.05f;
 
     public bool MatchesTrigger(GlobalEvents.Id id, GameObject sender)
@@ -51,30 +43,28 @@ public class SoundEffectSpec
         return true;
     }
 
-    // runtime-resolved effective spatial mode
-    public bool Use3D()
+    // delegate to AudioManager
+    public void Trigger(Transform followTarget, float magnitude = 1f)
     {
-        return spaceOverride switch
+        if (!sfx) { Debug.LogWarning($"[SoundEffectSpec] '{tag}' missing SfxClip"); return; }
+
+        float volMul = volumeMultiplier /* * magnitude */;
+
+        if (mode == SoundMode.OneShot)
         {
-            SpaceOverride.Force2D => false,
-            SpaceOverride.Force3D => true,
-            _ => (sfx && sfx.is3D)
-        };
+            AudioManager.I?.PlayOneShot(tag, sfx, followTarget, volMul, pitchOffset, randomizePitch, randomPitchRange);
+        }
+        else
+        {
+            AudioManager.I?.PlayLoop(tag, sfx, followTarget, volMul, pitchOffset, randomizePitch, randomPitchRange);
+            if (loopDurationSeconds > 0f)
+                AudioManager.I?.StopLoopAfter(tag, loopDurationSeconds, fadeOutOnStopSeconds);
+        }
     }
 
-    // resolve final volume/pitch (you can scale by EffectCall.magnitude later)
-    public void ResolveVolumePitch(out float vol, out float pitch, float magnitude = 1f)
+    public void Cancel()
     {
-        float baseVol = sfx ? sfx.volume : 1f;
-        float basePitch = sfx ? sfx.pitch : 1f;
-
-        float p = basePitch + pitchOffset;
-        if (randomizePitch && randomPitchRange > 0f)
-            p += UnityEngine.Random.Range(-randomPitchRange, randomPitchRange);
-
-        vol = Mathf.Clamp01(baseVol * volumeMultiplier /* * magnitude */);
-        pitch = p;
+        // Stop loop and any oneshots tagged with this tag
+        AudioManager.I?.StopAllForTag(tag, fadeOutOnStopSeconds);
     }
 }
-
-

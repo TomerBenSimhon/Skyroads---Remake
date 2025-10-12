@@ -38,10 +38,10 @@ public static class EffectsAudioHelpers
         src.outputAudioMixerGroup = spec.sfx.mixerGroup;
 
         // 2D/3D
-        bool use3D = spec.Use3D();
-        src.spatialBlend = use3D ? 1f : 0f;
+        bool is3D = spec.sfx.is3D;
+        src.spatialBlend = is3D ? 1f : 0f;
 
-        if (use3D)
+        if (is3D)
         {
             src.rolloffMode = spec.sfx.rolloff;
             src.minDistance = Mathf.Max(0.01f, spec.sfx.minDistance);
