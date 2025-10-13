@@ -10424,14 +10424,38 @@ MonoBehaviour:
     cancelMask: 0
     eventObject: {fileID: 3468131680401859054}
     mode: 0
-    spaceOverride: 0
-    volumeMultiplier: 0.7
+    volumeMultiplier: 0.428
     pitchOffset: 0
     randomizePitch: 1
     randomPitchRange: 0.2
     loopDurationSeconds: 0
+    fadeInOnStartSeconds: 0
+    fadeInShape: 1
+    customFadeIn:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 1
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     fadeOutOnStopSeconds: 0
-  oneShotPoolSize: 8
   references:
     version: 2
     RefIds: []
