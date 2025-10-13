@@ -13077,6 +13077,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8821224951650033091, guid: c360b5428c47ddd4bb41154b6cfbd7b3, type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9035414978686512070, guid: c360b5428c47ddd4bb41154b6cfbd7b3, type: 3}
       propertyPath: m_text
       value: Fuel
@@ -13084,10 +13088,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 915273565844875266, guid: c360b5428c47ddd4bb41154b6cfbd7b3, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c360b5428c47ddd4bb41154b6cfbd7b3, type: 3}
 --- !u!23 &283965484 stripped
 MeshRenderer:
@@ -14790,8 +14791,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[1].fadeInShape
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[1].triggerMask
       value: 8192
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[2].fadeInShape
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[2].triggerMask
@@ -14875,7 +14884,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[1].volumeMultiplier
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[2].randomPitchRange
@@ -14883,7 +14892,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[2].volumeMultiplier
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[2].particleObject
@@ -14906,7 +14915,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2118552363}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[1].fadeInOnStartSeconds
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[1].fadeOutOnStopSeconds
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[2].fadeInOnStartSeconds
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
@@ -53797,7 +53814,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9118226865566101893, guid: 77f6b7b5135aa5547a01a2c3ca5bd7c2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 33.395203
+      value: 40.62
       objectReference: {fileID: 0}
     - target: {fileID: 9118226865566101893, guid: 77f6b7b5135aa5547a01a2c3ca5bd7c2, type: 3}
       propertyPath: m_LocalRotation.w
