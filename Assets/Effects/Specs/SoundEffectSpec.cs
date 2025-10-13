@@ -3,6 +3,16 @@ using UnityEngine;
 
 public enum SoundMode { OneShot, Looping }
 
+// Perceptual fade shapes for volume (amplitude) ramps
+public enum FadeShape
+{
+    Linear,         // w = t
+    EaseInSine,     // w = sin(t * PI/2)
+    Exponential,    // w = t^k  (k>1, we use k=3)
+    Logarithmic,    // w = log(1 + a*t)/log(1+a) (a=9)
+    Custom          // use provided AnimationCurve (0..1 -> 0..1)
+}
+
 [Serializable]
 public class SoundEffectSpec
 {
@@ -25,8 +35,15 @@ public class SoundEffectSpec
     [Tooltip("If > 0, loops will auto-stop after this many seconds (-1 = none).")]
     public float loopDurationSeconds = -1f;
 
-    [Header("Stop")]
-    [Tooltip("Seconds to fade-out when stopping. 0 = instant.")]
+    [Header("Fades")]
+    [Tooltip("Seconds to fade IN when a loop starts/restarts.")]
+    public float fadeInOnStartSeconds = 0f;
+    [Tooltip("Fade-in curve shape for loops.")]
+    public FadeShape fadeInShape = FadeShape.EaseInSine;     // NEW
+    [Tooltip("Used only if FadeInShape = Custom. Time: 0..1, Value: 0..1")]
+    public AnimationCurve customFadeIn = AnimationCurve.Linear(0, 0, 1, 1); // NEW
+
+    [Tooltip("Seconds to fade OUT when stopping. 0 = instant.")]
     public float fadeOutOnStopSeconds = 0.05f;
 
     public bool MatchesTrigger(GlobalEvents.Id id, GameObject sender)
@@ -43,7 +60,7 @@ public class SoundEffectSpec
         return true;
     }
 
-    // delegate to AudioManager
+    // Delegate to AudioManager
     public void Trigger(Transform followTarget, float magnitude = 1f)
     {
         if (!sfx) { Debug.LogWarning($"[SoundEffectSpec] '{tag}' missing SfxClip"); return; }
@@ -56,7 +73,14 @@ public class SoundEffectSpec
         }
         else
         {
-            AudioManager.I?.PlayLoop(tag, sfx, followTarget, volMul, pitchOffset, randomizePitch, randomPitchRange);
+            AudioManager.I?.PlayLoop(
+                tag, sfx, followTarget,
+                volMul, pitchOffset, randomPitchRange: randomPitchRange, randomizePitch: randomizePitch,
+                fadeInSeconds: fadeInOnStartSeconds,
+                fadeInShape: fadeInShape,
+                customFade: customFadeIn
+            );
+
             if (loopDurationSeconds > 0f)
                 AudioManager.I?.StopLoopAfter(tag, loopDurationSeconds, fadeOutOnStopSeconds);
         }
@@ -64,7 +88,7 @@ public class SoundEffectSpec
 
     public void Cancel()
     {
-        // Stop loop and any oneshots tagged with this tag
+        // Stop loop and any one-shots for this tag
         AudioManager.I?.StopAllForTag(tag, fadeOutOnStopSeconds);
     }
 }
