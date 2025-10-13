@@ -31,7 +31,10 @@ public class PlayerController : MonoBehaviour
         _input = GetComponent<PlayerInput>();
         _rb = GetComponent<Rigidbody>();
         RuntimeSettings = Instantiate(DefaultSettings);
-        
+    }
+
+    void Start()
+    {
         GlobalEvents.Raise(GlobalEvents.Id.OnAwake, gameObject);
     }
     

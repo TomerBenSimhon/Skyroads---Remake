@@ -45,6 +45,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AmbientStrength: 0
     - _BlinkAmount: 1
     - _BlinkSpeed: 0.51
     - _BumpScale: 0.78
@@ -71,9 +72,9 @@ Material:
     - _OutlineWidthWorld: 0.1
     - _OutlineWidthWorldMax: 0.1
     - _OutlineWidthWorldMin: 0.0133
-    - _Smoothness: 1
+    - _Smoothness: 0
     - _SpecSteps: 8
-    - _Specular: 1
+    - _Specular: 0
     - _SweepAmount: 0.95
     - _SweepOffset: 0
     - _SweepSoftness: 0.5
@@ -88,7 +89,7 @@ Material:
     - _UseToneMap: 1
     - _UseTriplanar: 0
     m_Colors:
-    - _BaseColor: {r: 0.216981, g: 0.39546317, b: 1, a: 1}
+    - _BaseColor: {r: 0.43170863, g: 0.27191874, b: 0.6830188, a: 1}
     - _GlowColor: {r: 0, g: 0.15048815, b: 0.4509804, a: 1}
     - _NoiseSpeed: {r: 0, g: 0, b: 0, a: 0}
     - _OutlineColor: {r: 1, g: 0.69405246, b: 0, a: 1}

@@ -32,7 +32,7 @@
         _SweepWidth("Sweep Width", Range(0.01,1)) = 0.15
         _SweepSpeed("Sweep Speed", Range(-10,10)) = 1.0
         _SweepOffset("Sweep Offset", Range(0,1)) = 0.0
-        _SweepSoftness("Sweep Softness", Range(0.0,0.5)) = 0.12   // חדש, רכות המעבר
+        _SweepSoftness("Sweep Softness", Range(0.0,0.5)) = 0.12
 
         [HDR]_GlowColor("Glow Color (HDR)", Color) = (0.2,0.9,1.5,1)
         _GlowIntensity("Glow Intensity", Range(0,10)) = 2.0
@@ -51,6 +51,9 @@
         _OutlineBlinkSpeed("Outline Blink Speed", Range(0,20)) = 6
         _OutlineIntensityMin("Outline Intensity Min", Range(0,3)) = 0.9
         _OutlineIntensityMax("Outline Intensity Max", Range(0,5)) = 1.5
+
+        // חדש
+        _AmbientStrength("Ambient Strength", Range(0,1)) = 0.3
     }
 
     SubShader
@@ -94,6 +97,7 @@
                 float  _UseToneMap, _ToneStrength;
                 float4 _OutlineColor; float _OutlineWidth;
                 float  _OutlineBlinkSpeed, _OutlineIntensityMin, _OutlineIntensityMax;
+                float  _AmbientStrength; // חדש
             CBUFFER_END
 
             struct Attributes{ float4 positionOS:POSITION; float3 normalOS:NORMAL; float4 tangentOS:TANGENT; float2 uv:TEXCOORD0; UNITY_VERTEX_INPUT_INSTANCE_ID };
@@ -152,27 +156,17 @@
                 noiseGate = smoothstep(0.4, 0.6, n);
             }
 
-            // Sweep רציף ללא קפיצה
             float DirectionalSweep(float2 uv)
             {
                 float2 dir = normalize(_SweepDir.xy + 1e-6);
-                float t = dot(uv, dir);                       // מיקום לאורך הכיוון
+                float t = dot(uv, dir);
                 float phase = _SweepOffset + _Time.y * _SweepSpeed;
-
-                // מרחק מחזורי מהמרכז, עטוף לרצועה [0,0.5] באופן רציף
-                float a = abs(frac(t - phase) - 0.5);         // 0 באמצע הרצועה, 0.5 בקצוות
-
-                float w = saturate(_SweepWidth);              // חצי-רוחב הרצועה, 0..1
+                float a = abs(frac(t - phase) - 0.5);
+                float w = saturate(_SweepWidth);
                 w = max(w, 1e-4);
-
-                // מסיכה ליניארית בתוך הרוחב
                 float band = saturate(1.0 - a / w);
-
-                // ריכוך קצוות, רציף בלופ
-                float s = saturate(_SweepSoftness);           // 0=חד, 0.5=רך
-                // ממפה band דרך עקומה חלקה, ללא כיבוי פתאומי
+                float s = saturate(_SweepSoftness);
                 band = smoothstep(0.0, s, band);
-
                 return band;
             }
 
@@ -233,10 +227,13 @@
                 float3 V = normalize(IN.viewDirWS);
                 float3 litCol = ToonLighting(albedo, N, V, IN.positionWS, IN.shadowCoord);
 
+                // חדש – רכיב ambient אחיד כדי לדמות Unlit פלסטיקי
+                float3 ambient = albedo * _AmbientStrength;
+                litCol += ambient;
+
                 float crackCore, crackSoft, noiseGate; CrackCompute(IN.uv, crackCore, crackSoft, noiseGate);
                 float blink = lerp(1.0, 0.5+0.5*sin(_Time.y*_BlinkSpeed), _BlinkAmount);
 
-                // משתמש בפונקציה הרציפה החדשה
                 float sweep = DirectionalSweep(IN.uv);
                 float gate = noiseGate * lerp(1.0, sweep, _SweepAmount);
 
@@ -255,7 +252,7 @@
             ENDHLSL
         }
 
-        // Outline עם הבהוב בעוצמה בלבד, ללא שינוי
+        // Outline עם הבהוב בעוצמה בלבד
         Pass
         {
             Name "Outline"

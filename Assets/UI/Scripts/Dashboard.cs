@@ -52,7 +52,7 @@ public class Dashboard : MonoBehaviour
     {
         _wheelStartEuler = wheel.localEulerAngles;
         _maxJumpVel = Mathf.Sqrt(_playerController.DefaultSettings.jumpHeight * -2f * Physics.gravity.y * _playerController.DefaultSettings.gravity);
-        _startPos = transform.position;
+        _startPos = transform.localPosition;
         _startEuler = transform.localEulerAngles;
         _fireButtonStartPos = fireButton.localPosition;
         _jumpButtonStartPos = jumpButton.localPosition;
@@ -107,7 +107,7 @@ public class Dashboard : MonoBehaviour
             -_controllerSettings.horizontalSpeed, _controllerSettings.horizontalSpeed, 
             maxBobX, -maxBobX);
         
-        transform.position =Vector3.Lerp(transform.position, target, bobSpeed * Time.deltaTime); 
+        transform.localPosition =Vector3.Lerp(transform.localPosition, target, bobSpeed * Time.deltaTime); 
     }
 
     private void RotateDashboard()
