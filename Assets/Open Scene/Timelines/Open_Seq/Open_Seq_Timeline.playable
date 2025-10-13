@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Curves: {fileID: 0}
   m_Parent: {fileID: 11400000}
   m_Children:
+  - {fileID: 7174690074013919522}
   - {fileID: -8982546987461267668}
   m_Clips: []
   m_Markers:
@@ -265,7 +266,7 @@ MonoBehaviour:
   m_Muted: 0
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
-  m_Parent: {fileID: 11400000}
+  m_Parent: {fileID: -586099189714534177}
   m_Children: []
   m_Clips:
   - m_Version: 1
@@ -436,6 +437,10 @@ MonoBehaviour:
   m_Curves: {fileID: 0}
   m_Parent: {fileID: 11400000}
   m_Children:
+  - {fileID: 283561523890784326}
+  - {fileID: 7519214104955366449}
+  - {fileID: 1127600455189579585}
+  - {fileID: -6868375668438400935}
   - {fileID: -7689632795281478370}
   m_Clips: []
   m_Markers:
@@ -474,12 +479,7 @@ MonoBehaviour:
   - {fileID: 2282686703195599139}
   - {fileID: 6629729623603787125}
   - {fileID: -7737558442643550161}
-  - {fileID: 7174690074013919522}
   - {fileID: -586099189714534177}
-  - {fileID: 283561523890784326}
-  - {fileID: 7519214104955366449}
-  - {fileID: 1127600455189579585}
-  - {fileID: -6868375668438400935}
   - {fileID: 7836317279313116482}
   m_FixedDuration: 0
   m_EditorSettings:
@@ -505,7 +505,7 @@ MonoBehaviour:
   m_Muted: 0
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
-  m_Parent: {fileID: 11400000}
+  m_Parent: {fileID: -586099189714534177}
   m_Children: []
   m_Clips:
   - m_Version: 1
@@ -670,7 +670,7 @@ MonoBehaviour:
   m_Muted: 0
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
-  m_Parent: {fileID: 11400000}
+  m_Parent: {fileID: -586099189714534177}
   m_Children: []
   m_Clips:
   - m_Version: 1
@@ -1061,7 +1061,7 @@ MonoBehaviour:
   m_Muted: 0
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
-  m_Parent: {fileID: 11400000}
+  m_Parent: {fileID: -7737558442643550161}
   m_Children: []
   m_Clips:
   - m_Version: 1
@@ -1154,7 +1154,7 @@ MonoBehaviour:
   m_Muted: 0
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
-  m_Parent: {fileID: 11400000}
+  m_Parent: {fileID: -586099189714534177}
   m_Children: []
   m_Clips:
   - m_Version: 1

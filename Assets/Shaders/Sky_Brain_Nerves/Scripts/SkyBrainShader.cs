@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class SkyBrainShader : MonoBehaviour
 {
+    [Header("Trigger Settings")]
     [SerializeField] private GlobalEvents.Id triggerMask = GlobalEvents.Id.None;
+    [SerializeField] private GameObject eventObject;
     
     [Header("Shader Parameters")] 
-    float _alphaMin;
     [SerializeField][Range(0, 1)] private float alphaMax;
     
     [Header("Timing Settings")]
@@ -16,6 +17,8 @@ public class SkyBrainShader : MonoBehaviour
     
     private Material _material;
     private Coroutine _coroutine;
+    
+    float _alphaMin;
 
     void Awake()
     {
@@ -35,8 +38,9 @@ public class SkyBrainShader : MonoBehaviour
 
     void OnGlobalEvent(GlobalEvents.Id id, GameObject sender)
     {
-        if (triggerMask == GlobalEvents.Id.None) return;
-        if ((triggerMask & id) == 0f) return;
+        if(triggerMask == GlobalEvents.Id.None) return;
+        if((triggerMask & id) == 0f) return;
+        if(eventObject != null && eventObject != sender) return; 
 
         if (_coroutine != null)
         {
