@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerDeath : MonoBehaviour
@@ -56,7 +57,6 @@ public class PlayerDeath : MonoBehaviour
     public void ActivatePlayer(bool activate)
     {
         _playerController.enabled = activate;
-        _playerVisuals.SetActive(activate);
 
         if (activate)
         {
@@ -86,5 +86,10 @@ public class PlayerDeath : MonoBehaviour
         _playerController.RuntimeSettings.horizontalDeceleration = _playerController.RuntimeSettings.forwardDeceleration;
         _playerController.RuntimeSettings.jumpHeight = 0f;
         _playerController.RuntimeSettings.turningAngle = 0f;
+    }
+
+    private IEnumerator Dissolve()
+    {
+        yield break;
     }
 }
