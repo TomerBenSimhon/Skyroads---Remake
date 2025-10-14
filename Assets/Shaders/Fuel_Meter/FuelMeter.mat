@@ -35,12 +35,12 @@ Material:
     m_Floats:
     - _EdgeWidth: 0.1
     - _Level: 0.442
-    - _NoiseAmt: 0.025
-    - _WaveAmp: 0.0343
+    - _NoiseAmt: 0.1
+    - _WaveAmp: 0.07
     - _WaveFreq: 5.3
     - _WaveSpeed: 2
     m_Colors:
     - _EdgeColor: {r: 0.6603774, g: 0.22116414, b: 0.22926837, a: 1}
-    - _MainColor: {r: 1, g: 0, b: 0, a: 1}
+    - _MainColor: {r: 0.74213827, g: 0.74213827, b: 0.74213827, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

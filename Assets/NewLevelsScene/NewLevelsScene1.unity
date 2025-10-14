@@ -14720,7 +14720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.size
@@ -14743,12 +14743,24 @@ PrefabInstance:
       value: BG2
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[3].sfx
+      value: 
+      objectReference: {fileID: 11400000, guid: 2961745790c578a4fb232fe2f91ff68e, type: 2}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[3].tag
+      value: Pick_Up
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[1].mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[2].mode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[3].mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[2].tag
@@ -14805,6 +14817,14 @@ PrefabInstance:
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[2].triggerMask
       value: 524288
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[3].fadeInShape
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[3].triggerMask
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[0].cancelMask
@@ -14895,6 +14915,14 @@ PrefabInstance:
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[3].randomPitchRange
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[3].volumeMultiplier
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[2].particleObject
       value: 
       objectReference: {fileID: 353817896}
@@ -14929,6 +14957,14 @@ PrefabInstance:
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[2].fadeOutOnStopSeconds
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[3].fadeInOnStartSeconds
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[3].fadeOutOnStopSeconds
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7595545033551219730, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: m_LocalPosition.x
@@ -53804,6 +53840,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fix pickup
       objectReference: {fileID: 0}
+    - target: {fileID: 2217087038037839295, guid: 77f6b7b5135aa5547a01a2c3ca5bd7c2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9118226865566101893, guid: 77f6b7b5135aa5547a01a2c3ca5bd7c2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.633205
@@ -53814,7 +53854,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9118226865566101893, guid: 77f6b7b5135aa5547a01a2c3ca5bd7c2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 40.62
+      value: 37.41
       objectReference: {fileID: 0}
     - target: {fileID: 9118226865566101893, guid: 77f6b7b5135aa5547a01a2c3ca5bd7c2, type: 3}
       propertyPath: m_LocalRotation.w
