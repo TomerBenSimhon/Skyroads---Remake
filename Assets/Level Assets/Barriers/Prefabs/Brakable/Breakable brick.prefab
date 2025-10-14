@@ -33,6 +33,7 @@ Transform:
   - {fileID: 9144834231199460692}
   - {fileID: 7019553576853931114}
   - {fileID: 272932659438029011}
+  - {fileID: 6685029933839176395}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1543570380307415756
@@ -52,6 +53,76 @@ MonoBehaviour:
   - {fileID: 4949175416839493076}
   - {fileID: 8379169161158101349}
   onRespawn: 65536
+--- !u!1 &4604224886949986056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6685029933839176395}
+  - component: {fileID: 7394239252052154901}
+  m_Layer: 11
+  m_Name: Effects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6685029933839176395
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4604224886949986056}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7262291315410618038}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7394239252052154901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4604224886949986056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b05087a5aee1c4d4187bc991b54f7658, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraEffects: []
+  particleEffects: []
+  soundEffects:
+  - tag: Break
+    sfx: {fileID: 11400000, guid: 668d6e292ec61df4f99be5741d32ae89, type: 2}
+    triggerMask: 1048576
+    cancelMask: 0
+    eventObject: {fileID: 1798478017925732928}
+    mode: 0
+    volumeMultiplier: 1
+    pitchOffset: 0
+    randomizePitch: 0
+    randomPitchRange: 0
+    loopDurationSeconds: 0
+    fadeInOnStartSeconds: 0
+    fadeInShape: 0
+    customFadeIn:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    fadeOutOnStopSeconds: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &4937893767585112684
 GameObject:
   m_ObjectHideFlags: 0
