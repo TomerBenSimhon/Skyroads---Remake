@@ -1,15 +1,22 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerDeath : MonoBehaviour
 {
     [Range(0f, 5f)] public float deathTimer;
     [Range(0f, 5f)] public float noFuelTimer;
+    
+    [Header("Dissolve Settings")]
+    [Range(0f, 2f)] public float dissolveTimer;
+    [Range(0f, 2f)] public float dissolveDelay_death;
+    [Range(0f, 2f)] public float dissolveDelay_noFuel;
 
     public bool IsDead { get; private set; }
 
     private PlayerController _playerController;
     private Rigidbody _rigidbody;
     private GameObject _playerVisuals;
+    private Renderer _renderer;
 
     // Snapshot of initial runtime settings so we can restore after "no fuel"
     private float _initForward;
@@ -23,6 +30,7 @@ public class PlayerDeath : MonoBehaviour
         _playerController = GetComponent<PlayerController>();
         _rigidbody = GetComponent<Rigidbody>();
         _playerVisuals = transform.Find("Visuals").gameObject;
+        _renderer = GetComponentInChildren<Renderer>();
     }
 
     void Start()
@@ -40,6 +48,7 @@ public class PlayerDeath : MonoBehaviour
         if (IsDead) return;
         IsDead = true;
         ActivatePlayer(false);
+        StartCoroutine(Dissolve(dissolveDelay_death));
         GameManager.Instance.RestartLevel(deathTimer);
         GlobalEvents.Raise(GlobalEvents.Id.PlayerDied);
     }
@@ -49,6 +58,7 @@ public class PlayerDeath : MonoBehaviour
         if (IsDead) return;
         IsDead = true;
         NoFuelEffect();
+        StartCoroutine(Dissolve(dissolveDelay_noFuel));
         GameManager.Instance.RestartLevel(noFuelTimer);
         GlobalEvents.Raise(GlobalEvents.Id.PlayerDied);
     }
@@ -56,7 +66,6 @@ public class PlayerDeath : MonoBehaviour
     public void ActivatePlayer(bool activate)
     {
         _playerController.enabled = activate;
-        _playerVisuals.SetActive(activate);
 
         if (activate)
         {
@@ -68,6 +77,9 @@ public class PlayerDeath : MonoBehaviour
             _playerController.RuntimeSettings.turningAngle           = _initTurn;
 
             IsDead = false;
+            _renderer.material.SetFloat("_Dissolve", 0);
+            _renderer.material.SetFloat("_EdgeWidth", 0);
+            _renderer.material.SetFloat("_OutlineEnabled", 1f);
         }
         else
         {
@@ -86,5 +98,20 @@ public class PlayerDeath : MonoBehaviour
         _playerController.RuntimeSettings.horizontalDeceleration = _playerController.RuntimeSettings.forwardDeceleration;
         _playerController.RuntimeSettings.jumpHeight = 0f;
         _playerController.RuntimeSettings.turningAngle = 0f;
+    }
+
+    private IEnumerator Dissolve(float delay = 0.2f)
+    {
+        _renderer.material.SetFloat("_OutlineEnabled", 0f);
+        yield return new WaitForSeconds(delay);
+
+        float t = 0f;
+        while (t < dissolveTimer)
+        {
+            t += Time.deltaTime;
+            _renderer.material.SetFloat("_Dissolve", t / dissolveTimer);
+            _renderer.material.SetFloat("_EdgeWidth", t / dissolveTimer / 2.5f);
+            yield return null;
+        }
     }
 }

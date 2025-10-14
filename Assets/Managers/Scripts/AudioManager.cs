@@ -10,18 +10,32 @@ public class AudioManager : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool debugLogs = false;
 
-    [Header("Defaults")]
+    [Header("Hierarchy")]
     [Tooltip("Parent transform for spawned emitters (auto-filled to this object).")]
     [SerializeField] private Transform emittersRoot;
 
-    // Active loop emitters by tag (usually 1 per tag)
-    private readonly Dictionary<string, AudioSource> _activeLoops = new();
+    [Header("One-Shot Pool")]
+    [SerializeField, Min(0)] private int oneshotPoolSize = 24;
+    [SerializeField] private bool prewarmVoices = true;
 
-    // Active fade-in coroutines per loop tag (to avoid races)
+    [Header("Loop Pool")]
+    [SerializeField, Min(0)] private int loopPoolSize = 8;
+
+    // active loop emitters by tag
+    private readonly Dictionary<string, PooledLoopEmitter> _activeLoops = new();
+    // fade-in coroutines per loop tag
     private readonly Dictionary<string, Coroutine> _loopFadeIns = new();
 
-    // One-shot bookkeeping (optional, for sweeping/cancelling by tag)
-    private readonly Dictionary<string, List<AudioSource>> _activeOneShots = new();
+    // one-shot pool
+    private readonly Queue<PooledAudioEmitter> _freeEmitters = new();
+    private readonly List<PooledAudioEmitter>  _allEmitters  = new();
+
+    // loop pool
+    private readonly Queue<PooledLoopEmitter> _freeLoopEmitters = new();
+    private readonly List<PooledLoopEmitter>  _allLoopEmitters  = new();
+
+    // track one-shots by tag (for cancels)
+    private readonly Dictionary<string, List<PooledAudioEmitter>> _activeOneShots = new();
 
     private void Awake()
     {
@@ -35,6 +49,99 @@ public class AudioManager : MonoBehaviour
         I = this;
         DontDestroyOnLoad(gameObject);
         if (!emittersRoot) emittersRoot = transform;
+
+        BuildOneShotPool();
+        BuildLoopPool();
+        if (prewarmVoices) StartCoroutine(PrewarmPoolVoices());
+    }
+
+    private void BuildOneShotPool()
+    {
+        for (int i = 0; i < oneshotPoolSize; i++)
+        {
+            var go = new GameObject($"OneShot_{i:00}");
+            go.transform.SetParent(emittersRoot, false);
+            var src = go.AddComponent<AudioSource>();
+            var emitter = go.AddComponent<PooledAudioEmitter>();
+            emitter.Init(this, src);
+            _allEmitters.Add(emitter);
+            _freeEmitters.Enqueue(emitter);
+        }
+        if (debugLogs) Debug.Log($"[AudioManager] Built one-shot pool: {oneshotPoolSize}");
+    }
+
+    private void BuildLoopPool()
+    {
+        for (int i = 0; i < loopPoolSize; i++)
+        {
+            var go = new GameObject($"Loop_{i:00}");
+            go.transform.SetParent(emittersRoot, false);
+            var src = go.AddComponent<AudioSource>();
+            var emitter = go.AddComponent<PooledLoopEmitter>();
+            emitter.Init(this, src);
+            _allLoopEmitters.Add(emitter);
+            _freeLoopEmitters.Enqueue(emitter);
+        }
+        if (debugLogs) Debug.Log($"[AudioManager] Built loop pool: {loopPoolSize}");
+    }
+
+    private System.Collections.IEnumerator PrewarmPoolVoices()
+    {
+        var silent = AudioClip.Create("__silent__", 64, 1, AudioSettings.outputSampleRate, false);
+        // one-shots
+        foreach (var e in _allEmitters)
+        {
+            var s = e.Source;
+            s.volume = 0f; s.clip = silent; s.Play(); s.Stop();
+            yield return null;
+        }
+        // loops
+        foreach (var e in _allLoopEmitters)
+        {
+            var s = e.Source;
+            s.volume = 0f; s.clip = silent; s.loop = true; s.Play(); s.Stop();
+            yield return null;
+        }
+    }
+
+    internal void ReturnEmitter(PooledAudioEmitter emitter)
+    {
+        foreach (var kv in _activeOneShots)
+            kv.Value.Remove(emitter);
+        _freeEmitters.Enqueue(emitter);
+    }
+
+    internal void ReturnLoopEmitter(PooledLoopEmitter emitter)
+    {
+        _freeLoopEmitters.Enqueue(emitter);
+    }
+
+    private PooledAudioEmitter RentEmitter()
+    {
+        if (_freeEmitters.Count > 0) return _freeEmitters.Dequeue();
+        // grow if needed
+        var go = new GameObject($"OneShot_Extra_{_allEmitters.Count:00}");
+        go.transform.SetParent(emittersRoot, false);
+        var src = go.AddComponent<AudioSource>();
+        var emitter = go.AddComponent<PooledAudioEmitter>();
+        emitter.Init(this, src);
+        _allEmitters.Add(emitter);
+        if (debugLogs) Debug.LogWarning("[AudioManager] One-shot pool grew; consider increasing oneshotPoolSize.");
+        return emitter;
+    }
+
+    private PooledLoopEmitter RentLoopEmitter()
+    {
+        if (_freeLoopEmitters.Count > 0) return _freeLoopEmitters.Dequeue();
+        // grow if needed
+        var go = new GameObject($"Loop_Extra_{_allLoopEmitters.Count:00}");
+        go.transform.SetParent(emittersRoot, false);
+        var src = go.AddComponent<AudioSource>();
+        var emitter = go.AddComponent<PooledLoopEmitter>();
+        emitter.Init(this, src);
+        _allLoopEmitters.Add(emitter);
+        if (debugLogs) Debug.LogWarning("[AudioManager] Loop pool grew; consider increasing loopPoolSize.");
+        return emitter;
     }
 
     // ---------- Public API ----------
@@ -54,38 +161,29 @@ public class AudioManager : MonoBehaviour
             return null;
         }
 
-        var go = new GameObject($"SFX_{tag}_{Guid.NewGuid():N}");
-        go.transform.SetParent(emittersRoot, worldPositionStays: false);
-
-        var src = go.AddComponent<AudioSource>();
-        ConfigureSourceFromAsset(src, clipAsset);
-
-        if (clipAsset.is3D && followTarget)
-        {
-            var follower = go.AddComponent<AudioFollower>();
-            follower.Init(followTarget);
-        }
-
         ResolveVolumePitch(clipAsset, volumeMul, pitchOffset, randomizePitch, randomPitchRange,
             out float vol, out float pitch);
 
-        src.volume = vol;
-        src.pitch  = pitch;
-        src.loop   = false;
+        var emitter = RentEmitter();
 
-        src.PlayOneShot(clipAsset.clip);
-        var lifetime = clipAsset.clip.length / Mathf.Max(0.01f, Mathf.Abs(src.pitch)) + 0.05f;
-        Destroy(go, lifetime);
+        var src = emitter.Source;
+        src.outputAudioMixerGroup = clipAsset.mixerGroup;
+        if (clipAsset.is3D)
+        {
+            src.rolloffMode = clipAsset.rolloff;
+            src.minDistance = Mathf.Max(0.01f, clipAsset.minDistance);
+            src.maxDistance = Mathf.Max(src.minDistance + 0.01f, clipAsset.maxDistance);
+        }
+
+        emitter.transform.localPosition = Vector3.zero;
+        emitter.PlayOneShot(clipAsset.clip, vol, pitch, clipAsset.is3D, followTarget);
 
         if (!_activeOneShots.TryGetValue(tag, out var list))
         {
-            list = new List<AudioSource>();
+            list = new List<PooledAudioEmitter>();
             _activeOneShots[tag] = list;
         }
-        list.Add(src);
-        StartCoroutine(CleanupWhenStopped(tag, src));
-
-        if (debugLogs) Debug.Log($"[AudioManager] OneShot '{tag}' started");
+        list.Add(emitter);
 
         return src;
     }
@@ -100,7 +198,7 @@ public class AudioManager : MonoBehaviour
         float randomPitchRange = 0f,
         float fadeInSeconds = 0f,
         FadeShape fadeInShape = FadeShape.Linear,
-        AnimationCurve customFade = null
+        AnimationCurve customFade = null   // <- add this
     )
     {
         if (!clipAsset || !clipAsset.clip)
@@ -109,66 +207,44 @@ public class AudioManager : MonoBehaviour
             return null;
         }
 
-        if (!_activeLoops.TryGetValue(tag, out var src) || !src)
+        // get or create pooled loop emitter for this tag
+        if (!_activeLoops.TryGetValue(tag, out var loop) || loop == null)
         {
-            var go = new GameObject($"SFX_{tag}_Loop");
-            go.transform.SetParent(emittersRoot, worldPositionStays: false);
-
-            src = go.AddComponent<AudioSource>();
-            _activeLoops[tag] = src;
-
-            ConfigureSourceFromAsset(src, clipAsset);
-
-            if (clipAsset.is3D && followTarget)
-            {
-                var follower = go.AddComponent<AudioFollower>();
-                follower.Init(followTarget);
-            }
-
-            src.loop = true;
-            src.clip = clipAsset.clip;
-            src.volume = (fadeInSeconds > 0f) ? 0f : src.volume; // ensure start at 0 if fading
-            src.Play();
-
-            if (debugLogs) Debug.Log($"[AudioManager] Loop '{tag}' created & started (fadeIn={fadeInSeconds:0.###}s, shape={fadeInShape})");
-        }
-        else
-        {
-            ConfigureSourceFromAsset(src, clipAsset);
-            if (src.clip != clipAsset.clip) src.clip = clipAsset.clip;
-            if (!src.isPlaying) src.Play();
-
-            if (fadeInSeconds > 0f)
-                src.volume = 0f; // reset to 0 for perceptual ramp on refresh
-
-            if (debugLogs) Debug.Log($"[AudioManager] Loop '{tag}' refreshed (fadeIn={fadeInSeconds:0.###}s, shape={fadeInShape})");
+            loop = RentLoopEmitter();
+            _activeLoops[tag] = loop;
+            if (debugLogs) Debug.Log($"[AudioManager] Loop '{tag}' rented from pool");
         }
 
+        // resolve vol/pitch
         ResolveVolumePitch(clipAsset, volumeMul, pitchOffset, randomizePitch, randomPitchRange,
             out float targetVol, out float targetPitch);
-        src.pitch = targetPitch;
 
-        if (_loopFadeIns.TryGetValue(tag, out var existingFade) && existingFade != null)
+        // start loop, potentially at 0 volume for fade-in
+        float startVol = (fadeInSeconds > 0f) ? 0f : targetVol;
+        loop.Begin(clipAsset, followTarget, startVol, targetPitch);
+
+        // cancel any old fade for this tag
+        if (_loopFadeIns.TryGetValue(tag, out var existing) && existing != null)
         {
-            StopCoroutine(existingFade);
+            StopCoroutine(existing);
             _loopFadeIns[tag] = null;
         }
 
+        // fade to target if requested
         if (fadeInSeconds > 0f)
-        {
-            _loopFadeIns[tag] = StartCoroutine(FadeInVolume(src, targetVol, fadeInSeconds, tag, fadeInShape, customFade));
-        }
+            _loopFadeIns[tag] = StartCoroutine(
+                FadeInVolume(loop.Source, targetVol, fadeInSeconds, tag, fadeInShape, customFade) // <- pass it
+            );
         else
-        {
-            src.volume = targetVol;
-        }
+            loop.Source.volume = targetVol;
 
-        return src;
+
+        return loop.Source;
     }
 
     public void StopLoop(string tag, float fadeSeconds = 0f)
     {
-        if (_activeLoops.TryGetValue(tag, out var src) && src)
+        if (_activeLoops.TryGetValue(tag, out var loop) && loop)
         {
             if (_loopFadeIns.TryGetValue(tag, out var f) && f != null)
             {
@@ -176,7 +252,7 @@ public class AudioManager : MonoBehaviour
                 _loopFadeIns[tag] = null;
             }
 
-            StartCoroutine(FadeThenStopAndDestroy(src, fadeSeconds));
+            StartCoroutine(FadeThenReturnLoop(loop, fadeSeconds));
             _activeLoops.Remove(tag);
             if (debugLogs) Debug.Log($"[AudioManager] Loop '{tag}' stopping (fadeOut={fadeSeconds:0.###}s)");
         }
@@ -186,8 +262,15 @@ public class AudioManager : MonoBehaviour
     {
         if (_activeOneShots.TryGetValue(tag, out var list))
         {
-            foreach (var src in list)
-                if (src) StartCoroutine(FadeThenStopAndDestroy(src, fadeSeconds));
+            foreach (var e in list)
+            {
+                if (e && e.gameObject.activeSelf)
+                {
+                    var s = e.Source;
+                    if (fadeSeconds > 0f && s)
+                        StartCoroutine(FadeLinear(s, s.volume, 0f, fadeSeconds));
+                }
+            }
             list.Clear();
             if (debugLogs) Debug.Log($"[AudioManager] OneShots '{tag}' stopping (fadeOut={fadeSeconds:0.###}s)");
         }
@@ -206,24 +289,6 @@ public class AudioManager : MonoBehaviour
 
     // ---------- Internals ----------
 
-    private void ConfigureSourceFromAsset(AudioSource src, SfxClip asset)
-    {
-        src.playOnAwake = false;
-        src.outputAudioMixerGroup = asset.mixerGroup;
-
-        if (asset.is3D)
-        {
-            src.spatialBlend = 1f;
-            src.rolloffMode  = asset.rolloff;
-            src.minDistance  = Mathf.Max(0.01f, asset.minDistance);
-            src.maxDistance  = Mathf.Max(src.minDistance + 0.01f, asset.maxDistance);
-        }
-        else
-        {
-            src.spatialBlend = 0f;
-        }
-    }
-
     private void ResolveVolumePitch(
         SfxClip asset,
         float volumeMul,
@@ -241,60 +306,63 @@ public class AudioManager : MonoBehaviour
         pitch = p;
     }
 
-    private System.Collections.IEnumerator CleanupWhenStopped(string tag, AudioSource src)
-    {
-        while (src && src.isPlaying) yield return null;
-        if (_activeOneShots.TryGetValue(tag, out var list)) list.Remove(src);
-    }
+    private static float LinFromDb(float db) => Mathf.Pow(10f, db / 20f);
 
-    private System.Collections.IEnumerator FadeInVolume(AudioSource src, float targetVol, float seconds, string tag, FadeShape shape, AnimationCurve custom)
+    private System.Collections.IEnumerator FadeInVolume(
+        AudioSource src, float targetVol, float seconds, string tag, FadeShape shape, AnimationCurve custom // <- add custom
+    )
     {
         if (!src) yield break;
-        float start = src.volume; // should be 0 when we set up, but safe for refresh
+        float start = src.volume;
         if (seconds <= 0f) { src.volume = targetVol; yield break; }
 
         float t = 0f;
         while (t < seconds && src)
         {
-            t += Time.unscaledDeltaTime;  // unaffected by Time.timeScale
-            float u = Mathf.Clamp01(t / seconds);          // 0..1
-            float w = EvaluateFade(shape, custom, u);      // curve weight 0..1
-            src.volume = Mathf.Lerp(start, targetVol, w);  // perceptual ramp
+            t += Time.unscaledDeltaTime;
+            float u = Mathf.Clamp01(t / seconds); // 0..1
+            float w = EvaluateFade(shape, u, custom);   // <- pass custom
+            src.volume = Mathf.Lerp(start, targetVol, w);
             yield return null;
         }
         if (src) src.volume = targetVol;
-
         _loopFadeIns[tag] = null;
     }
 
-    // Perceptual fade mapping
-    private static float EvaluateFade(FadeShape shape, AnimationCurve custom, float t)
+    private static float EvaluateFade(FadeShape shape, float t, AnimationCurve custom = null)
     {
         switch (shape)
         {
-            case FadeShape.Linear:
-                return t;
-            case FadeShape.EaseInSine:
-                // equal-power-ish start: slow at first, faster later
-                return Mathf.Sin(t * Mathf.PI * 0.5f);
-            case FadeShape.Exponential:
-                // stronger ease-in: t^3 (adjust exponent as desired)
-                return t * t * t;
-            case FadeShape.Logarithmic:
-                // very slow start using log; a=9 -> map 0..1 to 0..1
-                const float a = 9f;
-                return Mathf.Log(1f + a * t) / Mathf.Log(1f + a);
-            case FadeShape.Custom:
-                if (custom != null) return Mathf.Clamp01(custom.Evaluate(t));
-                return t;
-            default:
-                return t;
+            case FadeShape.Linear:       return t;
+            case FadeShape.EaseInSine:   return Mathf.Sin(t * Mathf.PI * 0.5f);
+            case FadeShape.Exponential:  return t * t * t;
+            case FadeShape.Logarithmic:  const float a = 9f; return Mathf.Log(1f + a * t) / Mathf.Log(1f + a);
+            case FadeShape.Custom:       return (custom != null) ? Mathf.Clamp01(custom.Evaluate(t)) : t;
+            default:                     return t;
         }
     }
 
-    private System.Collections.IEnumerator FadeThenStopAndDestroy(AudioSource src, float seconds)
+
+
+    private System.Collections.IEnumerator FadeLinear(AudioSource src, float from, float to, float seconds)
     {
         if (!src) yield break;
+        if (seconds <= 0f) { src.volume = to; yield break; }
+
+        float t = 0f;
+        while (t < seconds && src)
+        {
+            t += Time.unscaledDeltaTime;
+            src.volume = Mathf.Lerp(from, to, t / seconds);
+            yield return null;
+        }
+        if (src) src.volume = to;
+    }
+
+    private System.Collections.IEnumerator FadeThenReturnLoop(PooledLoopEmitter loop, float seconds)
+    {
+        var src = loop?.Source;
+        if (!src || !loop) yield break;
 
         if (seconds > 0f)
         {
@@ -303,22 +371,31 @@ public class AudioManager : MonoBehaviour
             while (t < seconds && src)
             {
                 t += Time.unscaledDeltaTime;
-                // leave fade-out as linear; perceptually this feels fine in most cases
                 src.volume = Mathf.Lerp(start, 0f, t / seconds);
                 yield return null;
             }
         }
 
-        if (src)
-        {
-            src.Stop();
-            Destroy(src.gameObject);
-        }
+        loop.End(); // returns to pool
     }
 
     private System.Collections.IEnumerator StopLoopAfterCR(string tag, float seconds, float fade)
     {
         yield return new WaitForSeconds(seconds);
         StopLoop(tag, fade);
+    }
+
+    // (optional) preload utility you already use for big clips
+    public Coroutine Preload(SfxClip clipAsset)
+    {
+        if (!clipAsset || clipAsset.clip == null) return null;
+        return StartCoroutine(PreloadClipCR(clipAsset.clip));
+    }
+
+    private System.Collections.IEnumerator PreloadClipCR(AudioClip clip)
+    {
+        if (clip.loadState == AudioDataLoadState.Loaded) yield break;
+        clip.LoadAudioData();
+        while (clip.loadState == AudioDataLoadState.Loading) yield return null;
     }
 }
