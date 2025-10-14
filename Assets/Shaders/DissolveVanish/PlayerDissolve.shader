@@ -27,6 +27,7 @@
         // Outline
         [HDR]_OutlineColor("Outline Color", Color) = (1,0.6,0,1)
         _OutlineThickness("Outline Thickness (world units)", Range(0,0.1)) = 0.03
+        [Toggle(_OUTLINE_ON)] _OutlineEnabled("Enable Outline", Float) = 1
     }
 
     SubShader
@@ -68,6 +69,7 @@
 
                 float4 _OutlineColor;
                 float  _OutlineThickness;
+                float  _OutlineEnabled;   // <— toggle (0/1)
             CBUFFER_END
 
             struct Attributes {
@@ -132,9 +134,11 @@
                 float noise    = SAMPLE_TEXTURE2D(_NoiseMap, sampler_NoiseMap, uvNoise).r;
                 // Soft alpha: 0..1 across edge width
                 float alphaMask = smoothstep(_Dissolve, _Dissolve + _EdgeWidth, noise);
-                // Edge band for color: difference of smoothsteps
-                float edgeBand  = saturate(smoothstep(_Dissolve - _EdgeWidth, _Dissolve, noise) -
-                                           smoothstep(_Dissolve, _Dissolve + _EdgeWidth, noise));
+                // Edge band for color
+                float edgeBand  = saturate(
+                    smoothstep(_Dissolve - _EdgeWidth, _Dissolve, noise) -
+                    smoothstep(_Dissolve, _Dissolve + _EdgeWidth, noise)
+                );
                 // Final base color with edge tint
                 float3 colorWithEdge = lerp(baseRGB, _EdgeColor.rgb, edgeBand);
 
@@ -179,7 +183,12 @@
                 return OUT;
             }
 
-            float4 FragOutline() : SV_Target { return _OutlineColor; }
+            float4 FragOutline() : SV_Target
+            {
+                // Toggle: if off, discard (no outline drawn)
+                clip(_OutlineEnabled - 0.5);
+                return _OutlineColor;
+            }
         ENDHLSL
 
         // Pass: ForwardLit
@@ -223,6 +232,8 @@
                 #pragma fragment FragOutline
                 #pragma target 4.5
                 #pragma multi_compile_instancing
+                // Optional keyword variant stripping if you want:
+                // #pragma shader_feature_local _ _OUTLINE_ON
             ENDHLSL
         }
     }
