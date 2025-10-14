@@ -43,6 +43,7 @@ public class BreakableBarrier : MonoBehaviour, IBulletInteractable
         {
             obj.SetActive(false);
         }
+        GlobalEvents.Raise(GlobalEvents.Id.OnBarrierBreak, gameObject);
     }
 
     private void Activate()

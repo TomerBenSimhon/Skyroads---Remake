@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        GlobalEvents.Raise(GlobalEvents.Id.OnAwake, gameObject);
+        GlobalEvents.Raise(GlobalEvents.Id.PlayerOnStart, gameObject);
     }
     
     private void Update()
