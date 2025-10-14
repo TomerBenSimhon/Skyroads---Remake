@@ -66,6 +66,6 @@ public class BoostPlatform : MonoBehaviour, IPlatformEffect
         if(runner.CurrentPlatformType == PlatformType.Boost)
             runner.SetPlatform(PlatformType.None);
         
-        GlobalEvents.Raise(GlobalEvents.Id.BoostRemoved);
+        GlobalEvents.Raise(GlobalEvents.Id.BoostRemoved, gameObject);
     }
 }
