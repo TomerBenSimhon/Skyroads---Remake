@@ -251,6 +251,7 @@ public class PlayerController : MonoBehaviour
             _isFalling = false;
             
             GlobalEvents.Raise(GlobalEvents.Id.PlayerGrounded, gameObject);
+            print("Grounded");
         }
     }
     

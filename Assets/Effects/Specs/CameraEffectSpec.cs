@@ -46,9 +46,45 @@ public class FovPulseSpec : CameraEffectSpec
     public override ICameraEffect Build(EffectCall call)
     {
         return new FovPulseEffect(
+            tag,                                          
             delta * magnitudeScale * call.magnitude,
-            inTime, holdTime, outTime,
-            curve, tag
+            inTime,
+            holdTime,
+            outTime,
+            curve
+        );
+    }
+
+}
+
+/// Spec for Perlin noise camera shake (position/rotation only).
+[Serializable]
+public class PerlinShakeSpec : CameraEffectSpec
+{
+    [Header("Duration & Envelope")]
+    [Min(0f)] public float duration = 0.35f;
+    public AnimationCurve envelope = AnimationCurve.EaseInOut(0, 1, 1, 0); // 1→0 damping
+
+    [Header("Amplitude (local space)")]
+    public Vector3 posAmplitude = new Vector3(0.1f, 0.1f, 0f);  // meters
+    public Vector3 rotAmplitude = new Vector3(2f, 2f, 1.5f);    // degrees (pitch,yaw,roll)
+
+    [Header("Noise")]
+    public float frequency = 18f;                                // Hz-ish
+    public Vector3 seed    = new Vector3(127.31f, 251.17f, 73.97f);
+
+    public override ICameraEffect Build(EffectCall call)
+    {
+        float scale = magnitudeScale * call.magnitude;
+        return new PerlinShakeEffect(
+            tag,
+            duration,
+            envelope,
+            posAmplitude * scale,
+            rotAmplitude * scale,
+            frequency,
+            seed,
+            replaceExisting
         );
     }
 }
