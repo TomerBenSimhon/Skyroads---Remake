@@ -5128,7 +5128,7 @@ MonoBehaviour:
     - rid: 5346983742512300110
       type: {class: FovPulseSpec, ns: , asm: Assembly-CSharp}
       data:
-        tag: Cam/Generic
+        tag: BoostFOV
         magnitudeScale: 1
         replaceExisting: 0
         triggerMask: 1

@@ -14928,7 +14928,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: managedReferences[6855300336100311131].tag
-      value: Cam/Generic
+      value: Shake
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[2].destroyOnStop
@@ -15264,6 +15264,18 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 7aa2be065a6996e48a554c5a877b590c, type: 2}
     - target: {fileID: 7991527584889357722, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8119923975534674971, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: deathTimer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8119923975534674971, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: dissolveTimer
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8119923975534674971, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: dissolveDelay_death
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8865662979519984051, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
