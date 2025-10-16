@@ -40,7 +40,8 @@ Material:
     - _WaveFreq: 5.3
     - _WaveSpeed: 2
     m_Colors:
-    - _EdgeColor: {r: 0.6603774, g: 0.22116414, b: 0.22926837, a: 1}
+    - _EdgeColor: {r: 0, g: 1, b: 0.16762781, a: 1}
+    - _FuelColor: {r: 1, g: 1, b: 1, a: 1}
     - _MainColor: {r: 0.74213827, g: 0.74213827, b: 0.74213827, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
