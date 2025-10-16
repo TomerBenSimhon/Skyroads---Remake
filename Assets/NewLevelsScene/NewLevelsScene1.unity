@@ -14720,7 +14720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: cameraEffects.Array.size
@@ -14765,6 +14765,22 @@ PrefabInstance:
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[4].tag
       value: Check_Point
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[5].sfx
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ea00638c91d27147863df8dae622fe3, type: 2}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[5].tag
+      value: Dissolve
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[6].sfx
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ea00638c91d27147863df8dae622fe3, type: 2}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[6].tag
+      value: Dissolve
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[1].mode
@@ -14867,6 +14883,30 @@ PrefabInstance:
       value: 4096
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[5].fadeInShape
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[5].pitchOffset
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[5].triggerMask
+      value: 32768
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[6].fadeInShape
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[6].pitchOffset
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[6].triggerMask
+      value: 32768
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[0].cancelMask
       value: 163856
       objectReference: {fileID: 0}
@@ -14927,6 +14967,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[5].randomizePitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[6].randomizePitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: managedReferences[6855300336100311131].tag
       value: Shake
       objectReference: {fileID: 0}
@@ -14977,6 +15025,22 @@ PrefabInstance:
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[4].volumeMultiplier
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[5].randomPitchRange
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[5].volumeMultiplier
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[6].randomPitchRange
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[6].volumeMultiplier
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[2].particleObject
@@ -15041,6 +15105,22 @@ PrefabInstance:
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[4].fadeOutOnStopSeconds
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[5].fadeInOnStartSeconds
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[5].fadeOutOnStopSeconds
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[6].fadeInOnStartSeconds
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[6].fadeOutOnStopSeconds
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: managedReferences[6855300336100311131].frequency
@@ -15268,7 +15348,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8119923975534674971, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: deathTimer
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8119923975534674971, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: dissolveTimer
@@ -15276,7 +15356,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8119923975534674971, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: dissolveDelay_death
-      value: 1
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 8865662979519984051, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: m_Color.g

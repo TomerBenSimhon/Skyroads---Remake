@@ -139,7 +139,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         posAmplitude: {x: 0.1, y: 0.1, z: 0}
-        rotAmplitude: {x: 2, y: 2, z: 1.5}
+        rotAmplitude: {x: 1, y: 1, z: 0.5}
         frequency: 18
         seed: {x: 127.31, y: 251.17, z: 73.97}
 --- !u!1 &4937893767585112684
