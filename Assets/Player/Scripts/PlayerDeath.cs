@@ -25,6 +25,8 @@ public class PlayerDeath : MonoBehaviour
     private float _initJump;
     private float _initTurn;
 
+    private Coroutine _dissolveCR;
+
     void Awake()
     {
         _playerController = GetComponent<PlayerController>();
@@ -48,7 +50,7 @@ public class PlayerDeath : MonoBehaviour
         if (IsDead) return;
         IsDead = true;
         ActivatePlayer(false);
-        StartCoroutine(Dissolve(dissolveDelay_death));
+        if (_dissolveCR == null) _dissolveCR = StartCoroutine(Dissolve(dissolveDelay_death));
         GameManager.Instance.RestartLevel(deathTimer);
         GlobalEvents.Raise(GlobalEvents.Id.PlayerDied);
     }
@@ -58,7 +60,7 @@ public class PlayerDeath : MonoBehaviour
         if (IsDead) return;
         IsDead = true;
         NoFuelEffect();
-        StartCoroutine(Dissolve(dissolveDelay_noFuel));
+        if (_dissolveCR == null) _dissolveCR = StartCoroutine(Dissolve(dissolveDelay_noFuel));
         GameManager.Instance.RestartLevel(noFuelTimer);
         GlobalEvents.Raise(GlobalEvents.Id.PlayerDied);
     }
@@ -77,6 +79,10 @@ public class PlayerDeath : MonoBehaviour
             _playerController.RuntimeSettings.turningAngle           = _initTurn;
 
             IsDead = false;
+            
+            if(_dissolveCR != null) StopCoroutine(_dissolveCR);
+            _dissolveCR = null;
+            
             _renderer.material.SetFloat("_Dissolve", 0);
             _renderer.material.SetFloat("_EdgeWidth", 0);
             _renderer.material.SetFloat("_OutlineEnabled", 1f);
@@ -113,5 +119,7 @@ public class PlayerDeath : MonoBehaviour
             _renderer.material.SetFloat("_EdgeWidth", t / dissolveTimer / 2.5f);
             yield return null;
         }
+        
+        _dissolveCR = null;
     }
 }
