@@ -5122,7 +5122,7 @@ MonoBehaviour:
     cancelMask: 0
     eventObject: {fileID: 6872246750010933055}
     mode: 0
-    volumeMultiplier: 0.563
+    volumeMultiplier: 0.9
     pitchOffset: -0.1
     randomizePitch: 1
     randomPitchRange: 0.1

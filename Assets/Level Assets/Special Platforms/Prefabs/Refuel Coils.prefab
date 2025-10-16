@@ -10427,7 +10427,7 @@ MonoBehaviour:
     volumeMultiplier: 0.428
     pitchOffset: 0
     randomizePitch: 1
-    randomPitchRange: 0.2
+    randomPitchRange: 0.1
     loopDurationSeconds: 0
     fadeInOnStartSeconds: 0
     fadeInShape: 1

@@ -172,9 +172,9 @@ MonoBehaviour:
     eventObject: {fileID: 3468131680401859054}
     mode: 0
     volumeMultiplier: 0.279
-    pitchOffset: 0
-    randomizePitch: 0
-    randomPitchRange: 0
+    pitchOffset: -0.1
+    randomizePitch: 1
+    randomPitchRange: 0.1
     loopDurationSeconds: -1
     fadeInOnStartSeconds: 0
     fadeInShape: 1

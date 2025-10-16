@@ -4243,6 +4243,8 @@ MonoBehaviour:
     loopDurationSeconds: 0
     clearOnStop: 0
     destroyOnStop: 0
+    destroyMask: 0
+  soundEffects: []
   references:
     version: 2
     RefIds: []
