@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: JumpAcquiredScreen
+  m_Shader: {fileID: 4800000, guid: c7225758ad660c54e98a70ee151a3e91, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _LogoTex:
+        m_Texture: {fileID: 2800000, guid: df12e1257fab2c7498879fc0aef06a6d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpriteSheet:
+        m_Texture: {fileID: 2800000, guid: 4109fbc5a6e62914d9305c0c6d83a473, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextTex:
+        m_Texture: {fileID: 2800000, guid: 4209941d2b2c0cd4dbf80765e75f5c17, type: 3}
+        m_Scale: {x: 0, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _FlipX: -1.6
+    - _FlipY: 1
+    - _FrameCount: 2
+    - _FrameSpeed: 3
+    - _LogoFlipX: -1.14
+    - _LogoFlipY: 1
+    - _LogoScale: 0.32
+    - _SpriteScale: 1
+    - _TextFlipX: -1.21
+    - _TextFlipY: 1
+    - _TextScale: 0.59
+    m_Colors:
+    - _LogoPos: {r: 0.48, g: 0.17, b: 0, a: 0}
+    - _MainTiling: {r: 1, g: 1, b: 0, a: 0}
+    - _SpriteOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _SpritePos: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _SpriteTiling: {r: 1, g: 1, b: 0, a: 0}
+    - _TextColor: {r: 1, g: 0.8430805, b: 0, a: 1}
+    - _TextPos: {r: 0.48, g: 0.46, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

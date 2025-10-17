@@ -23,18 +23,42 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _LogoTex:
+        m_Texture: {fileID: 2800000, guid: df12e1257fab2c7498879fc0aef06a6d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: df12e1257fab2c7498879fc0aef06a6d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: 829491a8647b6ee4eb3fd4f02335e2d7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Distortion: 0.012
+    - _Distortion: 0.1
+    - _FlipLogoX: 0.84
+    - _FlipLogoY: 0
     - _FlipX: 1
     - _FlipY: 0
-    - _NoiseStrength: 0.262
-    - _ScanlineIntensity: 0.638
-    - _Speed: 9.43
-    m_Colors: []
+    - _LogoAlpha: 0.611
+    - _LogoDistortion: 0.0163
+    - _LogoFlickerStrength: 0.351
+    - _LogoNoiseStrength: 1
+    - _LogoScale: 1
+    - _LogoSpeed: 5.45
+    - _NoiseAlpha: 1
+    - _NoiseSpeed: 10
+    - _NoiseStrength: 1
+    - _ScanlineIntensity: 0.708
+    - _Speed: 10
+    m_Colors:
+    - _LogoOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _LogoTiling: {r: 1, g: 1, b: 0, a: 0}
+    - _NoiseOffset: {r: -3.5, g: 0.29, b: 0, a: 0}
+    - _NoiseTiling: {r: 0.36, g: 0.63, b: 0, a: 0}
+    - _Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _Tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
