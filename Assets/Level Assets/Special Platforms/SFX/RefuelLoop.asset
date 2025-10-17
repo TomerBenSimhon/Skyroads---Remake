@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f57952a54f8522d468557a4048c23721, type: 3}
   m_Name: RefuelLoop
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: 1f563612402743448bd1a0eec6ff63de, type: 3}
+  clip: {fileID: 8300000, guid: dbfca6b8bfdf1d543808eb2af3ba836c, type: 3}
   mixerGroup: {fileID: 0}
-  volume: 0.336
+  volume: 1
   pitch: 1
   is3D: 0
   minDistance: 1

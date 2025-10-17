@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
     {
         // Fresh level: clear checkpoint state
         CheckpointManager.Instance?.ResetCheckpoint();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     private IEnumerator RespawnAfterDelay(float delay)

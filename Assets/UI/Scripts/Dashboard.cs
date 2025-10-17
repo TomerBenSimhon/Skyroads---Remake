@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -22,11 +23,23 @@ public class Dashboard : MonoBehaviour
     [Header("Rotation Settings")]
     public float rotationSpeed = 1f;
     public float rotationAngle = 5f;
+    
+    [Header("Screen Zoom Settings")]
+    [SerializeField] private Transform screenZoomTransform;
+    public float screenZoomIn = 0.5f;
+    public float screenZoomHold = 2f;
+    public float screenZoomOut = 0.5f;
+    [SerializeField] private GlobalEvents.Id triggerEvent;
+    [SerializeField] private GameObject eventObject;
+    
 
     private PlayerInput _input;
     private Rigidbody _playerRb;
     private PlayerController _playerController;
     private PlayerControllerSettings _controllerSettings;
+    
+    private Coroutine _screenZoomCoroutine;
+    private bool _canScreenZoom = true;
     
     private Vector3 _wheelStartEuler;
     private Vector3 _startPos;
@@ -56,6 +69,29 @@ public class Dashboard : MonoBehaviour
         _startEuler = transform.localEulerAngles;
         _fireButtonStartPos = fireButton.localPosition;
         _jumpButtonStartPos = jumpButton.localPosition;
+    }
+
+    void OnEnable()
+    {
+        GlobalEvents.Raised += OnGlobalEvent;
+    }
+
+    void OnDisable()
+    {
+        GlobalEvents.Raised -= OnGlobalEvent;
+    }
+    
+    void OnGlobalEvent(GlobalEvents.Id id, GameObject sender)
+    {
+        if(triggerEvent == GlobalEvents.Id.None) return;
+        if((triggerEvent & id) == 0f) return;
+        if(eventObject != null && eventObject != sender) return;
+
+        if(!_canScreenZoom) return;
+        
+        if(_screenZoomCoroutine != null) StopCoroutine(_screenZoomCoroutine);
+        _screenZoomCoroutine = StartCoroutine(ScreenZoomCR());
+
     }
 
     void Update()
@@ -97,7 +133,7 @@ public class Dashboard : MonoBehaviour
 
     private void Bobbing()
     {
-        Vector3 target = _startPos;
+        Vector3 target = _screenZoomCoroutine == null ? _startPos : screenZoomTransform.localPosition;
 
         target.y += Helper.MapValue(_playerRb.linearVelocity.y,
             -_controllerSettings.terminalVelocity, _maxJumpVel,
@@ -124,5 +160,41 @@ public class Dashboard : MonoBehaviour
         var e = transform.localEulerAngles;
         e.z = newZ;
         transform.localEulerAngles = e;
+    }
+    
+    private IEnumerator ScreenZoomCR(float t = 0f)
+    {
+        _canScreenZoom = false;
+        Vector3 currentPOS = transform.localPosition;
+        Quaternion currentRO = transform.localRotation;
+        
+        while (t < screenZoomIn)
+        {
+            t += Time.deltaTime;
+            transform.localPosition = Vector3.Slerp(currentPOS, screenZoomTransform.localPosition, t / screenZoomIn);
+            transform.localRotation = Quaternion.Slerp(currentRO, screenZoomTransform.localRotation, t / screenZoomIn);
+            yield return null;
+        }
+        transform.localPosition = screenZoomTransform.localPosition;
+        transform.localRotation = screenZoomTransform.localRotation;
+        yield return new WaitForSeconds(screenZoomHold);
+
+        _canScreenZoom = true;
+        t = 0f;
+        
+         currentPOS = transform.localPosition;
+         currentRO = transform.localRotation;
+        while (t < screenZoomOut)
+        {
+            t += Time.deltaTime;
+            transform.localPosition = Vector3.Slerp(currentPOS, _startPos, t / screenZoomOut);
+            transform.localRotation = Quaternion.Slerp(currentRO, Quaternion.Euler(_startEuler), t / screenZoomOut);
+            yield return null;
+        }
+
+        transform.localPosition = _startPos;
+        transform.localRotation = Quaternion.Euler(_startEuler);
+        
+        _screenZoomCoroutine = null;
     }
 }
