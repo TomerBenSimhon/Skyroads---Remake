@@ -761,6 +761,12 @@ MonoBehaviour:
   bobSpeed: 2
   rotationSpeed: 2
   rotationAngle: 2
+  screenZoomTransform: {fileID: 0}
+  screenZoomIn: 0.5
+  screenZoomHold: 2
+  screenZoomOut: 0.5
+  triggerEvent: 0
+  eventObject: {fileID: 0}
 --- !u!1 &3046932525691562510
 GameObject:
   m_ObjectHideFlags: 0
@@ -22536,7 +22542,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0910a28407b8fc94e8ec830c5a765aa2, type: 2}
+  - {fileID: 2100000, guid: 177ff9645095a5540a84c1aca178fe88, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
