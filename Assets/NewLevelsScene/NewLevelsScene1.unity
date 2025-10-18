@@ -87806,7 +87806,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1745581685097907392, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2103575376708700097, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_AllowDynamicResolution
@@ -87929,6 +87929,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8226782725694360103, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
+      propertyPath: popUpDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8226782725694360103, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: screenZoomIn
       value: 1
       objectReference: {fileID: 0}
@@ -87946,11 +87950,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8226782725694360103, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: screenZoomHold
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9024218798303319383, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9151699636559569500, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 9222155256364572192, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_Antialiasing
@@ -87963,10 +87971,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4514781045695550187, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
 --- !u!23 &1967447555 stripped
 MeshRenderer:
