@@ -64277,6 +64277,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
+        - m_Target: {fileID: 1967447557}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
 --- !u!1001 &1435320937
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87932,6 +87944,10 @@ PrefabInstance:
       propertyPath: isPlayerBroken
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8226782725694360103, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
+      propertyPath: screenZoomHold
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 9024218798303319383, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -87968,6 +87984,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1967447557 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1745581685097907392, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
+  m_PrefabInstance: {fileID: 1967447554}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1968152145
 PrefabInstance:
   m_ObjectHideFlags: 0
