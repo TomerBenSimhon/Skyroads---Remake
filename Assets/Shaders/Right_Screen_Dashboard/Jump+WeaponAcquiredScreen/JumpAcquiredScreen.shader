@@ -1,4 +1,4 @@
-﻿Shader "Oren/JumpAcquiredScreen_SpriteOnTop_Tiled"
+﻿Shader "Oren/JumpAcquiredScreen_SpriteOnTop_Tiled_Brightness"
 {
     Properties
     {
@@ -25,6 +25,9 @@
         _TextColor("Text Color", Color) = (1,1,1,1)
         _TextFlipX("Flip Text X", Float) = 1
         _TextFlipY("Flip Text Y", Float) = 1
+
+        // --- Brightness ---
+        _Brightness("Brightness", Range(0,20)) = 1
     }
 
     SubShader
@@ -75,6 +78,8 @@
             float _TextFlipX;
             float _TextFlipY;
 
+            float _Brightness;
+
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
@@ -113,11 +118,14 @@
 
                 float2 sUV = (IN.uv * _SpriteTiling.xy + _SpriteOffset.xy - _SpritePos.xy) / max(_SpriteScale, 1e-4) + 0.5;
                 sUV.x = sUV.x / _FrameCount + frame * frameWidth;
-                sUV = frac(sUV); // תמיכה ב־tiling אמיתי
+                sUV = frac(sUV);
                 float4 spriteCol = tex2D(_SpriteSheet, sUV);
 
                 // שילוב סופי – הספרייט מוסיף בהירות מעל הכול
                 float4 finalCol = lerp(combinedCol, spriteCol, spriteCol.a * 0.8);
+
+                // שליטה בבהירות
+                finalCol.rgb *= _Brightness;
 
                 return finalCol;
             }
