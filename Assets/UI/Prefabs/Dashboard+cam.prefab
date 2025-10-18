@@ -751,6 +751,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfe9c2fa69c4c214dae93c12b8329692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstPopUpEnabled: 1
+  popUpDuration: 1
+  popUpDelay: 2
+  isPlayerBroken: 0
+  isPlayerShoot: 0
+  isPlayerDead: 0
   wheel: {fileID: 3981706826874371217}
   wheelAngle: 45
   wheelTurnSpeed: 3
@@ -767,8 +773,9 @@ MonoBehaviour:
   screenZoomIn: 0.5
   screenZoomHold: 2
   screenZoomOut: 0.5
-  triggerEvent: 0
+  triggerEvent: 64
   eventObject: {fileID: 0}
+  rightScreenMat: 0
 --- !u!114 &7659764073737362960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -781,6 +788,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cef2658e3be23a4cb7722ae54808c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  renderer: {fileID: 528908826345450108}
+  defaultMaterial: {fileID: 2100000, guid: 177ff9645095a5540a84c1aca178fe88, type: 2}
+  fixedMaterial: {fileID: 2100000, guid: a607739034a17e749be73f6d5f0e5422, type: 2}
+  shootMaterial: {fileID: 2100000, guid: 1152221b3e01cd943915db15fec4d887, type: 2}
 --- !u!1 &3046932525691562510
 GameObject:
   m_ObjectHideFlags: 0
