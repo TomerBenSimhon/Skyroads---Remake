@@ -36,6 +36,9 @@ Material:
     - _Brightness: 2
     - _EdgeWidth: 0.1
     - _Level: 0.442
+    - _MainWaveAmp: 0.05
+    - _MainWaveFreq: 6
+    - _MainWaveSpeed: 1.5
     - _NoiseAmt: 0.1
     - _WaveAmp: 0.07
     - _WaveFreq: 5.3
