@@ -53,12 +53,12 @@ Material:
     - _TextFlipY: 1
     - _TextScale: 0.59
     m_Colors:
-    - _LogoPos: {r: 0.48, g: 0.17, b: 0, a: 0}
+    - _LogoPos: {r: 0.5, g: 0.17, b: 0, a: 0}
     - _MainTiling: {r: 1, g: 1, b: 0, a: 0}
     - _SpriteOffset: {r: 0, g: 0, b: 0, a: 0}
     - _SpritePos: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _SpriteTiling: {r: 1, g: 1, b: 0, a: 0}
     - _TextColor: {r: 1, g: 0.8430805, b: 0, a: 1}
-    - _TextPos: {r: 0.48, g: 0.46, b: 0, a: 0}
+    - _TextPos: {r: 0.5, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

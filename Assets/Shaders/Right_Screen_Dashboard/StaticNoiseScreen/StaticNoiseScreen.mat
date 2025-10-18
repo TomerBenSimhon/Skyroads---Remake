@@ -51,7 +51,7 @@ Material:
     - _NoiseAlpha: 1
     - _NoiseSpeed: 10
     - _NoiseStrength: 1
-    - _ScanlineIntensity: 0.708
+    - _ScanlineIntensity: 1
     - _Speed: 10
     m_Colors:
     - _LogoOffset: {r: 0, g: 0, b: 0, a: 0}

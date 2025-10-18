@@ -14565,7 +14565,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5902061131699420721, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6028243635697811774, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: m_IsActive
@@ -15775,7 +15775,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &372857172
 Transform:
   m_ObjectHideFlags: 0
@@ -87477,6 +87477,10 @@ PrefabInstance:
       propertyPath: Target.TrackingTarget
       value: 
       objectReference: {fileID: 1881597847}
+    - target: {fileID: 3837914347746037909, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 177ff9645095a5540a84c1aca178fe88, type: 2}
     - target: {fileID: 4133185746143300973, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_Name
       value: Camera Rig + Dashcam
