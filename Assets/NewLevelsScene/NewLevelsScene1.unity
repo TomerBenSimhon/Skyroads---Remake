@@ -14565,7 +14565,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5902061131699420721, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6028243635697811774, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: m_IsActive
@@ -15775,7 +15775,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &372857172
 Transform:
   m_ObjectHideFlags: 0
@@ -60848,6 +60848,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9af248ea8572c994dba747f99b88167a, type: 3}
+--- !u!1 &1341607847 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6401807825444123368, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
+  m_PrefabInstance: {fileID: 1967447554}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1344770283 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 83163019265202124, guid: 9af248ea8572c994dba747f99b88167a, type: 3}
@@ -64022,18 +64027,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
         - m_Target: {fileID: 372857171}
           m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_MethodName: SetActive
@@ -64045,6 +64038,18 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1341607847}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
           m_CallState: 2
 --- !u!1001 &1435320937
 PrefabInstance:
@@ -87473,6 +87478,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -5.74
       objectReference: {fileID: 0}
+    - target: {fileID: 1745581685097907392, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3074783671071485741, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3593463131984494988, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: Target.TrackingTarget
       value: 
@@ -87488,14 +87501,6 @@ PrefabInstance:
     - target: {fileID: 4133185746143300973, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4186487910892516116, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
-      propertyPath: field of view
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 4186487910892516116, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
-      propertyPath: near clip plane
-      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 4507487774772806361, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_LocalPosition.x
@@ -87569,6 +87574,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8226782725694360103, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
+      propertyPath: triggerEvent
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9222155256364572192, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_RenderPostProcessing
       value: 1
@@ -87576,10 +87585,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4514781045695550187, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
 --- !u!23 &1967447555 stripped
 MeshRenderer:
