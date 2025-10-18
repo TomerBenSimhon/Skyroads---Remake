@@ -78,7 +78,7 @@ public class Dashboard : MonoBehaviour
     private Coroutine _screenZoomCoroutine;
 
     private float _popupW;                // 0 = fully offset, 1 = settled
-    private Vector3 _popupOffset = new Vector3(0f, -5f, 0f); // where the dashboard starts if firstPopUpEnabled
+    private Vector3 _popupOffset = new Vector3(0f, -5.29f, 0f); // where the dashboard starts if firstPopUpEnabled
 
     // --- misc
     private float _maxJumpVel;
@@ -105,6 +105,7 @@ public class Dashboard : MonoBehaviour
     void Start()
     {
         _startPos = transform.localPosition;
+        _startPos.y = 0.29f;
         _startEuler = transform.localEulerAngles;
 
         _wheelStartEuler = wheel.localEulerAngles;
