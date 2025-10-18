@@ -713,6 +713,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5554437324115335349}
   - component: {fileID: 4629535802088599758}
+  - component: {fileID: 7659764073737362960}
   m_Layer: 14
   m_Name: Dashboard
   m_TagString: Untagged
@@ -766,8 +767,20 @@ MonoBehaviour:
   screenZoomIn: 0.5
   screenZoomHold: 2
   screenZoomOut: 0.5
-  triggerEvent: 64
+  triggerEvent: 0
   eventObject: {fileID: 0}
+--- !u!114 &7659764073737362960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3039226400026721833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cef2658e3be23a4cb7722ae54808c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3046932525691562510
 GameObject:
   m_ObjectHideFlags: 0
@@ -22418,7 +22431,7 @@ Transform:
   m_GameObject: {fileID: 7461500023726868796}
   serializedVersion: 2
   m_LocalRotation: {x: -0.024870444, y: -0.26277596, z: 0.01491629, w: 0.9644209}
-  m_LocalPosition: {x: -5.85, y: 2, z: -16.36}
+  m_LocalPosition: {x: -5.85, y: 1.5, z: -16.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
