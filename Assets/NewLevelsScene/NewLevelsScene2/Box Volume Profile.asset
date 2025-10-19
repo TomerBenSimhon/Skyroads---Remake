@@ -200,7 +200,7 @@ MonoBehaviour:
   hueVsSat:
     m_OverrideState: 1
     m_Value:
-      <length>k__BackingField: 1
+      <length>k__BackingField: 2
       m_Loop: 1
       m_ZeroValue: 0.5
       m_Range: 1
@@ -212,6 +212,15 @@ MonoBehaviour:
           value: 0.21066648
           inSlope: 0
           outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.87169313
+          value: 0.26141077
+          inSlope: -1.1442839
+          outSlope: -1.1442839
           tangentMode: 0
           weightedMode: 0
           inWeight: 0

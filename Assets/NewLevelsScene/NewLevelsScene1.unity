@@ -16,7 +16,7 @@ RenderSettings:
   serializedVersion: 10
   m_Fog: 1
   m_FogColor: {r: 0.4339623, g: 0.27224994, b: 0.27224994, a: 1}
-  m_FogMode: 3
+  m_FogMode: 2
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
@@ -27,7 +27,7 @@ RenderSettings:
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.3724635, g: 0.43258855, b: 0.5849056, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 99066405ce71a8c48a09ed17862527d3, type: 2}
-  m_HaloStrength: 0.5
+  m_HaloStrength: 0.244
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
@@ -31824,7 +31824,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2292951637866310229, guid: dbe7170c9e6107b4796a83993b8e5e76, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5657315403786678086, guid: dbe7170c9e6107b4796a83993b8e5e76, type: 3}
       propertyPath: m_Name

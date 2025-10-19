@@ -45,7 +45,7 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 0.2
   clamp:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.2
 --- !u!114 &-5132612700088191141
 MonoBehaviour:
@@ -216,15 +216,6 @@ MonoBehaviour:
           weightedMode: 0
           inWeight: 0
           outWeight: 0
-        - serializedVersion: 3
-          time: 0.9709092
-          value: 0.23096806
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -272,13 +263,13 @@ MonoBehaviour:
     m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 0.7
+    m_Value: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 3
+    m_Value: 0.3
   scatter:
     m_OverrideState: 0
-    m_Value: 0.7
+    m_Value: 0.679
   clamp:
     m_OverrideState: 0
     m_Value: 65472
@@ -300,7 +291,7 @@ MonoBehaviour:
     dimension: 1
   dirtIntensity:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: 4.37
 --- !u!114 &-2837210039573689001
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -319,7 +310,7 @@ MonoBehaviour:
     m_Value: 9
   intensity:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.6
   response:
     m_OverrideState: 1
     m_Value: 1
