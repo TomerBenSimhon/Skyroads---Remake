@@ -14665,7 +14665,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.size
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: cameraEffects.Array.size
@@ -87834,11 +87834,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4186487910892516116, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: field of view
-      value: 75
+      value: 25.036
       objectReference: {fileID: 0}
     - target: {fileID: 4186487910892516116, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: near clip plane
-      value: 0.01
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4186487910892516116, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_AllowDynamicResolution
@@ -87906,19 +87906,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7643178315604932799, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 15.879999
+      value: -9.279695
       objectReference: {fileID: 0}
     - target: {fileID: 7643178315604932799, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.18
+      value: -96.025536
       objectReference: {fileID: 0}
     - target: {fileID: 7643178315604932799, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.95963377
+      value: 0.9959934
       objectReference: {fileID: 0}
     - target: {fileID: 7643178315604932799, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.2812529
+      value: -0.08942763
       objectReference: {fileID: 0}
     - target: {fileID: 7643178315604932799, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_LocalRotation.y
