@@ -16,8 +16,7 @@ public class RefuelCoils : MonoBehaviour
     private PlatformDetection _playerPlatform;
     private Vector3 _startPosition;
     private Vector3 _endPosition;
-    public bool _initialized;
-    public bool debug;
+    private bool _initialized;
 
     private void Awake()
     {
@@ -47,7 +46,6 @@ public class RefuelCoils : MonoBehaviour
             target = _endPosition;
         
         refuelCoilTop.position = Vector3.Lerp(refuelCoilTop.position, target, motionSpeed * Time.deltaTime);
-        if(debug) Debug.Log(isPlayerNearAndRefueling);
 
         //event logic
         if (isPlayerNearAndRefueling && !_initialized)
