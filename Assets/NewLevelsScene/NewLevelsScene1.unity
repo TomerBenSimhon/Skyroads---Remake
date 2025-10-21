@@ -15065,7 +15065,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[1].fadeInOnStartSeconds
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[1].fadeOutOnStopSeconds
@@ -49014,6 +49014,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1727751224}
+    - target: {fileID: 2441039927737429929, guid: 7c1a3c5f54175f942bd3e7b9e488ae2b, type: 3}
+      propertyPath: m_VersionIndex
+      value: 2058
+      objectReference: {fileID: 0}
+    - target: {fileID: 2499335409077954379, guid: 7c1a3c5f54175f942bd3e7b9e488ae2b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 853ed4479128a3c4f83d15d376243849, type: 2}
     - target: {fileID: 2547769648477079386, guid: 7c1a3c5f54175f942bd3e7b9e488ae2b, type: 3}
       propertyPath: m_Name
       value: EndTunnel
@@ -49070,6 +49078,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1148514481}
+    - target: {fileID: 7535910229277299488, guid: 7c1a3c5f54175f942bd3e7b9e488ae2b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.06552994
+      objectReference: {fileID: 0}
     - target: {fileID: 7989358904186078212, guid: 7c1a3c5f54175f942bd3e7b9e488ae2b, type: 3}
       propertyPath: m_LocalPosition.z
       value: 4.17
