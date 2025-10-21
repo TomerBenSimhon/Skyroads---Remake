@@ -14665,7 +14665,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.size
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: cameraEffects.Array.size
@@ -14673,7 +14673,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: 'cameraEffects.Array.data[0]'
@@ -14728,6 +14728,14 @@ PrefabInstance:
       value: LVL_Transition
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[7].sfx
+      value: 
+      objectReference: {fileID: 11400000, guid: e3f5f1f3901dbd94e897ec0f1501722f, type: 2}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[7].tag
+      value: Respwn
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[1].mode
       value: 1
       objectReference: {fileID: 0}
@@ -14749,7 +14757,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[4].tag
-      value: Broken
+      value: Respawn
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[5].tag
@@ -14762,6 +14770,10 @@ PrefabInstance:
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[2].mode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: particleEffects.Array.data[4].mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[5].mode
@@ -14856,6 +14868,18 @@ PrefabInstance:
       value: 524288
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[7].eventObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[7].fadeInShape
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[7].triggerMask
+      value: 65536
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[0].cancelMask
       value: 163856
       objectReference: {fileID: 0}
@@ -14869,7 +14893,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[4].cancelMask
-      value: 512
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[5].cancelMask
@@ -14897,7 +14921,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[4].triggerMask
-      value: 16384
+      value: 65536
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[5].triggerMask
@@ -14924,6 +14948,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[7].randomizePitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: managedReferences[6855300336100311131].tag
       value: Shake
       objectReference: {fileID: 0}
@@ -14937,7 +14965,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[4].destroyOnStop
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[5].destroyOnStop
@@ -14992,6 +15020,14 @@ PrefabInstance:
       value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[7].randomPitchRange
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[7].volumeMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[2].particleObject
       value: 
       objectReference: {fileID: 353817896}
@@ -15002,7 +15038,7 @@ PrefabInstance:
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[4].particleObject
       value: 
-      objectReference: {fileID: 353817896}
+      objectReference: {fileID: 2118552363}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[5].particleObject
       value: 
@@ -15069,6 +15105,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[6].fadeOutOnStopSeconds
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[7].fadeInOnStartSeconds
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
