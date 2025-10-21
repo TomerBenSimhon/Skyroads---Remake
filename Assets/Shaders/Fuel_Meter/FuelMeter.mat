@@ -33,7 +33,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Brightness: 2
+    - _Brightness: 3
     - _EdgeWidth: 0.1
     - _Level: 0.442
     - _MainWaveAmp: 0.05
