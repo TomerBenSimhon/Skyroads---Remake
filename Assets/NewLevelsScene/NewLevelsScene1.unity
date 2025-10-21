@@ -14665,7 +14665,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.size
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: cameraEffects.Array.size
@@ -14722,10 +14722,10 @@ PrefabInstance:
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[6].sfx
       value: 
-      objectReference: {fileID: 11400000, guid: 126097386273ea44282da73443337f05, type: 2}
+      objectReference: {fileID: 11400000, guid: 4cf50f1745bf1964eaa7570dc9737919, type: 2}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[6].tag
-      value: VoiceOver1
+      value: LVL_Transition
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[1].mode
@@ -14840,16 +14840,20 @@ PrefabInstance:
       value: 32768
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
+      propertyPath: soundEffects.Array.data[6].eventObject
+      value: 
+      objectReference: {fileID: 1180845496}
+    - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[6].fadeInShape
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[6].pitchOffset
-      value: 0.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[6].triggerMask
-      value: 8192
+      value: 524288
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[0].cancelMask
@@ -14985,7 +14989,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[6].volumeMultiplier
-      value: 0.5
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: particleEffects.Array.data[2].particleObject
@@ -15065,7 +15069,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: soundEffects.Array.data[6].fadeOutOnStopSeconds
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7572186281603323808, guid: 7f626b47c3f05bf4d8b083e201875130, type: 3}
       propertyPath: managedReferences[6855300336100311131].frequency
@@ -31819,12 +31823,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2292951637866310229, guid: dbe7170c9e6107b4796a83993b8e5e76, type: 3}
+      propertyPath: lengthInSec
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2292951637866310229, guid: dbe7170c9e6107b4796a83993b8e5e76, type: 3}
       propertyPath: moveWithTransform
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2292951637866310229, guid: dbe7170c9e6107b4796a83993b8e5e76, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
-      value: 100
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 2292951637866310229, guid: dbe7170c9e6107b4796a83993b8e5e76, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5657315403786678086, guid: dbe7170c9e6107b4796a83993b8e5e76, type: 3}
       propertyPath: m_Name
@@ -87834,11 +87846,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4186487910892516116, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: field of view
-      value: 25.036
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 4186487910892516116, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: near clip plane
-      value: 0.1
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 4186487910892516116, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_AllowDynamicResolution
@@ -87906,19 +87918,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7643178315604932799, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -9.279695
+      value: 15.879999
       objectReference: {fileID: 0}
     - target: {fileID: 7643178315604932799, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -96.025536
+      value: -5.18
       objectReference: {fileID: 0}
     - target: {fileID: 7643178315604932799, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9959934
+      value: 0.95963377
       objectReference: {fileID: 0}
     - target: {fileID: 7643178315604932799, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.08942763
+      value: 0.2812529
       objectReference: {fileID: 0}
     - target: {fileID: 7643178315604932799, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_LocalRotation.y
@@ -87939,6 +87951,10 @@ PrefabInstance:
     - target: {fileID: 8226782725694360103, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: triggerEvent
       value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 8226782725694360103, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
+      propertyPath: popUpDuration
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8226782725694360103, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: screenZoomOut

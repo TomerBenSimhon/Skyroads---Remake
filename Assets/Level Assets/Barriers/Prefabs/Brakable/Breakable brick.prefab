@@ -3797,7 +3797,7 @@ ParticleSystem:
     m_Bounce:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.2
       minScalar: 1
       maxCurve:
         serializedVersion: 2

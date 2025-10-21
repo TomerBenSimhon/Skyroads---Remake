@@ -47,17 +47,17 @@ Material:
     m_Floats:
     - _ColorShiftSpeed: 0.39
     - _FresnelIntensity: 1.5
-    - _FresnelPower: 3.43
+    - _FresnelPower: 2.87
     - _NoiseScale: 0.1
     - _NoiseSpeed: 0.1
     - _NoiseStrength: 0.3
-    - _OutlineIntensity: 2
+    - _OutlineIntensity: 2.25
     - _ScanIntensity: 2
     - _ScanSpeed: 2
     - _Smoothness: 0
     - _TextureBlend: 0.7
     - _Transparency: 0.035
-    - _UseNoiseMap: 0.632
+    - _UseNoiseMap: 0.059
     m_Colors:
     - _EdgeColor1: {r: 0.19999996, g: 0.8, b: 1, a: 1}
     - _EdgeColor2: {r: 1, g: 0.19999996, b: 1, a: 1}
