@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2659706225159801157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a719b5ddf75ea4aa00bd513ae2a897, type: 3}
+  m_Name: DepthFogFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings: {fogMaterial: {fileID: 2100000, guid: ed16dd1b0a4f272408ae0460b6c97d24, type: 2}, passEvent: 500}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
