@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LVL3_BG
   m_EditorClassIdentifier: 
   clip: {fileID: 8300000, guid: 5941dac9ba4032d4d893c1cb8b586b59, type: 3}
-  mixerGroup: {fileID: 0}
+  mixerGroup: {fileID: 2566369362307476688, guid: 86ff5f1bd15f0e340bd522c348d9f83d, type: 2}
   volume: 1
   pitch: 1
   is3D: 0

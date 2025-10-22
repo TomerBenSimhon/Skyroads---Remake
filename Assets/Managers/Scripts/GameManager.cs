@@ -1,15 +1,22 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, MenuInput.IMenuActions
 {
     public static GameManager Instance { get; private set; }
     private bool _isRestarting = false;
+    public bool isPaused = false;
+    
+    [SerializeField] GameObject _pauseMenu;
 
     private GameObject _player;
     private PlayerRespawn _playerRespawn;
-
+    private PlayerDeath _playerDeath;
+    
+    private MenuInput _input; // auto-generated C# class from your input actions
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -17,6 +24,10 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         SceneManager.sceneLoaded += OnSceneLoaded;
+        
+        _input = new MenuInput();
+        _input.Menu.SetCallbacks(this);   // hook this class
+        _input.Menu.Enable();     
 
         RebindPlayerInScene();
     }
@@ -24,7 +35,9 @@ public class GameManager : MonoBehaviour
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        _input?.Dispose();
     }
+    
 
     public void RestartLevel(float delay = 0f, bool useCheckpoint = true)
     {
@@ -44,6 +57,12 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    public void LoadPreviousLevel()
+    {
+        CheckpointManager.Instance?.ResetCheckpoint();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
+
     private IEnumerator RespawnAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -60,6 +79,11 @@ public class GameManager : MonoBehaviour
         _isRestarting = false;
         RebindPlayerInScene();
     }
+    
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if(context.performed) PauseGame();
+    }
 
     private void RebindPlayerInScene()
     {
@@ -68,11 +92,30 @@ public class GameManager : MonoBehaviour
         {
             _player = pc.gameObject;
             _playerRespawn = _player.GetComponent<PlayerRespawn>();
+            _playerDeath = _player.GetComponent<PlayerDeath>();
         }
         else
         {
             _player = null;
             _playerRespawn = null;
+            _playerDeath = null;
         }
     }
+
+    public void KillPlayer()
+    {
+        PauseGame();
+        _playerDeath.Die();
+    }
+
+    public void PauseGame()
+    {
+        isPaused = !isPaused;                        // toggle
+        _pauseMenu?.SetActive(isPaused);
+        Time.timeScale = isPaused ? 0f : 1f;
+        AudioListener.pause = isPaused;
+    }
+
+
+    
 }

@@ -52,11 +52,13 @@ public class PlayerInput : MonoBehaviour, PlayerControls.IActionsActions
 
     public void OnSideMovement(InputAction.CallbackContext context)
     {
+        if(GameManager.Instance.isPaused) return;
         HorizontalMovementInput = context.ReadValue<float>();
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if(GameManager.Instance.isPaused) return;
         JumpHeld = context.ReadValueAsButton();
         
         if (context.performed)
@@ -68,6 +70,7 @@ public class PlayerInput : MonoBehaviour, PlayerControls.IActionsActions
 
     public void OnShoot(InputAction.CallbackContext context)
     {
+        if(GameManager.Instance.isPaused) return;
         ShootHeld = context.ReadValueAsButton();
     }
 }

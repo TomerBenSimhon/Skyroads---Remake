@@ -13,6 +13,7 @@ public class CameraEffectsManager : MonoBehaviour
     [Tooltip("If empty, the first CinemachineCamera found in the scene will be used.")]
     [SerializeField] private CinemachineCamera vcam;
     [SerializeField] private CameraShakeExtension shakeExt; // auto-added if missing
+    public float maxFov = 115f;
 
     [Header("Apply Toggles")]
     [SerializeField] private bool applyPositionShake = true;
