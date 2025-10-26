@@ -6,6 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem ps;
+    
     private Rigidbody _rb;
     
     private float _travelSpeed = 10f;
@@ -52,6 +54,9 @@ public class Bullet : MonoBehaviour
 
     void Die()
     {
+        ps.transform.parent = null;
+        ps.Stop();
+        Destroy(ps.gameObject, 1f);        
         Destroy(gameObject);
     }
 
