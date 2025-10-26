@@ -38,6 +38,7 @@ public class CameraShakeExtension : CinemachineExtension
         {
             var lens = state.Lens;
             lens.FieldOfView += fovAdd;
+            lens.FieldOfView = Mathf.Clamp(lens.FieldOfView, 0f, CameraEffectsManager.I.maxFov);
             state.Lens = lens;
         }
     }
