@@ -46,23 +46,25 @@ Material:
     m_Ints: []
     m_Floats:
     - _CrackDepth: 0.4
-    - _CrackIntensity: 0.51
-    - _CrackNormalInfluence: 0.6
+    - _CrackIntensity: 5
+    - _CrackNormalInfluence: 0
     - _FadeEndDistance: 150
     - _FadeStartDistance: 50
     - _GlowIntensity: 4.18
     - _GlowPulseSpeed: 2.34
-    - _Metallic: 1
-    - _NormalStrength: 2
+    - _Metallic: 0
+    - _NormalStrength: 0
     - _OutlineBlinkSpeed: 2.63
     - _OutlineIntensityMax: 0
     - _OutlineIntensityMin: 3
     - _OutlineWidth: 0.0447
-    - _Smoothness: 1
+    - _Smoothness: 0
     - _TriSharpness: 1
     - _WorldTexScale: 0.457
     m_Colors:
-    - _GlowColor: {r: 0.15483364, g: 1.3131495, b: 0, a: 1}
+    - _BaseColor: {r: 0.7520666, g: 0, b: 1, a: 1}
+    - _GlowColor: {r: 0.5849056, g: 0.090300515, b: 0.05186896, a: 1}
+    - _OriginOffset: {r: 0, g: 0, b: 0, a: 0}
     - _OutlineColor: {r: 1, g: 1, b: 0, a: 1}
     - _WorldTexOffset: {r: 1.49, g: 0, b: 0, a: 0}
     - _WorldTexTiling: {r: 0.2, g: 0.2, b: 1, a: 0}
