@@ -319,7 +319,7 @@ public class AudioManager : MonoBehaviour
         float t = 0f;
         while (t < seconds && src)
         {
-            t += Time.unscaledDeltaTime;
+            t += Time.deltaTime;
             float u = Mathf.Clamp01(t / seconds); // 0..1
             float w = EvaluateFade(shape, u, custom);   // <- pass custom
             src.volume = Mathf.Lerp(start, targetVol, w);
@@ -352,7 +352,7 @@ public class AudioManager : MonoBehaviour
         float t = 0f;
         while (t < seconds && src)
         {
-            t += Time.unscaledDeltaTime;
+            t += Time.deltaTime;
             src.volume = Mathf.Lerp(from, to, t / seconds);
             yield return null;
         }
@@ -370,7 +370,7 @@ public class AudioManager : MonoBehaviour
             float t = 0f;
             while (t < seconds && src)
             {
-                t += Time.unscaledDeltaTime;
+                t += Time.deltaTime;
                 src.volume = Mathf.Lerp(start, 0f, t / seconds);
                 yield return null;
             }

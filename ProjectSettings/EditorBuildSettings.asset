@@ -27,5 +27,5 @@ EditorBuildSettings:
     path: Assets/NewLevelsScene/NewLevelsScene5_Credits.unity
     guid: 3cd85570a8e3acc4b9111e55f908b6cb
   m_configObjects:
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 0492c6b679b89da498830f0762ef2a99, type: 3}
   m_UseUCBPForAssetBundles: 0
