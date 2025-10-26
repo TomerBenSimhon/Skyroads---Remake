@@ -57,7 +57,7 @@ Material:
     - _LogoFlipX: 1.2
     - _LogoFlipY: -0.83
     - _LogoScale: -0.32
-    - _Move: 0.07146922
+    - _Move: 1
     - _MoveAxis: -1
     - _PathFlipX: 1
     - _PathFlipY: 1

@@ -5254,7 +5254,7 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.02
+  - screenRelativeHeight: 0.015
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 6568113157904720134}
@@ -5322,6 +5322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ffc7cbe4a4b5f04b94d5b29c2f95db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isContinuous: 0
   initialImpulseModifier: 1.5
   boostStackCount: 2
   springModifier: 1

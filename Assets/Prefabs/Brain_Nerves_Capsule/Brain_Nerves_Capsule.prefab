@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6857685344785326336}
   - component: {fileID: 691846511164930298}
   - component: {fileID: 8917769414538198927}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Brain_Nerves_Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,6 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerMask: 512
+  eventObject: {fileID: 0}
   alphaMax: 0.309
   inTime: 0.5
   holdTime: 2

@@ -12995,7 +12995,7 @@ PlayableDirector:
   - key: {fileID: -7689632795281478370, guid: 669bb0c7667455b4da069a106ec7a15b, type: 2}
     value: {fileID: 0}
   - key: {fileID: 8994312894696305032, guid: 669bb0c7667455b4da069a106ec7a15b, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 327621427}
   - key: {fileID: 0}
     value: {fileID: 0}
   m_ExposedReferences:
@@ -87964,11 +87964,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4186487910892516116, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: field of view
-      value: 75
+      value: 54.99327
       objectReference: {fileID: 0}
     - target: {fileID: 4186487910892516116, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: near clip plane
-      value: 0.01
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186487910892516116, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
+      propertyPath: m_BackGroundColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186487910892516116, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186487910892516116, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186487910892516116, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4186487910892516116, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_AllowDynamicResolution
@@ -88064,19 +88080,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7643178315604932799, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 15.879999
+      value: 5.498144
       objectReference: {fileID: 0}
     - target: {fileID: 7643178315604932799, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.18
+      value: -41.83211
       objectReference: {fileID: 0}
     - target: {fileID: 7643178315604932799, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.95963377
+      value: 0.9987267
       objectReference: {fileID: 0}
     - target: {fileID: 7643178315604932799, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.2812529
+      value: -0.05044826
       objectReference: {fileID: 0}
     - target: {fileID: 7643178315604932799, guid: 3694b0ab5b2908942bc7c5315a2e4989, type: 3}
       propertyPath: m_LocalRotation.y

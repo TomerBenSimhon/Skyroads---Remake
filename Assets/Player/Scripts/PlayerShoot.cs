@@ -14,12 +14,14 @@ public class PlayerShoot : MonoBehaviour
     public float bulletLifeTime;
     
     private PlayerInput _playerInput;
+    private PlayerDeath _playerDeath;
 
     private float _lastFireTime;
 
     private void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();
+        _playerDeath = GetComponent<PlayerDeath>();
     }
     private void Update()
     {
@@ -31,6 +33,8 @@ public class PlayerShoot : MonoBehaviour
     void TryShoot()
     {
         if (Time.time - _lastFireTime < fireRate) return;
+        if(_playerDeath.IsDead) return;
+        
 
         Shoot();
         _lastFireTime = Time.time;
