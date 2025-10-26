@@ -1,10 +1,11 @@
-﻿Shader "TriArts/UI/LiquidFuel"
+﻿Shader "TriArts/UI/LiquidFuel_Animated"
 {
     Properties
     {
         _MainTex   ("Main Texture", 2D) = "white" {}
         _MainColor ("Fill Color", Color) = (1,0,0,1)
         _EdgeColor ("Edge Color", Color) = (1,0.6,0.6,1)
+        _FuelColor ("Fuel Color", Color) = (1,1,1,1)
 
         _Level     ("Level 0-1", Range(0,1)) = 0.5
         _EdgeWidth ("Edge Width", Range(0,0.1)) = 0.02
@@ -15,11 +16,24 @@
 
         _NoiseTex  ("Noise Tex", 2D) = "white" {}
         _NoiseAmt  ("Noise Amount", Range(0,0.1)) = 0.02
+
+        _Brightness ("Brightness", Range(0,3)) = 1
+
+        // --- תזוזת הטקסטורה הראשית ---
+        _MainWaveAmp   ("MainTex Wave Amplitude", Range(0,0.05)) = 0.02
+        _MainWaveFreq  ("MainTex Wave Frequency", Range(0,20)) = 6
+        _MainWaveSpeed ("MainTex Wave Speed", Range(0,10)) = 1.5
     }
 
     SubShader
     {
-        Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjector"="True" "RenderPipeline"="UniversalPipeline" }
+        Tags 
+        { 
+            "Queue"="Transparent" 
+            "RenderType"="Transparent" 
+            "IgnoreProjector"="True" 
+            "RenderPipeline"="UniversalPipeline" 
+        }
         ZWrite Off
         Cull Off
         Blend SrcAlpha OneMinusSrcAlpha
@@ -28,6 +42,7 @@
         {
             Name "Forward"
             Tags { "LightMode"="UniversalForward" }
+
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -40,12 +55,17 @@
                 float4 _MainTex_ST;
                 float4 _MainColor;
                 float4 _EdgeColor;
+                float4 _FuelColor;
                 float   _Level;
                 float   _EdgeWidth;
                 float   _WaveAmp;
                 float   _WaveFreq;
                 float   _WaveSpeed;
                 float   _NoiseAmt;
+                float   _Brightness;
+                float   _MainWaveAmp;
+                float   _MainWaveFreq;
+                float   _MainWaveSpeed;
             CBUFFER_END
 
             struct Attributes
@@ -71,34 +91,42 @@
             half4 frag (Varyings IN) : SV_Target
             {
                 float2 uv = IN.uv;
+
+                // --- תנועה "חיה" לטקסטורה הראשית ---
+                float t = _Time.y * _MainWaveSpeed;
+                float2 waveOffset;
+                waveOffset.x = sin(uv.y * _MainWaveFreq + t) * _MainWaveAmp;
+                waveOffset.y = cos(uv.x * _MainWaveFreq + t * 1.2) * _MainWaveAmp;
+                uv += waveOffset;
+
                 half4 texCol = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);
 
-                // גל אופקי לאורך X
-                float t = _Time.y * _WaveSpeed;
-                float wave = sin(uv.x * _WaveFreq + t) * _WaveAmp;
+                // גל רמת דלק (קיים)
+                float fuelT = _Time.y * _WaveSpeed;
+                float wave = sin(IN.uv.x * _WaveFreq + fuelT) * _WaveAmp;
 
                 // רעש עדין
-                float n = SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, uv + float2(_Time.y*0.05, 0)).r;
+                float n = SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, IN.uv + float2(_Time.y * 0.05, 0)).r;
                 n = (n * 2.0 - 1.0) * _NoiseAmt;
 
                 float cut = saturate(_Level + wave + n);
 
-                // מסכת מילוי, y קטן מהסף נחשב "מלא"
-                float fillMask = step(uv.y, cut);
+                // מסכת מילוי
+                float fillMask = step(IN.uv.y, cut);
 
-                // שוליים רכים סביב הסף
-                float edgeMask = 1.0 - smoothstep(cut, cut + _EdgeWidth, uv.y);
+                // שוליים רכים
+                float edgeMask = 1.0 - smoothstep(cut, cut + _EdgeWidth, IN.uv.y);
 
-                // צבע
-                float3 baseCol = _MainColor.rgb;
-                float3 edgeCol = _EdgeColor.rgb;
+                // צבעים עם השפעת FuelColor
+                float3 baseCol = _MainColor.rgb * _FuelColor.rgb;
+                float3 edgeCol = _EdgeColor.rgb * _FuelColor.rgb;
                 float3 col = lerp(baseCol, edgeCol, edgeMask);
 
-                // אלפא, מציגים מילוי ושוליים
-                float a = saturate(max(fillMask, edgeMask)) * texCol.a;
+                // טקסטורה + בהירות
+                col *= texCol.rgb * _Brightness;
 
-                // הכפלה בטקסטורה אם תרצה טקסטורת בסיס
-                col *= texCol.rgb;
+                // אלפא
+                float a = saturate(max(fillMask, edgeMask)) * texCol.a;
 
                 return half4(col, a);
             }

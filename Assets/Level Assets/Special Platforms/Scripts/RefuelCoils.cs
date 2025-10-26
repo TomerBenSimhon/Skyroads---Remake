@@ -47,6 +47,7 @@ public class RefuelCoils : MonoBehaviour
         
         refuelCoilTop.position = Vector3.Lerp(refuelCoilTop.position, target, motionSpeed * Time.deltaTime);
 
+        //event logic
         if (isPlayerNearAndRefueling && !_initialized)
         {
             _initialized = true;

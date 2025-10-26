@@ -4243,6 +4243,8 @@ MonoBehaviour:
     loopDurationSeconds: 0
     clearOnStop: 0
     destroyOnStop: 0
+    destroyMask: 0
+  soundEffects: []
   references:
     version: 2
     RefIds: []
@@ -4792,7 +4794,7 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.5
+  - screenRelativeHeight: 0.2
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 8561353531388876674}
@@ -4800,7 +4802,7 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 7635337095444158869}
-  - screenRelativeHeight: 0.02
+  - screenRelativeHeight: 0.06
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 2224352888928779288}
