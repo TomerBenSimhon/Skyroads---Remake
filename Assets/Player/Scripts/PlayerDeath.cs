@@ -1,8 +1,12 @@
 using System.Collections;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class PlayerDeath : MonoBehaviour
 {
+    [SerializeField] private CinemachineCamera playerVc;
+    
+    [Header("Timers")]
     [Range(0f, 5f)] public float deathTimer;
     [Range(0f, 5f)] public float noFuelTimer;
     
@@ -17,6 +21,7 @@ public class PlayerDeath : MonoBehaviour
     private Rigidbody _rigidbody;
     private GameObject _playerVisuals;
     private Renderer _renderer;
+    private CinemachineCamera _playerVc;
 
     // Snapshot of initial runtime settings so we can restore after "no fuel"
     private float _initForward;
@@ -49,6 +54,7 @@ public class PlayerDeath : MonoBehaviour
     {
         if (IsDead) return;
         IsDead = true;
+        playerVc.Follow = null;
         ActivatePlayer(false);
         if (_dissolveCR == null) _dissolveCR = StartCoroutine(Dissolve(dissolveDelay_death));
         GameManager.Instance.RestartLevel(deathTimer);
@@ -59,6 +65,7 @@ public class PlayerDeath : MonoBehaviour
     {
         if (IsDead) return;
         IsDead = true;
+        playerVc.Follow = null;
         NoFuelEffect();
         if (_dissolveCR == null) _dissolveCR = StartCoroutine(Dissolve(dissolveDelay_noFuel));
         GameManager.Instance.RestartLevel(noFuelTimer);
@@ -79,6 +86,7 @@ public class PlayerDeath : MonoBehaviour
             _playerController.RuntimeSettings.turningAngle           = _initTurn;
 
             IsDead = false;
+            playerVc.Follow = transform;
             
             if(_dissolveCR != null) StopCoroutine(_dissolveCR);
             _dissolveCR = null;

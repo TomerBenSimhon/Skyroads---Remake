@@ -10,25 +10,25 @@ public class Ydamping : MonoBehaviour
    private float _yDamping;
    
    public float fallDamping = 0.15f;
-   void Awake()
+
+   void Start()
    {
       _cinemachineFollow = GetComponent<CinemachineFollow>();
       
-      _playerController = FindFirstObjectByType<PlayerController>();
+      _playerController = FindFirstObjectByType<PlayerController>(FindObjectsInactive.Include);
       _playerRb = _playerController?.GetComponent<Rigidbody>();
       
       if (_playerRb == null) Debug.LogError("No player rb found");
       if (_playerController == null) Debug.LogError("No player controller found");
-   }
-
-   void Start()
-   {
+      
       var ts = _cinemachineFollow.TrackerSettings;
       _yDamping = ts.PositionDamping.y;
    }
 
    void Update()
    {
+      if(_playerController == null) return;
+      
       float playerYSpeed = _playerRb.linearVelocity.y;
       float playerTVel = _playerController.DefaultSettings.terminalVelocity;
 

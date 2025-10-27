@@ -696,7 +696,7 @@ public static class PrefabBrush
     {
         _paintingSurface = GameObject.Find("PaintingSurface");
         if(_paintingSurface == null)
-            Debug.LogError("No painting surface found");
+            Debug.LogWarning("No painting surface found");
     }
 
     static void CleanupTempSurfaces(bool deep = false)

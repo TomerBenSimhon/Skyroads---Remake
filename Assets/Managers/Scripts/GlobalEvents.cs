@@ -18,7 +18,7 @@ public static class GlobalEvents
         PlayerGrounded = 1 << 14,
         PlayerDied = 1 << 15, PlayerRespawned = 1 << 16, PlayerBroken = 1 << 17, 
         PlayerAirborne = 1 << 18, OnEventTriggered = 1 << 19,
-        OnBarrierBreak = 1 << 20
+        OnBarrierBreak = 1 << 20, OnSceneStarted = 1 << 21
     }
 
     // Single neutral event

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
+[DefaultExecutionOrder(-20)]
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager I { get; private set; }

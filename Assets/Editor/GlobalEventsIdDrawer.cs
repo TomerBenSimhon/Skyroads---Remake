@@ -39,7 +39,8 @@ public class GlobalEventsIdDrawer : PropertyDrawer
 
     private static readonly string[] Triggers = {
         nameof(GlobalEvents.Id.OnEventTriggered),
-        nameof(GlobalEvents.Id.CheckpointTriggered)
+        nameof(GlobalEvents.Id.CheckpointTriggered),
+        nameof(GlobalEvents.Id.OnSceneStarted)
     };
 
     private static readonly (string header, string[] names)[] Groups = {

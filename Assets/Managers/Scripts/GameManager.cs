@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
+[DefaultExecutionOrder(-11)]
 public class GameManager : MonoBehaviour, MenuInput.IMenuActions
 {
     public static GameManager Instance { get; private set; }
@@ -54,13 +55,18 @@ public class GameManager : MonoBehaviour, MenuInput.IMenuActions
     {
         // Fresh level: clear checkpoint state
         CheckpointManager.Instance?.ResetCheckpoint();
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+        int index = SceneManager.GetActiveScene().buildIndex;
+        
+        if (index < SceneManager.sceneCountInBuildSettings - 1)
+            SceneManager.LoadScene(index + 1);
     }
 
     public void LoadPreviousLevel()
     {
         CheckpointManager.Instance?.ResetCheckpoint();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        int index = SceneManager.GetActiveScene().buildIndex;
+        if(index > 1)
+            SceneManager.LoadScene(index - 1);
     }
 
     private IEnumerator RespawnAfterDelay(float delay)
@@ -78,6 +84,8 @@ public class GameManager : MonoBehaviour, MenuInput.IMenuActions
     {
         _isRestarting = false;
         RebindPlayerInScene();
+        ShowCursor(SceneManager.GetActiveScene().buildIndex == 0);
+        GlobalEvents.Raise(GlobalEvents.Id.OnSceneStarted);
     }
     
     public void OnPause(InputAction.CallbackContext context)
@@ -87,7 +95,7 @@ public class GameManager : MonoBehaviour, MenuInput.IMenuActions
 
     private void RebindPlayerInScene()
     {
-        var pc = FindFirstObjectByType<PlayerController>();
+        var pc = FindFirstObjectByType<PlayerController>(FindObjectsInactive.Include);
         if (pc != null)
         {
             _player = pc.gameObject;
@@ -105,15 +113,27 @@ public class GameManager : MonoBehaviour, MenuInput.IMenuActions
     public void KillPlayer()
     {
         PauseGame();
+        if(!_player.activeSelf) return;
         _playerDeath?.Die();
     }
 
     public void PauseGame()
     {
-        isPaused = !isPaused;                        // toggle
+        isPaused = !isPaused; // toggle
+        
         _pauseMenu?.SetActive(isPaused);
-        Time.timeScale = isPaused ? 0f : 1f;
         AudioListener.pause = isPaused;
+        
+        if(SceneManager.GetActiveScene().buildIndex != 0)
+            ShowCursor(isPaused);
+        
+        Time.timeScale = isPaused ? 0f : 1f;
+    }
+
+    public void ShowCursor(bool show)
+    {
+        Cursor.lockState = show ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = show;
     }
 
 

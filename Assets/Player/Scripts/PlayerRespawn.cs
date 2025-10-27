@@ -32,13 +32,12 @@ public class PlayerRespawn : MonoBehaviour
     {
         var cm = CheckpointManager.Instance;
         if (cm == null) return;
-
+        
+        _playerDeath.ActivatePlayer(true);
         if (cm.TryConsumeRespawn(out var pos, out var rot))
         {
             Teleport(pos, rot);
         }
-
-        _playerDeath.ActivatePlayer(true);
         GlobalEvents.Raise(GlobalEvents.Id.PlayerRespawned, gameObject);
     }
 

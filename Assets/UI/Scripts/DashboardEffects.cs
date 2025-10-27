@@ -54,10 +54,14 @@ public class DashboardEffects : MonoBehaviour
     void ShowProgress()
     {
         float visualVal = Helper.MapValue(_playerTransform.position.z, levelStart.position.z, levelEnd.position.z, 0, 1);
-        int textVal = Mathf.RoundToInt(Helper.MapValue(_playerTransform.position.z, levelStart.position.z, levelEnd.position.z, 0, 100));
         
-        defaultMaterial.SetFloat("_Move", visualVal);
-        progressText.text = textVal.ToString("D2") + "%";
+        float visualValLerp = defaultMaterial.GetFloat("_Move");
+        visualValLerp = Mathf.Lerp(visualValLerp, visualVal, Time.deltaTime * 5f);
+
+        int textValLerp = Mathf.RoundToInt(visualValLerp * 100f);
+        
+        defaultMaterial.SetFloat("_Move", visualValLerp);
+        progressText.text = textValLerp.ToString("D2") + "%";
     }
     
     
