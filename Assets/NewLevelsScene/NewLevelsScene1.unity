@@ -29917,8 +29917,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.9999999, y: 3.912356, z: 14.104279}
-  m_Center: {x: 0, y: -1.456181, z: 5.697151}
+  m_Size: {x: 0.9999999, y: 3.912356, z: 14.052943}
+  m_Center: {x: 0, y: -1.456181, z: 5.7228165}
 --- !u!4 &831125814 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 83163019265202124, guid: 9af248ea8572c994dba747f99b88167a, type: 3}
@@ -46661,8 +46661,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.9999999, y: 4.92482, z: 8.050344}
-  m_Center: {x: 0, y: -0.7698526, z: -2.6701775}
+  m_Size: {x: 0.9999999, y: 4.92482, z: 8.09984}
+  m_Center: {x: 0, y: -0.7698526, z: -2.6454248}
 --- !u!1001 &1039450632
 PrefabInstance:
   m_ObjectHideFlags: 0
