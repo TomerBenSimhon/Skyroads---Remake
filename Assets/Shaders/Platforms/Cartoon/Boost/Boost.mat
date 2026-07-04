@@ -39,23 +39,23 @@ Material:
     m_Floats:
     - _ArrowAlignX: 0.547
     - _ArrowAlignY: 0.638
-    - _ArrowArea: 0
-    - _ArrowCount: -1
-    - _ArrowGapX: 0.25
+    - _ArrowArea: 0.83
+    - _ArrowCount: -0.62
+    - _ArrowGapX: 0.1
     - _ArrowGapY: 0.18
-    - _ArrowGlow: 14.64
+    - _ArrowGlow: 17.26
     - _ArrowPaddingX: -0.6
     - _ArrowPaddingY: -0.08
-    - _ArrowScrollSpeed: 0
+    - _ArrowScrollSpeed: -0.75
     - _ArrowSoftX: 0
     - _ArrowSoftY: 0
-    - _ArrowSpacingX: 0.96
-    - _ArrowSpacingY: 0.33
-    - _EdgeBlendWidth: 0.05
+    - _ArrowSpacingX: 0.6
+    - _ArrowSpacingY: 0.26
+    - _EdgeBlendWidth: 0.151
     - _EmissionPower: 50.3
     - _ScrollSpeed: -0.2
-    - _StarCount: 2000
-    - _StarGlow: 2
+    - _StarCount: 1000
+    - _StarGlow: 1.89
     - _StarLife: 1.69
     - _StarLifeMax: 5
     - _StarLifeMin: 1
@@ -68,11 +68,11 @@ Material:
     - _StarsSpeed: 0.3
     - _StarsTiling: 5
     m_Colors:
-    - _ArrowColor: {r: 0.1407974, g: 0.3962264, b: 0.14820114, a: 1}
-    - _BaseColor: {r: 0.039215688, g: 0.39607847, b: 0.28627452, a: 1}
-    - _CenterColor: {r: 0.12941177, g: 0.6117647, b: 0.33333334, a: 1}
+    - _ArrowColor: {r: 0.14079738, g: 0.39622638, b: 0.14820111, a: 1}
+    - _BaseColor: {r: 0.039215688, g: 0.39607844, b: 0.2862745, a: 1}
+    - _CenterColor: {r: 0.12941173, g: 0.6117647, b: 0.3333333, a: 1}
     - _Direction: {r: 0, g: 1, b: 0, a: 0}
-    - _EdgeColor: {r: 0, g: 0.9748427, b: 0.48463604, a: 1}
+    - _EdgeColor: {r: 0, g: 0.9748427, b: 0.48463595, a: 1}
     - _SideGradientEnd: {r: 0, g: 0.16981131, b: 0.007325203, a: 1}
     - _SideGradientStart: {r: 0, g: 0.23270428, b: 0.012036442, a: 1}
     - _StarColor: {r: 0.30980393, g: 0.90196085, b: 0.3803922, a: 1}

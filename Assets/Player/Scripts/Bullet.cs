@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,6 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem ps;
+    
     private Rigidbody _rb;
     
     private float _travelSpeed = 10f;
@@ -31,9 +33,10 @@ public class Bullet : MonoBehaviour
     {
         if (((1 << other.gameObject.layer) & LayerMask.GetMask("Player")) != 0) return;
         if (other.gameObject.layer == gameObject.layer) return;
+        if (other.isTrigger) return;
 
-        if (((1 << other.gameObject.layer) & LayerMask.GetMask("Breakable Barrier")) != 0 &&
-            other.transform.parent.parent.TryGetComponent(out IBulletInteractable bulletInteractable))
+        IBulletInteractable bulletInteractable = other.GetComponentInParent<IBulletInteractable>();
+        if (((1 << other.gameObject.layer) & LayerMask.GetMask("Breakable Barrier")) != 0 && bulletInteractable != null)
         {
             bulletInteractable.OnBulletHit(this);
             Die();
@@ -41,9 +44,6 @@ public class Bullet : MonoBehaviour
         
         Die();
     }
-
-    
-    
     
     void ApplyMovement()
     {
@@ -54,6 +54,9 @@ public class Bullet : MonoBehaviour
 
     void Die()
     {
+        ps.transform.parent = null;
+        ps.Stop();
+        Destroy(ps.gameObject, 1f);        
         Destroy(gameObject);
     }
 

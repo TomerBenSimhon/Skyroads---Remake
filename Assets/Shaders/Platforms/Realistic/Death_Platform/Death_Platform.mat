@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Death_Platform
-  m_Shader: {fileID: 4800000, guid: 3b28d08cd9c99ee4fb05ce6acf9a86e3, type: 3}
+  m_Shader: {fileID: 4800000, guid: 036402a4b0d5f4342bbf1b572714f64e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -23,7 +23,19 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Distort:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _HeightMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LavaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -34,6 +46,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _Amplitude: 0.1
+    - _DistortX: 1
+    - _DistortY: 0
     - _FogHeight: 1.5
     - _FogSpeed: 0.19
     - _FogStrength: 0.4

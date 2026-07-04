@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class BoostPlatform : MonoBehaviour, IPlatformEffect
 {
     private PlatformDetection platformDetection;
+
+    [Header("Type")] 
+    public bool isContinuous;
     
     [Header("Modifiers")]
     [Range(1f,2f)] [Tooltip("multiply forward velocity by this number at the start of the boost")] 
@@ -21,8 +25,10 @@ public class BoostPlatform : MonoBehaviour, IPlatformEffect
     [Range(1f,300f)] [Tooltip("overrides forward acceleration by this number")] 
     public float boostAcceleration = 20f;
     [Range(0.1f,2f)]public float boostDuration = 0.5f;
+
+    private static bool _raisedEventCont = false;
     
-    
+
     // a coroutine has to start and stop from the same instance 
     // thats why we are passing in the PlatformDetection instance so we can start and stop the boostCoroutine from there
     public void Apply(PlayerController player, Rigidbody rb, PlatformDetection runner, ref Coroutine boostCoroutine)
@@ -44,6 +50,11 @@ public class BoostPlatform : MonoBehaviour, IPlatformEffect
         player.RuntimeSettings.forwardSpeed = boostSpeed;
         player.RuntimeSettings.groundSpringStrength = springModifier * player.DefaultSettings.groundSpringStrength;
         player.RuntimeSettings.jumpHeight = jumpModifier * player.DefaultSettings.jumpHeight;
+        
+        
+        if(!_raisedEventCont) {GlobalEvents.Raise(GlobalEvents.Id.BoostApplied, gameObject);}
+        
+        if(isContinuous && !_raisedEventCont) {_raisedEventCont = true;}
     }
 
     public void Remove(PlayerController player, PlatformDetection runner, ref Coroutine boostCoroutine)
@@ -62,5 +73,8 @@ public class BoostPlatform : MonoBehaviour, IPlatformEffect
         
         if(runner.CurrentPlatformType == PlatformType.Boost)
             runner.SetPlatform(PlatformType.None);
+        
+        GlobalEvents.Raise(GlobalEvents.Id.BoostRemoved, gameObject);
+        _raisedEventCont = false;
     }
 }

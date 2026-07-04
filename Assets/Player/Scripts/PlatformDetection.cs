@@ -36,8 +36,7 @@ public class PlatformDetection : MonoBehaviour
     void HandlePlatformEnter()
     {
         if(!TryDetectPlatform(out RaycastHit hit)) return;                          // checks if we detected a new special platform
-        if(!hit.collider.TryGetComponent(out IPlatformEffect newEffect)) return;   
-        
+        if(!hit.transform.TryGetComponent(out IPlatformEffect newEffect)) return;
         TryRemoveEffect(_currentPlatform);    // If on a different platform, remove old effect                             
         
         _currentPlatform = hit.collider.gameObject;     //assigns _currentPlatform to the new platform and applies the effect 
@@ -67,7 +66,12 @@ public class PlatformDetection : MonoBehaviour
 
         bool detected = Physics.BoxCast(origin, halfExtents, Vector3.down, out hit, Quaternion.identity, distance, platformLayer, QueryTriggerInteraction.Collide);
 
-        return detected && (_currentPlatform == null || _currentPlatform != hit.collider.gameObject);
+        PlatformType platformType = PlatformType.None;
+        
+        if(detected && hit.transform.TryGetComponent(out SpacialPlatformType script))
+            platformType = script.platformType;
+        
+        return detected && (_currentPlatform == null || platformType != CurrentPlatformType);
     }
     
     private bool IsStillOnPlatform(float extraDistance = 0f)
@@ -78,7 +82,14 @@ public class PlatformDetection : MonoBehaviour
         
         bool boxCastHit = Physics.BoxCast(origin, halfExtents, Vector3.down, out RaycastHit hit, Quaternion.identity, distance, platformLayer, QueryTriggerInteraction.Collide);
         if (boxCastHit)
-            return hit.collider.gameObject == _currentPlatform;
+        {
+            PlatformType platformType = PlatformType.None;
+        
+            if(hit.transform.TryGetComponent(out SpacialPlatformType script))
+                platformType = script.platformType;
+            
+            return platformType == CurrentPlatformType;
+        }
         
         bool overlapHit = Physics.OverlapBox(origin, halfExtents, Quaternion.identity, platformLayer, QueryTriggerInteraction.Collide).Length > 0;
         return overlapHit;

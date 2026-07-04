@@ -9,11 +9,11 @@ using UnityEngine.Serialization;
 public class PlayerController : MonoBehaviour
 {
     [field:SerializeField] public PlayerControllerSettings DefaultSettings { get; private set; }
+    [SerializeField] private GameObject playerVisuals;
     public PlayerControllerSettings RuntimeSettings { get; private set; }
     
     private PlayerInput _input;
     private Rigidbody _rb;
-    private BoxCollider _collider;
     private Coroutine _jumpBufferCoroutine;
     
     private float _currentGravity;
@@ -30,11 +30,12 @@ public class PlayerController : MonoBehaviour
     {
         _input = GetComponent<PlayerInput>();
         _rb = GetComponent<Rigidbody>();
-        _collider = GetComponentInChildren<BoxCollider>();
         RuntimeSettings = Instantiate(DefaultSettings);
-        
-        if(_collider == null)
-            Debug.LogError("No child box collider attached");
+    }
+
+    void Start()
+    {
+        GlobalEvents.Raise(GlobalEvents.Id.PlayerOnStart, gameObject);
     }
     
     private void Update()
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour
         HandleJumpInput();
         CheckGroundStatus();
         HandleVariableJump();
+        
     }
 
     private void FixedUpdate()
@@ -138,6 +140,9 @@ public class PlayerController : MonoBehaviour
         jumpVel.y = Mathf.Sqrt((RuntimeSettings.jumpHeight + yCorrection) * -2f * Physics.gravity.y * RuntimeSettings.gravity);
         if(float.IsNaN(jumpVel.y)) return;
         _rb.linearVelocity = jumpVel;
+        
+        if(RuntimeSettings.jumpHeight < 0.1f) return;
+        GlobalEvents.Raise(GlobalEvents.Id.PlayerJumped);
     }
 
     void HandleVariableJump()
@@ -237,7 +242,7 @@ public class PlayerController : MonoBehaviour
     
     #region Ground Checks and Alignment
 
-    private void CheckGroundStatus()
+    private void CheckGroundStatus() //when player lands
     {
         _isGrounded = IsGrounded(RuntimeSettings.groundSpringExtraHeight);  // testing purposes
         if (!_alignToGround && _isGrounded && _rb.linearVelocity.y <= 0.1f)
@@ -245,6 +250,9 @@ public class PlayerController : MonoBehaviour
             _alignToGround = true;
             _isJumping = false;
             _isFalling = false;
+            
+            GlobalEvents.Raise(GlobalEvents.Id.PlayerGrounded, gameObject);
+            print("Grounded");
         }
     }
     
@@ -275,6 +283,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            if(_alignToGround)
+                GlobalEvents.Raise(GlobalEvents.Id.PlayerAirborne);
+            
             _alignToGround = false;
         }
     }

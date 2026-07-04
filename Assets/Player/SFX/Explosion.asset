@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f57952a54f8522d468557a4048c23721, type: 3}
+  m_Name: Explosion
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 9d87cf11fca0e5f4e9f25c1290ca511c, type: 3}
+  mixerGroup: {fileID: 3980057080098996998, guid: 86ff5f1bd15f0e340bd522c348d9f83d, type: 2}
+  volume: 1
+  pitch: 1
+  is3D: 0
+  minDistance: 1
+  maxDistance: 25
+  rolloff: 0

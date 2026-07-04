@@ -7,6 +7,8 @@ TagManager:
   - PickUp
   - Pickup
   - NextLevel
+  - FxTemporaire
+  - PlayerVc
   layers:
   - Default
   - TransparentFX
@@ -20,11 +22,11 @@ TagManager:
   - Bullet
   - Pickup
   - Breakable Barrier
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Painting Surface
+  - Painting Plane
+  - Dashboard
+  - DistanceFog
+  - BrainNerves
   - 
   - 
   - 
