@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour, MenuInput.IMenuActions
     public void KillPlayer()
     {
         PauseGame();
-        if(!_player.activeSelf) return;
+        if(_player == null || !_player.activeSelf) return;
         _playerDeath?.Die();
     }
 
