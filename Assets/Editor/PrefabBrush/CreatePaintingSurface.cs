@@ -9,7 +9,8 @@ public class CreatePaintingSurface : EditorWindow
         GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Cube);
         plane.name = "PaintingSurface";
         plane.transform.position = Vector3.zero;
-        plane.transform.localScale = Vector3.one * 10000f;
+        Vector3 scale = new Vector3(10000f, 1, 10000f);
+        plane.transform.localScale = scale;
         plane.layer = LayerMask.NameToLayer("Painting Surface");
         plane.GetComponent<MeshRenderer>().enabled = false;
     }
@@ -19,7 +20,8 @@ public class CreatePaintingSurface : EditorWindow
         GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
         plane.name = "PaintingSurface_Temp";
         plane.transform.position = position;
-        plane.transform.localScale = Vector3.one * 1000f;
+        Vector3 scale = new Vector3(10000f, 1, 10000f);
+        plane.transform.localScale = scale;
         plane.layer = LayerMask.NameToLayer("Painting Surface");
 
         // invisible + not saved
